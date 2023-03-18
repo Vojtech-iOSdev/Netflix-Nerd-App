@@ -12,6 +12,7 @@ struct NetflixSeriesApp: App {
     var body: some Scene {
         WindowGroup {
             TabBarView()
+            
         }
     }
 }

@@ -10,6 +10,8 @@ import SwiftUI
 struct OnboardingView: View {
     
     // MARK: PROPERTIES
+    @EnvironmentObject var vm: SeriesViewModel
+    
     @State var onboardingState: Int = 0
     
     // FOR THE ALERT AND TRANSITIONS
@@ -17,11 +19,7 @@ struct OnboardingView: View {
     @State var alertForName: Bool = false
     let transition: AnyTransition = .asymmetric(insertion: .move(edge: .trailing),
                                                 removal: .move(edge: .leading))
-    // ONBOARDING INPUTS
-    @State var name: String = ""
-    @State var age: Double = 28
-    @State var gender: String = ""
-    @State var nationality: String = ""
+    
     
     // APP STORAGE
     @AppStorage("name") var currentUserName: String?
@@ -55,10 +53,9 @@ struct OnboardingView: View {
                     nationalityScreen
                         .transition(transition)
                 default:
-                    Text("hi")
-                    
+                    WelcomeScreen
+                        .transition(transition) 
                 }
-                
                 Spacer()
                 BottomButton
             }
@@ -71,6 +68,7 @@ struct OnboardingView: View {
 struct OnboardingView_Previews: PreviewProvider {
     static var previews: some View {
         OnboardingView()
+            .environmentObject(SeriesViewModel())
     }
 }
 
@@ -89,11 +87,13 @@ extension OnboardingView {
             .background(Color.white)
             .cornerRadius(20)
             .padding(.bottom)
+            .opacity(onboardingState != 1 ? 1 : !vm.nameIsValid ? 0.5 : 1)
             .transaction { transaction in
                 transaction.animation = nil
             }
             .alert(isPresented: $alertForName) {
-                Alert(title: Text("Wrong name"), message: Text("Your name must be minimum of 2 characters long! 🙁"))
+                Alert(title: Text("Wrong name"), message: Text("Your name must be min of 2 characters long and max of 12 short! 🙁"))
+                    
             }
         }
     }
@@ -136,16 +136,30 @@ extension OnboardingView {
                 .foregroundColor(Color.white)
                 .font(.system(.largeTitle, design: .rounded, weight: .bold))
             
-            TextField("", text: $name, prompt: Text("Type in your name...").foregroundColor(Color.black))
+            TextField("", text: $vm.name, prompt: Text("Type in your name...")
+                .foregroundColor(Color.black))
                 .font(.system(.title3, design: .rounded, weight: .semibold))
-                .foregroundColor(Color.black)
                 .padding(.horizontal, 40)
                 .frame(height: 40)
                 .background(Color.white.opacity(1))
                 .cornerRadius(10)
                 .padding(.horizontal)
-         
-            
+                .overlay(alignment: .trailing) {
+                    ZStack {
+                        if !vm.name.isEmpty {
+                            Image(systemName: "xmark")
+                                .foregroundColor(Color.red)
+                                .opacity(vm.nameIsValid ? 0 : 1)
+                            Image(systemName: "checkmark")
+                                .foregroundColor(Color.green)
+                                .opacity(vm.nameIsValid ? 1 : 0)
+
+                        }
+                    }
+                    .padding(.trailing, 30)
+                    .font(.system(.title2, weight: .semibold))
+                    
+                }
             Spacer()
             Spacer()
             
@@ -167,11 +181,11 @@ extension OnboardingView {
                 .font(.system(.largeTitle, design: .rounded, weight: .bold))
             
             
-            Text("Your age is: \(String(format: "%.0f", age))")
+            Text("Your age is: \(String(format: "%.0f", vm.age))")
                 .foregroundColor(Color.white)
                 .font(.system(.title3, design: .rounded, weight: .medium))
             
-            Slider(value: $age,
+            Slider(value: $vm.age,
                    in: 18...100, step: 1) {
             } minimumValueLabel: {
                 Text("18")
@@ -204,7 +218,7 @@ extension OnboardingView {
                 .foregroundColor(Color.white)
                 .font(.system(.largeTitle, design: .rounded, weight: .bold))
             
-            Picker(selection: $gender, content: {
+            Picker(selection: $vm.gender, content: {
                 Text("female").tag("female")
                 Text("male").tag("male")
                 Text("Non-Binary").tag("Non-Binary")
@@ -239,7 +253,7 @@ extension OnboardingView {
                 .lineLimit(1)
                 .minimumScaleFactor(0.6)
             
-            Picker(selection: $nationality, content: {
+            Picker(selection: $vm.nationality, content: {
                 ForEach(NSLocale.isoCountryCodes, id: \.self) { country in
                     HStack {
                         Text(Locale.current.localizedString(forRegionCode: country) ?? "")
@@ -274,7 +288,7 @@ extension OnboardingView {
     func showNextOnboardingScreen() {
         switch onboardingState {
         case 1:
-            if name.count >= 2 {
+            if vm.name.count >= 2 && vm.name.count < 13 {
                 withAnimation(.spring()){
                     onboardingState += 1
                 }
@@ -298,10 +312,10 @@ extension OnboardingView {
     }
     
     func signIn() {
-        currentUserName = name
-        currentUserAge = Int(age)
-        currentUserGender = gender
-        currentUserNationality = nationality
+        currentUserName = vm.name
+        currentUserAge = Int(vm.age)
+        currentUserGender = vm.gender
+        currentUserNationality = vm.nationality
         withAnimation(.spring()) {
             isSigned = true
         }
