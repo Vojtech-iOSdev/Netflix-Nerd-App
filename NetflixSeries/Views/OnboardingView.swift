@@ -10,7 +10,7 @@ import SwiftUI
 struct OnboardingView: View {
     
     // MARK: PROPERTIES
-    @EnvironmentObject var vm: SeriesViewModel
+    @StateObject private var vm: SeriesViewModel = SeriesViewModel()
     
     @State var onboardingState: Int = 0
     
@@ -68,7 +68,6 @@ struct OnboardingView: View {
 struct OnboardingView_Previews: PreviewProvider {
     static var previews: some View {
         OnboardingView()
-            .environmentObject(SeriesViewModel())
     }
 }
 

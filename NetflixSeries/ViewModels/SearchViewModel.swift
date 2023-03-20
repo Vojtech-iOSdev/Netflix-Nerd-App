@@ -14,12 +14,21 @@ class SearchViewModel: ObservableObject {
     let dataService = MyDataManager.instance
     
     // DOWNLOADED MOVIES
-    @Published var MovieCatalog: [MovieModel] = []
     @Published var searchedText: String = ""
+    @Published var MovieCatalog: [MovieModel] = []
     @Published var cancellables = Set<AnyCancellable>()
     
-    //DOWNLOADED SPECIFIC MOVIE
+    // DOWNLOADED SPECIFIC MOVIE
     @Published var selectedMovieDetails: DetailMovieModel = DetailMovieModel(title: nil, year: nil, rated: nil, released: nil, length: nil, genre: nil, director: nil, actors: nil, description: nil, poster: nil, rating: nil, type: nil, awards: nil)
+    
+    // HOMEVIEW PRELOADED CONTENT
+    enum randomSearchWordss: String {
+        case lord = "lord" // The lord of the rings
+        case spider = "spider" // Spider-man
+        case batman = "batman" // Batman obviously xdd
+        case paranormal = "paranormal" // Paranormal activity
+    }
+    let randomSearchWords: [String] = ["lord", "spider", "batman", "paranormal"]
     
     init() {
         
@@ -37,8 +46,6 @@ class SearchViewModel: ObservableObject {
                 
             })
             .store(in: &cancellables)
-
-
     }
     
     func sinkToSelectedMovieDetails(){
@@ -48,7 +55,6 @@ class SearchViewModel: ObservableObject {
                 self?.selectedMovieDetails = movieDetails
             }
             .store(in: &cancellables)
-        
     }
 
     func getMovieID(movieID: String?) {
@@ -59,4 +65,7 @@ class SearchViewModel: ObservableObject {
         }
     }
     
+    func loadHomeViewContent() {
+        //self.dataService.fetchData(searchedText: randomSearchWords.randomElement())
+    }
 }

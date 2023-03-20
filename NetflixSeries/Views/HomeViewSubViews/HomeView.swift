@@ -10,7 +10,7 @@ import SwiftUI
 struct HomeView: View {
     
     // MARK: PROPERTIES
-    let genres: [String] = ["Drama:", "Action:", "Netflix TOP10 in the US:", "Comedy:", "Horror:"]
+    let genres: [String] = ["The lord of the rings:", "Spiderman:", "Netflix TOP10 in the US:", "Batman:", "Marvel:"]
     
     @StateObject private var vm: SearchViewModel = SearchViewModel()
     
@@ -34,6 +34,15 @@ struct HomeView: View {
                     //Spacer()
                 }
                 
+            }
+            .onAppear {
+                // fetches for all recomended homeView content,each genre(section) has its own fetch call!!!
+                //vm.dataService.fetchData(searchedText: "lord")
+                //vm.dataService.fetchData(searchedText: "spider")
+                //vm.dataService.fetchData(searchedText: "RANDOM OF ALL 4 FETCHES") HERE IT IS GOING TO BE RANDOM FROM THE FETCHED 4 FETCHES THAT ARE GONNA BE STORED SO THE TOP 10 BLABLA IS GONNA JUST DISPLAY OUT OF THESE 4 FETCHED KEY WORDS AND IT WILL MAKE SENSE THE SECTION TITLE,,, KINDA omg i think i am gonn ahve to fetch all of them in  specific fetches://// there might be a better solution to this shit
+                //vm.dataService.fetchData(searchedText: "batman")
+                //vm.dataService.fetchData(searchedText: "paranormal")
+
             }
         }
     }

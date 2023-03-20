@@ -15,6 +15,13 @@ class SeriesViewModel: ObservableObject {
     // OTHER VIEW STUFF --- NEEDS REFACTORING
     @Published var notificationsOn: Bool = true
     @Published var kidAccountOn: Bool = false
+    
+    // APP STORAGE
+    @AppStorage("name") var currentUserName: String?
+    @AppStorage("age") var currentUserAge: Int?
+    @AppStorage("gender") var currentUserGender: String?
+    @AppStorage("nationality") var currentUserNationality: String?
+    @AppStorage("isSigned") var isSigned: Bool = false
         
     // ONBOARDING INPUTS
     @Published var name: String = ""
@@ -24,7 +31,7 @@ class SeriesViewModel: ObservableObject {
     @Published var nationality: String = ""
     
     @Published var cancellables = Set<AnyCancellable>()
-
+    
     
     init() {
         CheckIfNameIsValid()
@@ -48,6 +55,14 @@ class SeriesViewModel: ObservableObject {
             .store(in: &cancellables)
     }
     
-    
+    func signOut() {
+        currentUserName = nil
+        currentUserAge = nil
+        currentUserGender = nil
+        currentUserNationality = nil
+        withAnimation(.spring()) {
+            isSigned = false
+        }
+    }
     
 }

@@ -35,6 +35,8 @@ struct ListRowView: View {
                         .font(.system(.subheadline, design: .rounded, weight: .light))
 
                 }
+                .background(Color.black)
+
             }
 
         }.foregroundColor(Color.white)
@@ -45,7 +47,6 @@ struct ListRowView_Previews: PreviewProvider {
     static var previews: some View {
         ListRowView(movieSelected: MovieModel(title: "Hello America, i am right here!", year: "2022", imdbID: "IDK", type: .movie, poster: "URL for a movie"))
             .previewLayout(.sizeThatFits)
-            //.background(Color.black)
             .frame(maxWidth: .infinity)
     }
 }

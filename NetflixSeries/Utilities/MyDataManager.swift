@@ -61,7 +61,7 @@ class MyDataManager {
     }
     
     func fetchMovieDetails(movieID: String) {
-        guard let url = URL(string: "https://www.omdbapi.com/?apikey=c2e5cb16&i=\(movieID)") else {
+        guard let url = URL(string: "https://www.omdbapi.com/?apikey=\(apiKey)&i=\(movieID)") else {
             return print("ERROR: BAD URL")
         }
         

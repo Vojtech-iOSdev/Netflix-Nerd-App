@@ -52,7 +52,6 @@ struct TabBarView: View {
                         }
                         .tag(2)
                 }
-                .environmentObject(SeriesViewModel())
                 .toolbarBackground(Color.black, for: .tabBar)
 
                 
@@ -79,14 +78,13 @@ struct TabBarView: View {
 struct TabBarView_Previews: PreviewProvider {
     static var previews: some View {
         TabBarView()
-            .environmentObject(SeriesViewModel())
     }
 }
 
 // MARK: COMPONENTS
 extension TabBarView {
     private var TabBar: some View {
-        Text("hi")
+        Text("nothing here")
     }
     
 }
