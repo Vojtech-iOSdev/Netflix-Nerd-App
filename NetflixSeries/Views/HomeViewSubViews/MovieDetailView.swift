@@ -10,8 +10,11 @@ import SwiftUI
 struct MovieDetailView: View {
     // MARK: PROPERTIES
     @StateObject private var vm: SearchViewModel = SearchViewModel()
-    
+    @StateObject private var vmRanking: RankingViewModel = RankingViewModel()
+
     let movieSelected: MovieModel
+    
+    let randomUrl: String = "https://media.istockphoto.com/id/525982128/cs/fotografie/agresivita-koček.jpg?s=1024x1024&w=is&k=20&c=y632ynYYyc3wS5FuPBgnyXeBNBC7JmjQNwz5Vl_PvI8="
     
     let columns: [GridItem] = [
         GridItem(.flexible(), spacing: 10, alignment: .center),
@@ -46,6 +49,10 @@ struct MovieDetailView: View {
                 }
             }
         }
+        .onAppear {
+            vm.getMovieID(movieID: movieSelected.id)
+            vm.sinkToSelectedMovieDetails()
+        }
         
         
     }
@@ -62,16 +69,20 @@ struct MovieDetailView_Previews: PreviewProvider {
 extension MovieDetailView {
     
     private var imageOfSeries: some View {
-        Image(selectedSeries.image)
-            .resizable()
-            .frame(width: 320, height: 300)
-            .cornerRadius(10)
-            .shadow(color: Color.white.opacity(0.2), radius: 10, x: 0, y: 4)
+        AsyncImage(url: URL(string: vm.selectedMovieDetails.poster ?? randomUrl)) { returnedImage in
+            returnedImage
+                .resizable()
+                .frame(width: 320, height: 300)
+                .cornerRadius(10)
+                .shadow(color: Color.white.opacity(0.2), radius: 10, x: 0, y: 4)
+        } placeholder: {
+            ProgressView()
+        }
         
     }
     
     private var title: some View {
-        Text(selectedSeries.title)
+        Text(vm.selectedMovieDetails.title ?? "no title")
             .foregroundColor(Color.white)
             .font(.system(.largeTitle, design: .rounded, weight: .semibold))
         
@@ -80,18 +91,18 @@ extension MovieDetailView {
     private var releaseDate_Rating_IsFavourite: some View {
         HStack {
             VStack(alignment: .leading) {
-                Text("Release:    \(selectedSeries.releasseDate)")
+                Text("Release:    \(vm.selectedMovieDetails.released ?? "NA")")
                     .foregroundColor(Color.white)
                 .font(.system(.subheadline , design: .rounded, weight: .medium))
                 
-                Text("Rating:        \(selectedSeries.rating, specifier: "%.1f")/10")
+                Text("Rating:        \(vm.selectedMovieDetails.rating ?? "NA") /10")
                     .foregroundColor(Color.white)
                     .font(.system(.subheadline, design: .rounded, weight: .medium))
             }
             Spacer()
             
-            Image(systemName: vm.isFavourite == true ? "heart.fill" : "heart")
-                .foregroundColor(vm.isFavourite == true ? Color.red : Color.white)
+            Image(systemName: vmRanking.isFavourite == true ? "heart.fill" : "heart")
+                .foregroundColor(vmRanking.isFavourite == true ? Color.red : Color.white)
                 .tint(Color.white)
 //                                .onTapGesture {
 //                                     selectedSeries.isFavourite.toggle()
@@ -102,7 +113,7 @@ extension MovieDetailView {
     
     private var description: some View {
         VStack {
-            Text(selectedSeries.description)
+            Text(vm.selectedMovieDetails.description ?? "NA")
                 .foregroundColor(Color.white)
                 .font(.system(.caption, design: .rounded, weight: .regular))
                 .multilineTextAlignment(.leading)
@@ -116,16 +127,10 @@ extension MovieDetailView {
                 .foregroundColor(Color.white)
                 .font(.system(.subheadline , design: .rounded, weight: .medium))
             
-            HStack(alignment: .center) {
-                ForEach(selectedSeries.mainActors, id: \.self) { actor in
-                    Text(actor)
-                        .foregroundColor(Color.white)
-                        .font(.system(.caption, design: .rounded, weight: .light))
-                    
-                }
-            }
-        }
-        
+            Text(vm.selectedMovieDetails.actors ?? "NA")
+                .foregroundColor(Color.white)
+                .font(.system(.caption, design: .rounded, weight: .light))
+        }  
     }
     
     private var moreSeriesInVGrid: some View {

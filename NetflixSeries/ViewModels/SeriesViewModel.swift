@@ -15,10 +15,7 @@ class SeriesViewModel: ObservableObject {
     // OTHER VIEW STUFF --- NEEDS REFACTORING
     @Published var notificationsOn: Bool = true
     @Published var kidAccountOn: Bool = false
-    
-    @Published var favouriteSeries: [Series] = []
-    @Published var isFavourite: Bool = false
-    
+        
     // ONBOARDING INPUTS
     @Published var name: String = ""
     @Published var nameIsValid: Bool = false

@@ -59,8 +59,8 @@ extension HomeView {
     
     private var SearchField: some View {
         VStack(spacing: 0) {
-            TextField("", text: $vm.searchedText, prompt: Text("Search for a movie...")
-                .foregroundColor(Color.white))
+            TextField("", text: $vm.searchedText, prompt: Text("Search more content...")
+            .foregroundColor(Color.white))
             .font(.system(.title3, design: .rounded, weight: .semibold))
             .foregroundColor(Color.black)
             .padding(.horizontal, 30)
@@ -68,16 +68,17 @@ extension HomeView {
             .background(Color.gray.opacity(0.3))
             .cornerRadius(10)
             .padding(.bottom)
+            .padding(.horizontal, 6)
             .autocorrectionDisabled(true)
             .onChange(of: vm.searchedText) { newValue in
                 vm.dataService.fetchData(searchedText: vm.searchedText)
-                vm.addSubscribers()
+                vm.sinkToMovieCatalog()
                 }
             
             if !vm.searchedText.isEmpty {
                 List {
                     ForEach(vm.MovieCatalog) { movie in
-                       ListRowView(movie: movie)
+                       ListRowView(movieSelected: movie)
 
                     }
                     .listRowBackground(Color.gray.opacity(0.3))
@@ -185,5 +186,5 @@ extension HomeView {
     
 }
 
-// MARK: FUNCIONS
+
 

@@ -19,13 +19,13 @@ class SearchViewModel: ObservableObject {
     @Published var cancellables = Set<AnyCancellable>()
     
     //DOWNLOADED SPECIFIC MOVIE
-    @Published var MovieID: String = ""
+    @Published var selectedMovieDetails: DetailMovieModel = DetailMovieModel(title: nil, year: nil, rated: nil, released: nil, length: nil, genre: nil, director: nil, actors: nil, description: nil, poster: nil, rating: nil, type: nil, awards: nil)
     
     init() {
         
     }
     
-    func addSubscribers() {
+    func sinkToMovieCatalog() {
         dataService.$fetchedMovieModel
             .receive(on: DispatchQueue.main)
             .sink(receiveValue: { [weak self] (fetchedMovieModel) in
@@ -41,10 +41,22 @@ class SearchViewModel: ObservableObject {
 
     }
     
-    func getMovieID(movieID: String) {
+    func sinkToSelectedMovieDetails(){
+        dataService.$movieDetails
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] (movieDetails) in
+                self?.selectedMovieDetails = movieDetails
+            }
+            .store(in: &cancellables)
         
     }
 
-    
+    func getMovieID(movieID: String?) {
+        if let movieID = movieID {
+            self.dataService.fetchMovieDetails(movieID: movieID)
+        } else {
+            print("ERROR: MOVIE ID IS NIL I THINK..")
+        }
+    }
     
 }

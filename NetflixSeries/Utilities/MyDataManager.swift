@@ -19,12 +19,13 @@ class MyDataManager {
     
     // FETCHED MOVIES
     @Published var fetchedMovieModel: SearchModel = SearchModel(search: nil, totalResults: nil, response: nil)
-    var cancellables = Set<AnyCancellable>()
+    var cancelFetchData = Set<AnyCancellable>()
     
     // FETCHED SPECIFFIC MOVIE
-    @Published var MovieID: String = ""
+    @Published var movieDetails: DetailMovieModel = DetailMovieModel(title: nil, year: nil, rated: nil, released: nil, length: nil, genre: nil, director: nil, actors: nil, description: nil, poster: nil, rating: nil, type: nil, awards: nil)
+    var cancelFetchMovieDetails = Set<AnyCancellable>()
 
-        
+
     private init() {    }
     
     func fetchData(searchedText: String) {
@@ -46,7 +47,7 @@ class MyDataManager {
                 self?.fetchedMovieModel = moviesDownloaded
                 print("FETCHED MOVIE PRIPSANO Z MOVIES DOWNLOADED")
             }
-            .store(in: &cancellables)
+            .store(in: &cancelFetchMovieDetails)
     }
     
     private func handleOutput(output: URLSession.DataTaskPublisher.Output) throws -> Data {
@@ -59,8 +60,26 @@ class MyDataManager {
         return output.data
     }
     
-    func fetchMovieDetails() {
+    func fetchMovieDetails(movieID: String) {
+        guard let url = URL(string: "https://www.omdbapi.com/?apikey=c2e5cb16&i=\(movieID)") else {
+            return print("ERROR: BAD URL")
+        }
         
+        URLSession.shared.dataTaskPublisher(for: url)
+            .receive(on: DispatchQueue.main)
+            .tryMap(handleOutput)
+            .decode(type: DetailMovieModel.self, decoder: JSONDecoder())
+            .sink { (completion) in
+                switch completion {
+                case .finished:
+                    break
+                case .failure(let error):
+                    print("COMPLETION ERROR WHILE FETCHING MOVIE_DETAILS: \(error.localizedDescription)")
+                }
+            } receiveValue: { [weak self] (detailMovieModel) in
+                self?.movieDetails = detailMovieModel
+            }
+            .store(in: &cancelFetchMovieDetails)
         
         
     }

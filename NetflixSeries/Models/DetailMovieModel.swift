@@ -8,19 +8,19 @@
 import Foundation
 
 struct DetailMovieModel: Decodable {
-    let title: String
-    let year: String
-    let rated: String
-    let released: String
-    let length: String
-    let genre: String
-    let director: String
-    let actors: String
-    let description: String
-    let poster: String
-    let rating: String
-    let type: String
-    let awards: String
+    let title: String?
+    let year: String?
+    let rated: String?
+    let released: String?
+    let length: String?
+    let genre: String?
+    let director: String?
+    let actors: String?
+    let description: String?
+    let poster: String?
+    let rating: String?
+    let type: String?
+    let awards: String?
     
     enum CodingKeys: String, CodingKey {
         case title = "Title"
