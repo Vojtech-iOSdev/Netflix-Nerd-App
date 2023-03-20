@@ -20,15 +20,13 @@ class RankingViewModel: ObservableObject {
     @Published var cancellables = Set<AnyCancellable>()
     
     init() {
-        //addSubscribers()
+        
     }
     
     func addSubscribers() {
         dataService.$fetchedMovieModel
-            //.debounce(for: .seconds(0.9), scheduler: DispatchQueue.main)
             .receive(on: DispatchQueue.main)
             .sink(receiveValue: { [weak self] (fetchedMovieModel) in
-                //self?.MovieCatalog = fetchedMovieModel.search
                 if let unwrappedFetchedMovieModel = fetchedMovieModel.search {
                     self?.MovieCatalog = unwrappedFetchedMovieModel
                 } else {

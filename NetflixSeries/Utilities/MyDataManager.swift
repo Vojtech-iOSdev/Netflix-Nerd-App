@@ -12,15 +12,11 @@ class MyDataManager {
     
     static let instance = MyDataManager()
     @Published var fetchedMovieModel: MovieModel = MovieModel(search: nil, totalResults: nil, response: nil)
-
-    
     var cancellables = Set<AnyCancellable>()
-        private init() {
-        //downloadData()
-    }
+        
+    private init() {    }
     
     func downloadData(searchedText: String) {
-        // old url from email with just 1 example: "https://www.omdbapi.com/?i=tt3896198&apikey=c2e5cb16"
         // new url from website with my key(c2e5cb16) : "https://www.omdbapi.com/?apikey=c2e5cb16&"
         let apiKey: String = "c2e5cb16"
         guard let url = URL(string: "https://www.omdbapi.com/?apikey=\(apiKey)&s=\(searchedText.lowercased())") else { return print("MY BAD URL ERROR: SPATNE URL") }
@@ -31,7 +27,7 @@ class MyDataManager {
             //.debounce(for: .seconds(0.9) , scheduler: DispatchQueue.main)
             .decode(type: MovieModel.self, decoder: JSONDecoder())
             .sink { (completion) in
-                switch completion{
+                switch completion {
                 case .finished:
                     print("COMPLETION1: \(completion)")
                 case .failure(let error):
@@ -43,16 +39,6 @@ class MyDataManager {
             }
             .store(in: &cancellables)
     }
-    
-//    func filteredResults(searchTerm: String) -> [SearchModel] {
-//        if searchTerm.isEmpty{
-//            return self.allDownloadedSearches
-//        }else{
-//            return self.allDownloadedSearches.filter{
-//                $0.title!.localizedStandardContains(searchTerm)
-//            }
-//        }
-//    }
     
     private func handleOutput(output: URLSession.DataTaskPublisher.Output) throws -> Data {
         guard let response = output.response as? HTTPURLResponse,

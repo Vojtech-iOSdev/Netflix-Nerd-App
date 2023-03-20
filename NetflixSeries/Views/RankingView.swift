@@ -22,18 +22,18 @@ struct RankingView: View {
             VStack {
                 TextField("", text: $vm.searchedText, prompt: Text("Search for a movie...")
                     .foregroundColor(Color.white))
-                    .font(.system(.title3, design: .rounded, weight: .semibold))
-                    .foregroundColor(Color.black)
-                    .padding(.horizontal, 40)
-                    .frame(height: 40)
-                    .background(Color.gray.opacity(0.3))
-                    .cornerRadius(10)
-                    .padding(.horizontal)
-                    .autocorrectionDisabled(true)
-                    .onChange(of: vm.searchedText) { newValue in
-                        vm.dataService.downloadData(searchedText: vm.searchedText)
-                        vm.addSubscribers()
-                    }
+                .font(.system(.title3, design: .rounded, weight: .semibold))
+                .foregroundColor(Color.black)
+                .padding(.horizontal, 40)
+                .frame(height: 40)
+                .background(Color.gray.opacity(0.3))
+                .cornerRadius(10)
+                .padding(.horizontal)
+                .autocorrectionDisabled(true)
+                .onChange(of: vm.searchedText) { newValue in
+                    vm.dataService.downloadData(searchedText: vm.searchedText)
+                    vm.addSubscribers()
+                }
                 
                 List {
                     Section {
@@ -43,9 +43,9 @@ struct RankingView: View {
                             .foregroundColor(Color.white)
                     }
                     .headerProminence(.increased)
-
                     
-
+                    
+                    
                 }
                 .scrollContentBackground(.hidden)
                 .listStyle(.insetGrouped)
@@ -59,18 +59,17 @@ struct RankingView: View {
 struct RankingView_Previews: PreviewProvider {
     static var previews: some View {
         RankingView()
-            
+        
     }
 }
 extension RankingView {
     
     private var customRow: some View {
         ForEach(vm.MovieCatalog) { movie in
-                HStack {
-                    Text(movie.title ?? "no value")
-                        .foregroundColor(Color.white)
-                    
-                }
+            Text(movie.title ?? "no value")
+                .foregroundColor(Color.white)
+            
+            
         }
         .listRowBackground(Color.gray.opacity(0.3))
     }
