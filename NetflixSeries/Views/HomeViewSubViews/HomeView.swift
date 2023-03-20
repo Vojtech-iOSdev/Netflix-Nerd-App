@@ -12,6 +12,8 @@ struct HomeView: View {
     // MARK: PROPERTIES
     let genres: [String] = ["Drama:", "Action:", "Netflix TOP10 in the US:", "Comedy:", "Horror:"]
     
+    @StateObject private var vm: SearchViewModel = SearchViewModel()
+    
     
     // MARK: BODY
     var body: some View {
@@ -24,7 +26,11 @@ struct HomeView: View {
                 VStack(spacing: 0) {
                     //Spacer()
                     NetflixLogoView
-                    SeriesCatalogWithScrollViews
+                    SearchField
+                    if vm.searchedText.isEmpty {
+                        SeriesCatalogWithScrollViews
+                    }
+                    
                     //Spacer()
                 }
                 
@@ -50,6 +56,39 @@ extension HomeView {
             .frame(height: 100)
             .padding(0)
     }
+    
+    private var SearchField: some View {
+        VStack(spacing: 0) {
+            TextField("", text: $vm.searchedText, prompt: Text("Search for a movie...")
+                .foregroundColor(Color.white))
+            .font(.system(.title3, design: .rounded, weight: .semibold))
+            .foregroundColor(Color.black)
+            .padding(.horizontal, 30)
+            .frame(height: 40)
+            .background(Color.gray.opacity(0.3))
+            .cornerRadius(10)
+            .padding(.bottom)
+            .autocorrectionDisabled(true)
+            .onChange(of: vm.searchedText) { newValue in
+                vm.dataService.fetchData(searchedText: vm.searchedText)
+                vm.addSubscribers()
+                }
+            
+            if !vm.searchedText.isEmpty {
+                List {
+                    ForEach(vm.MovieCatalog) { movie in
+                       ListRowView(movie: movie)
+
+                    }
+                    .listRowBackground(Color.gray.opacity(0.3))
+                    .listStyle(.plain)
+                }
+                .scrollContentBackground(.hidden)
+            }
+            
+        }
+    }
+    
     
     private var SeriesCatalogWithScrollViews: some View {
         VStack {

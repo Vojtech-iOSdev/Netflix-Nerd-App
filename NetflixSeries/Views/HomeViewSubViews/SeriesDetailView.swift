@@ -17,10 +17,7 @@ struct SeriesDetailView: View {
         GridItem(.flexible(), spacing: 10, alignment: .center)
     ]
     
-    
-    
-
-    var selectedSeries: Series
+    let selectedSeries: Series
     
     // MARK: BODY
     var body: some View {

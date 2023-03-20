@@ -11,21 +11,30 @@ import Combine
 class MyDataManager {
     
     static let instance = MyDataManager()
-    @Published var fetchedMovieModel: MovieModel = MovieModel(search: nil, totalResults: nil, response: nil)
+    
+    // API STUFF
+    let apiKey: String = "c2e5cb16"
+    let urlBase: String = "https://www.omdbapi.com/?apikey=c2e5cb16&"
+    // more detail info on OMBD API website
+    
+    // FETCHED MOVIES
+    @Published var fetchedMovieModel: SearchModel = SearchModel(search: nil, totalResults: nil, response: nil)
     var cancellables = Set<AnyCancellable>()
+    
+    // FETCHED SPECIFFIC MOVIE
+    @Published var MovieID: String = ""
+
         
     private init() {    }
     
-    func downloadData(searchedText: String) {
-        // new url from website with my key(c2e5cb16) : "https://www.omdbapi.com/?apikey=c2e5cb16&"
-        let apiKey: String = "c2e5cb16"
+    func fetchData(searchedText: String) {
         guard let url = URL(string: "https://www.omdbapi.com/?apikey=\(apiKey)&s=\(searchedText.lowercased())") else { return print("MY BAD URL ERROR: SPATNE URL") }
         
         URLSession.shared.dataTaskPublisher(for: url)
             .receive(on: DispatchQueue.main)
             .tryMap(handleOutput)
             //.debounce(for: .seconds(0.9) , scheduler: DispatchQueue.main)
-            .decode(type: MovieModel.self, decoder: JSONDecoder())
+            .decode(type: SearchModel.self, decoder: JSONDecoder())
             .sink { (completion) in
                 switch completion {
                 case .finished:
@@ -49,4 +58,12 @@ class MyDataManager {
         print("GOOD URL REPSPONSE!!")
         return output.data
     }
+    
+    func fetchMovieDetails() {
+        
+        
+        
+    }
+        
+    
 }

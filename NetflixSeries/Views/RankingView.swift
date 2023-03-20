@@ -9,8 +9,7 @@ import SwiftUI
 
 struct RankingView: View {
     
-    @StateObject var vm: RankingViewModel = RankingViewModel()
-    
+    @StateObject private var vm: SearchViewModel = SearchViewModel()
     
     var body: some View {
         ZStack {
@@ -19,22 +18,6 @@ struct RankingView: View {
             Color.black.edgesIgnoringSafeArea(.all)
             
             // FOREGROUND
-            VStack {
-                TextField("", text: $vm.searchedText, prompt: Text("Search for a movie...")
-                    .foregroundColor(Color.white))
-                .font(.system(.title3, design: .rounded, weight: .semibold))
-                .foregroundColor(Color.black)
-                .padding(.horizontal, 40)
-                .frame(height: 40)
-                .background(Color.gray.opacity(0.3))
-                .cornerRadius(10)
-                .padding(.horizontal)
-                .autocorrectionDisabled(true)
-                .onChange(of: vm.searchedText) { newValue in
-                    vm.dataService.downloadData(searchedText: vm.searchedText)
-                    vm.addSubscribers()
-                }
-                
                 List {
                     Section {
                         customRow
@@ -52,7 +35,7 @@ struct RankingView: View {
                 .padding(.horizontal)
             }
             
-        }
+        
     }
 }
 

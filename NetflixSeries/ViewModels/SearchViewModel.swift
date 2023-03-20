@@ -1,5 +1,5 @@
 //
-//  RankingViewModel.swift
+//  SearchViewModel.swift
 //  NetflixSeries
 //
 //  Created by Vojtěch Kalivoda on 15.03.2023.
@@ -9,15 +9,17 @@ import Foundation
 import SwiftUI
 import Combine
 
-class RankingViewModel: ObservableObject {
+class SearchViewModel: ObservableObject {
     
     let dataService = MyDataManager.instance
     
     // DOWNLOADED MOVIES
-    @Published var MovieCatalog: [SearchModel] = []
+    @Published var MovieCatalog: [MovieModel] = []
     @Published var searchedText: String = ""
-    
     @Published var cancellables = Set<AnyCancellable>()
+    
+    //DOWNLOADED SPECIFIC MOVIE
+    @Published var MovieID: String = ""
     
     init() {
         
@@ -38,5 +40,11 @@ class RankingViewModel: ObservableObject {
 
 
     }
+    
+    func getMovieID(movieID: String) {
+        
+    }
+
+    
     
 }

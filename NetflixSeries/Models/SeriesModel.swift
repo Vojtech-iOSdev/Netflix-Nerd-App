@@ -23,9 +23,8 @@ struct Series: Identifiable {
     var isFavourite: Bool
 }
 
-
+// MOCK DATA before doing api calls
 struct CatalogOfContent {
-   
     static var tvShows: [Series] = [
         Series(title: "Breaking Bad",
                image: "BreakingBad",

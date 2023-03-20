@@ -1,28 +1,14 @@
 //
-//  MovieModel.swift
+//  SearchModel.swift
 //  NetflixSeries
 //
-//  Created by Vojtěch Kalivoda on 15.03.2023.
+//  Created by Vojtěch Kalivoda on 20.03.2023.
 //
-
 
 import Foundation
 
-
-// MARK: - MovieModel
-struct MovieModel: Codable {
-    let search: [SearchModel]?
-    let totalResults, response: String?
-
-    enum CodingKeys: String, CodingKey {
-        case search = "Search"
-        case totalResults
-        case response = "Response"
-    }
-}
-
 // MARK: - SearchModel
-struct SearchModel: Codable, Identifiable {
+struct MovieModel: Codable, Identifiable {
     let title, year, imdbID: String?
     let type: TypeEnum?
     let poster: String?
@@ -43,6 +29,3 @@ enum TypeEnum: String, Codable {
     case movie = "movie"
     case series = "series"
 }
-
-
-
