@@ -24,6 +24,15 @@ class MyDataManager {
     // FETCHED SPECIFFIC MOVIE
     @Published var movieDetails: DetailMovieModel = DetailMovieModel(title: nil, year: nil, rated: nil, released: nil, length: nil, genre: nil, director: nil, actors: nil, description: nil, poster: nil, rating: nil, type: nil, awards: nil)
     var cancelFetchMovieDetails = Set<AnyCancellable>()
+    
+    // FETCHED MOVIES FOR SHOWN HOMEVIEW SELECTION
+    @Published var fetchedLOTR: SearchModel = SearchModel(search: nil, totalResults: nil, response: nil)
+    @Published var fetchedSPIDERMAN: SearchModel = SearchModel(search: nil, totalResults: nil, response: nil)
+    @Published var fetchedBATMAN: SearchModel = SearchModel(search: nil, totalResults: nil, response: nil)
+    @Published var fetchedPARANORMAL: SearchModel = SearchModel(search: nil, totalResults: nil, response: nil)
+
+    //let randomSearchWords: [String] = ["lord", "spider", "batman", "paranormal"]
+
 
 
     private init() {    }
@@ -83,6 +92,28 @@ class MyDataManager {
         
         
     }
+    
+    func fetchLOTR() {
+        guard let url = URL(string: "https://www.omdbapi.com/?apikey=\(apiKey)&s=lord") else { return print("MY BAD URL ERROR: SPATNE URL") }
         
+        URLSession.shared.dataTaskPublisher(for: url)
+            .receive(on: DispatchQueue.main)
+            .tryMap(handleOutput)
+            //.debounce(for: .seconds(0.9) , scheduler: DispatchQueue.main)
+            .decode(type: SearchModel.self, decoder: JSONDecoder())
+            .sink { (completion) in
+                switch completion {
+                case .finished:
+                    print("COMPLETION1: \(completion)")
+                case .failure(let error):
+                    print("COMPLETION1: \(error)")
+                }
+            } receiveValue: { [weak self] (moviesDownloaded) in
+                self?.fetchedLOTR = moviesDownloaded
+                print("FETCHED MOVIE PRIPSANO Z MOVIES DOWNLOADED")
+            }
+            .store(in: &cancelFetchMovieDetails)
+    }
+
     
 }
