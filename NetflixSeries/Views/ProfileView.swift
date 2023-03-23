@@ -64,7 +64,9 @@ extension ProfileView {
                     .clipShape(Circle())
                     .frame(maxWidth: 250)
                     .minimumScaleFactor(0.3)
-                
+                    .tint(Color.gray)
+                    .font(.caption)
+
             }
             
             PhotosPicker(
@@ -77,7 +79,7 @@ extension ProfileView {
                         .font(.system(.headline, design: .rounded, weight: .medium))
                 } else {
                     VStack {
-                        Image(systemName: "person.circle.fill")
+                        Image(systemName: "person.circle")
                             .resizable()
                             .scaledToFit()
                             .frame(width: 160)
@@ -118,7 +120,11 @@ extension ProfileView {
         } header: {
             Text("Personal Info")
                 .foregroundColor(Color.white)
-        }.formStyle(.grouped)
+        }
+        .formStyle(.grouped)
+        .foregroundColor(Color.white)
+        .font(.system(.headline, design: .rounded, weight: .medium))
+
     }
     
     private var settingsSection: some View {
@@ -143,7 +149,12 @@ extension ProfileView {
         } header: {
             Text("Settings")
                 .foregroundColor(Color.white)
-        }.formStyle(.grouped)
+        }
+        .formStyle(.grouped)
+        .foregroundColor(Color.white)
+        .font(.system(.headline, design: .rounded, weight: .medium))
+
+
     }
     
     private var signOutButton: some View {
@@ -151,6 +162,10 @@ extension ProfileView {
             vm.signOut()
         } label: {
             Label("Sign out".uppercased(), systemImage: "return")
+                .foregroundColor(Color.white)
+                .font(.system(.headline, design: .rounded, weight: .medium))
+
+
         }
     }
     

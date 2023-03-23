@@ -13,6 +13,8 @@ class SearchViewModel: ObservableObject {
     
     let dataService = MyDataManager.instance
     
+    let genres: [String] = ["The lord of the rings:", "Spiderman:", "Netflix TOP10 in the US:", "Batman:", "Marvel:"]
+    
     // DOWNLOADED MOVIES
     @Published var searchedText: String = ""
     @Published var MovieCatalog: [MovieModel] = []

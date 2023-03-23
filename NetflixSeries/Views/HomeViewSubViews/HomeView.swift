@@ -10,8 +10,6 @@ import SwiftUI
 struct HomeView: View {
     
     // MARK: PROPERTIES
-    let genres: [String] = ["The lord of the rings:", "Spiderman:", "Netflix TOP10 in the US:", "Batman:", "Marvel:"]
-    
     @StateObject private var vm: SearchViewModel = SearchViewModel()
     
     
@@ -85,15 +83,17 @@ extension HomeView {
                 }
             
             if !vm.searchedText.isEmpty {
-                List {
-                    ForEach(vm.MovieCatalog) { movie in
-                       ListRowView(movieSelected: movie)
-
+                withAnimation(.easeInOut) {
+                    List {
+                        ForEach(vm.MovieCatalog) { movie in
+                            ListRowView(movieSelected: movie)
+                            
+                        }
+                        .listRowBackground(Color.gray.opacity(0.3))
+                        .listStyle(.plain)
                     }
-                    .listRowBackground(Color.gray.opacity(0.3))
-                    .listStyle(.plain)
+                    .scrollContentBackground(.hidden)
                 }
-                .scrollContentBackground(.hidden)
             }
             
         }
@@ -105,9 +105,9 @@ extension HomeView {
             // COLUMNS
             ScrollView(.vertical, showsIndicators: true) {
                 LazyVStack(alignment: .leading, spacing: 20) {
-                    ForEach(genres, id: \.self) { genre in
+                    ForEach(vm.genres, id: \.self) { genre in
                         // ROWS
-                        if genre == genres[2] {
+                        if genre == vm.genres[2] {
                             top10SeriesElement(genre: genre)
                         }else{
                             VStack(alignment: .leading, spacing: 1) {
@@ -141,7 +141,7 @@ extension HomeView {
                                 .background(Color.red)
                                 .scaledToFill()
                                 .cornerRadius(10)
-                                .shadow(color: Color.white.opacity(0.3), radius: 10, x: 0, y: 0)
+                                .shadow(color: Color.white.opacity(0.2), radius: 5, x: 0, y: 5)
                             
                             
                             Text(series.title)
