@@ -9,7 +9,7 @@ import SwiftUI
 
 struct TabBarView: View {
     // MARK: PROPERTIES
-    @StateObject var vm: SeriesViewModel = SeriesViewModel()
+    @StateObject var vm: OnboardingViewModel = OnboardingViewModel()
     
     @State var selectedTab: Int = 0
     

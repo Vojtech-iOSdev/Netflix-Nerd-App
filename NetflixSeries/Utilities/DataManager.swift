@@ -1,5 +1,5 @@
 //
-//  MyDataManager.swift
+//  DataManager.swift
 //  NetflixSeries
 //
 //  Created by Vojtěch Kalivoda on 15.03.2023.
@@ -8,9 +8,9 @@
 import Foundation
 import Combine
 
-class MyDataManager {
+class DataManager {
     
-    static let instance = MyDataManager()
+    static let instance = DataManager()
     
     // API STUFF
     let apiKey: String = "c2e5cb16"
@@ -31,9 +31,6 @@ class MyDataManager {
     @Published var fetchedBATMAN: SearchModel = SearchModel(search: nil, totalResults: nil, response: nil)
     @Published var fetchedPARANORMAL: SearchModel = SearchModel(search: nil, totalResults: nil, response: nil)
 
-    //let randomSearchWords: [String] = ["lord", "spider", "batman", "paranormal"]
-
-
 
     private init() {    }
     
@@ -41,9 +38,8 @@ class MyDataManager {
         guard let url = URL(string: "https://www.omdbapi.com/?apikey=\(apiKey)&s=\(searchedText.lowercased())") else { return print("MY BAD URL ERROR: SPATNE URL") }
         
         URLSession.shared.dataTaskPublisher(for: url)
-            .receive(on: DispatchQueue.main)
             .tryMap(handleOutput)
-            //.debounce(for: .seconds(0.9) , scheduler: DispatchQueue.main)
+            .receive(on: DispatchQueue.main)
             .decode(type: SearchModel.self, decoder: JSONDecoder())
             .sink { (completion) in
                 switch completion {

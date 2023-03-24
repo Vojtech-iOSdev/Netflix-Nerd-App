@@ -1,5 +1,5 @@
 //
-//  ListRowView.swift
+//  ListSearchRowView.swift
 //  NetflixSeries
 //
 //  Created by Vojtěch Kalivoda on 20.03.2023.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct ListRowView: View {
+struct SearchListRowView: View {
     
     let movieSelected: MovieModel
     let randomUrl: String = "https://media.istockphoto.com/id/525982128/cs/fotografie/agresivita-koček.jpg?s=1024x1024&w=is&k=20&c=y632ynYYyc3wS5FuPBgnyXeBNBC7JmjQNwz5Vl_PvI8="
@@ -54,7 +54,7 @@ struct ListRowView: View {
 
 struct ListRowView_Previews: PreviewProvider {
     static var previews: some View {
-        ListRowView(movieSelected: MovieModel(title: "Hello America, i am right here!", year: "2022", imdbID: "IDK", type: .movie, poster: "URL for a movie"))
+        SearchListRowView(movieSelected: MovieModel(title: "Hello America, i am right here!", year: "2022", imdbID: "IDK", type: .movie, poster: "URL for a movie"))
             .previewLayout(.fixed(width: 300, height: 300))
     }
 }

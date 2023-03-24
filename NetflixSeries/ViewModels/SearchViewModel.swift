@@ -11,9 +11,9 @@ import Combine
 
 class SearchViewModel: ObservableObject {
     
-    let dataService = MyDataManager.instance
+    let dataService = DataManager.instance
     
-    let genres: [String] = ["The lord of the rings:", "Spiderman:", "Netflix TOP10 in the US:", "Batman:", "Marvel:"]
+    let genres: [String] = ["The lord of the rings:", "Spiderman:", "Netflix TOP10 in the US:", "Batman:", "Parnormal Activities:"]
     
     // DOWNLOADED MOVIES
     @Published var searchedText: String = ""
@@ -23,26 +23,19 @@ class SearchViewModel: ObservableObject {
     // DOWNLOADED SPECIFIC MOVIE
     @Published var selectedMovieDetails: DetailMovieModel = DetailMovieModel(title: nil, year: nil, rated: nil, released: nil, length: nil, genre: nil, director: nil, actors: nil, description: nil, poster: nil, rating: nil, type: nil, awards: nil)
     
-//    // HOMEVIEW PRELOADED CONTENT
-//    enum randomSearchWordss: String {
-//        case lord = "lord" // The lord of the rings
-//        case spider = "spider" // Spider-man
-//        case batman = "batman" // Batman obviously xdd
-//        case paranormal = "paranormal" // Paranormal activity
-//    }
-//
     
     // FETCHED MOVIES FOR SHOWN HOMEVIEW SELECTION
-    @Published var selectionForLOTR: [MovieModel] = []
-    @Published var selectionForSPIDERMAN: [MovieModel] = []
-    @Published var selectionForBATMAN: [MovieModel] = []
-    @Published var selectionForPARANORMAL: [MovieModel] = []
+    var selectionForLOTR: [MovieModel] = []
+    var selectionForSPIDERMAN: [MovieModel] = []
+    var selectionForBATMAN: [MovieModel] = []
+    var selectionForPARANORMAL: [MovieModel] = []
 
     let randomSearchWords: [String] = ["lord", "spider", "batman", "paranormal"]
     
     
     init() {
-        
+        dataService.fetchLOTR()
+        sinkToSelectionForLOTR()
     }
     
     func sinkToMovieCatalog() {
@@ -81,7 +74,7 @@ class SearchViewModel: ObservableObject {
         //self.dataService.fetchData(searchedText: randomSearchWords.randomElement())
     }
     
-    func sinkToGetLOTR(){
+    func sinkToSelectionForLOTR(){
         dataService.$fetchedLOTR
             .receive(on: DispatchQueue.main)
             .sink { [weak self] (fetchedMovieModel) in

@@ -1,5 +1,5 @@
 //
-//  SeriesViewModel.swift
+//  OnboardingViewModel.swift
 //  NetflixSeries
 //
 //  Created by Vojtěch Kalivoda on 21.02.2023.
@@ -9,12 +9,19 @@ import Foundation
 import SwiftUI
 import Combine
 
-class SeriesViewModel: ObservableObject {
+class OnboardingViewModel: ObservableObject {
     // MARK: PROPERTIES
     
-    // OTHER VIEW STUFF --- NEEDS REFACTORING
+    // PROFILE VIEW ACCOUNT OPTIONS
     @Published var notificationsOn: Bool = true
     @Published var kidAccountOn: Bool = false
+    
+    // ONBOARDING VIEW STATE, THE ALERT AND TRANSITIONS
+    @Published var onboardingState: Int = 0
+    @Published private var text: String = ""
+    @Published var alertForName: Bool = false
+    let transition: AnyTransition = .asymmetric(insertion: .move(edge: .trailing),
+                                                removal: .move(edge: .leading))
     
     // APP STORAGE
     @AppStorage("name") var currentUserName: String?
@@ -53,6 +60,36 @@ class SeriesViewModel: ObservableObject {
                 self?.nameIsValid = nameIsValidated
             }
             .store(in: &cancellables)
+    }
+    
+    func showNextOnboardingScreen() {
+        switch onboardingState {
+        case 1:
+            if name.count >= 2 && name.count < 13 {
+                withAnimation(.spring()){
+                    onboardingState += 1
+                }
+            }else {
+                alertForName = true
+                
+            }
+        case 4:
+            signIn()
+        default:
+            withAnimation(.spring()){
+                onboardingState += 1
+            }
+        }
+    }
+    
+    func signIn() {
+        currentUserName = name
+        currentUserAge = Int(age)
+        currentUserGender = gender
+        currentUserNationality = nationality
+        withAnimation(.spring()) {
+            isSigned = true
+        }
     }
     
     func signOut() {

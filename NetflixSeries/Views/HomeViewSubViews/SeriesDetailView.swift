@@ -52,7 +52,6 @@ struct SeriesDetailView: View {
 // MARK: PREVIEW
 struct SeriesDetailView_Previews: PreviewProvider {
     
-    
     static var previews: some View {
         SeriesDetailView(selectedSeries: CatalogOfContent.tvShows[0])
             

@@ -10,18 +10,11 @@ import PhotosUI
 
 struct ProfileView: View {
     // MARK: PROPERTIES
-    @StateObject var vm: SeriesViewModel = SeriesViewModel()
+    @StateObject var vm: OnboardingViewModel = OnboardingViewModel()
     
     @State var alertTermsOfServices: Bool = false
     @State var selectedItems: [PhotosPickerItem] = []
     @State var data: Data?
-    
-    // APP STORAGE
-    @AppStorage("name") var currentUserName: String?
-    @AppStorage("age") var currentUserAge: Int?
-    @AppStorage("gender") var currentUserGender: String?
-    @AppStorage("nationality") var currentUserNationality: String?
-    @AppStorage("isSigned") var isSigned: Bool = false
     
     // MARK: BODY
     var body: some View {
@@ -40,7 +33,7 @@ struct ProfileView: View {
                 .foregroundColor(Color.black)
                 .scrollContentBackground(.hidden)
             }
-        } 
+        }
         
     }
 }
@@ -55,6 +48,8 @@ struct ProfileView_Previews: PreviewProvider {
 // MARK: COMPONENTS
 extension ProfileView {
     
+    
+    // MARK: profilePicture
     private var profilePicture: some View {
         VStack {
             if let data = data, let uiimage = UIImage(data: data) {
@@ -66,7 +61,7 @@ extension ProfileView {
                     .minimumScaleFactor(0.3)
                     .tint(Color.gray)
                     .font(.caption)
-
+                
             }
             
             PhotosPicker(
@@ -84,7 +79,7 @@ extension ProfileView {
                             .scaledToFit()
                             .frame(width: 160)
                             .foregroundColor(Color.white)
-                        Text("edit picture ".uppercased())
+                        Text("add picture ".uppercased())
                             .font(.system(.headline, design: .rounded, weight: .medium))
                     }
                 }
@@ -109,12 +104,29 @@ extension ProfileView {
         }
     }
     
+    // MARK: personalInfoSection
     private var personalInfoSection: some View {
         Section {
-            Text("Name: \(currentUserName ?? "Your name is not set")")
-            Text("Age: \(String(currentUserAge ?? 0))")
-            Text("Gender: \(currentUserGender ?? "Your gender is not set")")
-            Text("Nationality: \(currentUserNationality ?? "Your name is not set")")
+            HStack {
+                Text("Name: ")
+                TextField("name", text: $vm.name, prompt: Text(vm.currentUserName ?? "NA") .foregroundColor(Color.white))
+                    .onSubmit {
+                        vm.currentUserName = vm.name
+                    }
+            }
+            
+            HStack {
+                Text("Age: ")
+                
+                TextField("age", value: $vm.age, formatter: NumberFormatter(), prompt: Text("\(vm.currentUserAge ?? 0)")
+                    .foregroundColor(Color.white))
+                .onSubmit {
+                    vm.currentUserAge = Int(vm.age)
+                }
+                
+            }
+            Text("Gender: \(vm.currentUserGender ?? "Your gender is not set")")
+            Text("Nationality: \(vm.currentUserNationality ?? "Your name is not set")")
             
             
         } header: {
@@ -124,9 +136,10 @@ extension ProfileView {
         .formStyle(.grouped)
         .foregroundColor(Color.white)
         .font(.system(.headline, design: .rounded, weight: .medium))
-
+        
     }
     
+    // MARK: settingsSection
     private var settingsSection: some View {
         Section {
             Toggle(isOn: $vm.notificationsOn) {
@@ -137,7 +150,7 @@ extension ProfileView {
                 Text("Enable account for kids")
             }
             .tint(Color.red)
-
+            
             Text("Terms of service")
                 .foregroundColor(Color.red)
                 .onTapGesture {
@@ -153,10 +166,11 @@ extension ProfileView {
         .formStyle(.grouped)
         .foregroundColor(Color.white)
         .font(.system(.headline, design: .rounded, weight: .medium))
-
-
+        
+        
     }
     
+    // MARK: signOutButton
     private var signOutButton: some View {
         Button {
             vm.signOut()
@@ -164,8 +178,8 @@ extension ProfileView {
             Label("Sign out".uppercased(), systemImage: "return")
                 .foregroundColor(Color.white)
                 .font(.system(.headline, design: .rounded, weight: .medium))
-
-
+            
+            
         }
     }
     
