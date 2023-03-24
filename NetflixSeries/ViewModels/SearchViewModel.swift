@@ -23,19 +23,15 @@ class SearchViewModel: ObservableObject {
     // DOWNLOADED SPECIFIC MOVIE
     @Published var selectedMovieDetails: DetailMovieModel = DetailMovieModel(title: nil, year: nil, rated: nil, released: nil, length: nil, genre: nil, director: nil, actors: nil, description: nil, poster: nil, rating: nil, type: nil, awards: nil)
     
-    
     // FETCHED MOVIES FOR SHOWN HOMEVIEW SELECTION
     var selectionForLOTR: [MovieModel] = []
-    var selectionForSPIDERMAN: [MovieModel] = []
-    var selectionForBATMAN: [MovieModel] = []
-    var selectionForPARANORMAL: [MovieModel] = []
-
-    let randomSearchWords: [String] = ["lord", "spider", "batman", "paranormal"]
+    var selectionForSpiderman: [MovieModel] = []
+    var selectionForBatman: [MovieModel] = []
+    var selectionForParanormal: [MovieModel] = []
     
     
     init() {
-        dataService.fetchLOTR()
-        sinkToSelectionForLOTR()
+        
     }
     
     func sinkToMovieCatalog() {
@@ -81,11 +77,49 @@ class SearchViewModel: ObservableObject {
                 if let unwrappedFetchedMovieModel = fetchedMovieModel.search {
                     self?.selectionForLOTR = unwrappedFetchedMovieModel
                 }else {
-                    print("MY ERROR: SPATNE PRIPSANE FETCHEDMOVIEMODEL PRO MOVIECATALOG")
+                    print("MY ERROR: SINK LOTR")
+                }
+            }
+            .store(in: &cancellables)
+    }
+    
+    func sinkToSelectionForSpiderman(){
+        dataService.$fetchedSPIDERMAN
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] (fetchedMovieModel) in
+                if let unwrappedFetchedMovieModel = fetchedMovieModel.search {
+                    self?.selectionForSpiderman = unwrappedFetchedMovieModel
+                }else {
+                    print("MY ERROR: SINK SPIDERMAN")
+                }
+            }
+            .store(in: &cancellables)
+    }
+    
+    func sinkToSelectionForBatman(){
+        dataService.$fetchedBATMAN
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] (fetchedMovieModel) in
+                if let unwrappedFetchedMovieModel = fetchedMovieModel.search {
+                    self?.selectionForBatman = unwrappedFetchedMovieModel
+                }else {
+                    print("MY ERROR: SINK BATMAN")
                 }
             }
             .store(in: &cancellables)
     }
 
+    func sinkToSelectionForParanormal(){
+        dataService.$fetchedPARANORMAL
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] (fetchedMovieModel) in
+                if let unwrappedFetchedMovieModel = fetchedMovieModel.search {
+                    self?.selectionForParanormal = unwrappedFetchedMovieModel
+                }else {
+                    print("MY ERROR: SINK PARANORMAL")
+                }
+            }
+            .store(in: &cancellables)
+    }
     
 }

@@ -15,18 +15,11 @@ struct TabBarView: View {
     
     let transition: AnyTransition = .asymmetric(insertion: .move(edge: .trailing), removal: .move(edge: .leading))
     
-    // APP STORAGE
-    @AppStorage("name") var currentUserName: String?
-    @AppStorage("age") var currentUserAge: Int?
-    @AppStorage("gender") var currentUserGender: String?
-    @AppStorage("nationality") var currentUserNationality: String?
-    @AppStorage("isSigned") var isSigned: Bool = false
-    
-    
+   
     // MARK: BODY
     var body: some View {
         
-        if isSigned {
+        if vm.isSigned {
             TabView(selection: $selectedTab) {
                 Group {
                     HomeView()
@@ -35,8 +28,6 @@ struct TabBarView: View {
                             Text("home")
                         }
                         .tag(0)
-
-                    
                     
                     RankingView()
                         .tabItem {
@@ -53,23 +44,13 @@ struct TabBarView: View {
                         .tag(2)
                 }
                 .toolbarBackground(Color.black, for: .tabBar)
-
-                
             }
-            .transition(.asymmetric(insertion: .move(edge: .trailing), removal: .move(edge: .leading)))
+            .transition(transition)
 
         }else {
             OnboardingView()
-                .transition(.asymmetric(insertion: .move(edge: .trailing), removal: .move(edge: .leading)))
+                .transition(transition)
         }
-    }
-    
-    func signOut() {
-        currentUserName = nil
-        currentUserAge = nil
-        currentUserGender = nil
-        currentUserNationality = nil
-        isSigned = false
     }
 }
 
@@ -81,10 +62,4 @@ struct TabBarView_Previews: PreviewProvider {
     }
 }
 
-// MARK: COMPONENTS
-extension TabBarView {
-    private var TabBar: some View {
-        Text("nothing here")
-    }
-    
-}
+

@@ -30,8 +30,10 @@ struct HomeView: View {
                 }
             }
             .onAppear {
-//                vm.dataService.fetchLOTR()
-//               vm.sinkToSelectionForLOTR()
+                vm.sinkToSelectionForLOTR()
+                vm.sinkToSelectionForSpiderman()
+                vm.sinkToSelectionForBatman()
+                vm.sinkToSelectionForParanormal()
             }
         }
         
@@ -59,7 +61,7 @@ extension HomeView {
     private var SearchField: some View {
         VStack(spacing: 0) {
             TextField("", text: $vm.searchedText, prompt: Text("Search more content...")
-            .foregroundColor(Color.white))
+                .foregroundColor(Color.white))
             .font(.system(.title3, design: .rounded, weight: .semibold))
             .foregroundColor(Color.black)
             .padding(.horizontal, 30)
@@ -72,7 +74,7 @@ extension HomeView {
             .onChange(of: vm.searchedText) { newValue in
                 vm.dataService.fetchData(searchedText: vm.searchedText)
                 vm.sinkToMovieCatalog()
-                }
+            }
             
             if !vm.searchedText.isEmpty {
                 withAnimation(.easeInOut) {
