@@ -11,7 +11,7 @@ struct MovieDetailView: View {
     // MARK: PROPERTIES
     @StateObject private var vm: SearchViewModel = SearchViewModel()
     @StateObject private var vmRanking: RankingViewModel = RankingViewModel()
-
+    
     let movieSelected: MovieModel
     
     let randomUrl: String = "https://media.istockphoto.com/id/525982128/cs/fotografie/agresivita-koček.jpg?s=1024x1024&w=is&k=20&c=y632ynYYyc3wS5FuPBgnyXeBNBC7JmjQNwz5Vl_PvI8="
@@ -52,6 +52,10 @@ struct MovieDetailView: View {
         .onAppear {
             vm.getMovieID(movieID: movieSelected.id)
             vm.sinkToSelectedMovieDetails()
+            vm.sinkToSelectionForParanormal()
+            vm.sinkToSelectionForSpiderman()
+            vm.sinkToSelectionForLOTR()
+            vm.sinkToSelectionForBatman()
         }
         
         
@@ -93,7 +97,7 @@ extension MovieDetailView {
             VStack(alignment: .leading) {
                 Text("Release:    \(vm.selectedMovieDetails.released ?? "NA")")
                     .foregroundColor(Color.white)
-                .font(.system(.subheadline , design: .rounded, weight: .medium))
+                    .font(.system(.subheadline , design: .rounded, weight: .medium))
                 
                 Text("Rating:        \(vm.selectedMovieDetails.rating ?? "NA") /10")
                     .foregroundColor(Color.white)
@@ -104,9 +108,9 @@ extension MovieDetailView {
             Image(systemName: vmRanking.isFavourite == true ? "heart.fill" : "heart")
                 .foregroundColor(vmRanking.isFavourite == true ? Color.red : Color.white)
                 .tint(Color.white)
-//                                .onTapGesture {
-//                                     selectedSeries.isFavourite.toggle()
-//                                }
+            //                                .onTapGesture {
+            //                                     selectedSeries.isFavourite.toggle()
+            //                                }
         }.padding(.trailing, 20)
         
     }
@@ -130,7 +134,7 @@ extension MovieDetailView {
             Text(vm.selectedMovieDetails.actors ?? "NA")
                 .foregroundColor(Color.white)
                 .font(.system(.caption, design: .rounded, weight: .light))
-        }  
+        }
     }
     
     private var moreSeriesInVGrid: some View {
@@ -138,12 +142,23 @@ extension MovieDetailView {
             LazyVGrid(columns: columns,
                       alignment: .center,
                       spacing: 10) {
-                ForEach(CatalogOfContent.tvShows.shuffled()) { series in
-                    NavigationLink(destination: SeriesDetailView(selectedSeries: series)) {
-                        Image(series.image)
-                            .resizable()
-                            .frame(width: 110, height: 180)
-                            .scaledToFit()
+                ForEach(vm.selectionForTOP10.shuffled()) { selection in
+                    NavigationLink(destination: MovieDetailView(movieSelected: selection)) {
+                        AsyncImage(url: URL(string: selection.poster ?? randomUrl)) { returnedImage in
+                            switch returnedImage {
+                            case .empty:
+                                ProgressView()
+                            case .success (let image):
+                                image
+                                    .resizable()
+                                    .frame(width: 110, height: 180)
+                                    .scaledToFit()
+                            case .failure (_):
+                                Image(systemName: "xmark")
+                            default:
+                                Image(systemName: "xmark")
+                            }
+                        }
                     }
                     
                 }

@@ -38,7 +38,6 @@ class DataManager {
         case batman = "batman"
         case paranormal = "paranormal"
     }
-    //let randomSearchWordss: [String] = ["lord", "spider", "batman", "paranormal"]
 
 
     private init() {
@@ -84,6 +83,7 @@ class DataManager {
             .sink(receiveCompletion: NetworkingManager.handleCompletion,
                    receiveValue: { [weak self] (moviesDownloaded) in
                 self?.fetchedLOTR = moviesDownloaded
+                print("fetchedLOTR")
             })
             .store(in: &cancelFetchAllSelections)
     }
@@ -96,6 +96,7 @@ class DataManager {
             .sink(receiveCompletion: NetworkingManager.handleCompletion,
                    receiveValue: { [weak self] (moviesDownloaded) in
                 self?.fetchedSPIDERMAN = moviesDownloaded
+                print("fetchedSPIDER")
             })
             .store(in: &cancelFetchAllSelections)
     }
@@ -108,6 +109,7 @@ class DataManager {
             .sink(receiveCompletion: NetworkingManager.handleCompletion,
                    receiveValue: { [weak self] (moviesDownloaded) in
                 self?.fetchedBATMAN = moviesDownloaded
+                print("fetchedBATMAN")
             })
             .store(in: &cancelFetchAllSelections)
     }
@@ -120,6 +122,7 @@ class DataManager {
             .sink(receiveCompletion: NetworkingManager.handleCompletion,
                    receiveValue: { [weak self] (moviesDownloaded) in
                 self?.fetchedPARANORMAL = moviesDownloaded
+                print("fetchedPARA")
             })
             .store(in: &cancelFetchAllSelections)
     }

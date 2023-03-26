@@ -28,12 +28,7 @@ struct HomeView: View {
                         SelectionRowsView()
                     }
                 }
-            }
-            .onAppear {
-                vm.sinkToSelectionForLOTR()
-                vm.sinkToSelectionForSpiderman()
-                vm.sinkToSelectionForBatman()
-                vm.sinkToSelectionForParanormal()
+                
             }
         }
         
@@ -56,6 +51,7 @@ extension HomeView {
             .scaledToFit()
             .frame(height: 100)
             .padding(0)
+            .background{ Color.green }
     }
     
     private var SearchField: some View {
