@@ -14,10 +14,8 @@ struct MovieDetailView: View {
     
     let movieSelected: MovieModel
     
-    let randomUrl: String = "https://media.istockphoto.com/id/525982128/cs/fotografie/agresivita-koček.jpg?s=1024x1024&w=is&k=20&c=y632ynYYyc3wS5FuPBgnyXeBNBC7JmjQNwz5Vl_PvI8="
-    
     let columns: [GridItem] = [
-        GridItem(.flexible(), spacing: 10, alignment: .center),
+        GridItem(.flexible(minimum: 110), spacing: 10, alignment: .center),
         GridItem(.flexible(), spacing: 10, alignment: .center),
         GridItem(.flexible(), spacing: 10, alignment: .center)
     ]
@@ -73,16 +71,23 @@ struct MovieDetailView_Previews: PreviewProvider {
 extension MovieDetailView {
     
     private var imageOfSeries: some View {
-        AsyncImage(url: URL(string: vm.selectedMovieDetails.poster ?? randomUrl)) { returnedImage in
-            returnedImage
-                .resizable()
-                .frame(width: 320, height: 300)
-                .cornerRadius(10)
-                .shadow(color: Color.white.opacity(0.2), radius: 10, x: 0, y: 4)
-        } placeholder: {
-            ProgressView()
+        AsyncImage(url: URL(string: vm.selectedMovieDetails.poster ?? vm.randomUrl)) { returnedImage in
+                switch returnedImage {
+                case .empty:
+                    ProgressView()
+                case .success (let image):
+                    image
+                        .resizable()
+                        .frame(width: 320, height: 300)
+                        .cornerRadius(10)
+                        .shadow(color: Color.white.opacity(0.2), radius: 10, x: 0, y: 4)
+                case .failure (_):
+                    Image(systemName: "questionmark.app.dashed")
+                default:
+                    Image(systemName: "questionmark.app.dashed")
+                }
         }
-        
+        .frame(width: 320, height: 300)
     }
     
     private var title: some View {
@@ -144,21 +149,23 @@ extension MovieDetailView {
                       spacing: 10) {
                 ForEach(vm.selectionForTOP10.shuffled()) { selection in
                     NavigationLink(destination: MovieDetailView(movieSelected: selection)) {
-                        AsyncImage(url: URL(string: selection.poster ?? randomUrl)) { returnedImage in
+                        AsyncImage(url: URL(string: selection.poster ?? vm.randomUrl)) { returnedImage in
                             switch returnedImage {
                             case .empty:
                                 ProgressView()
                             case .success (let image):
                                 image
                                     .resizable()
-                                    .frame(width: 110, height: 180)
+                                    .frame(width: 110)
+                                    .frame(idealHeight: 180)
                                     .scaledToFit()
                             case .failure (_):
-                                Image(systemName: "xmark")
+                                Image(systemName: "questionmark.app.dashed")
                             default:
-                                Image(systemName: "xmark")
+                                Image(systemName: "questionmark.app.dashed")
                             }
                         }
+                        .frame(width: 110, height: 180)
                     }
                     
                 }

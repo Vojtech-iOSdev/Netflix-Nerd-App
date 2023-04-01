@@ -76,7 +76,7 @@ extension HomeView {
                 withAnimation(.easeInOut) {
                     List {
                         ForEach(vm.MovieCatalog) { movie in
-                            SearchListRowView(movieSelected: movie)
+                            SearchListRowView(movieSelected: movie, randomUrl: vm.randomUrl)
                             
                         }
                         .listRowBackground(Color.gray.opacity(0.3))

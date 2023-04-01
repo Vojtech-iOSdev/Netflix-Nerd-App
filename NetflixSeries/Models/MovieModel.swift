@@ -23,9 +23,16 @@ struct MovieModel: Codable, Identifiable {
         case type = "Type"
         case poster = "Poster"
     }
+    
+    static let dummyData: [MovieModel] = [
+        MovieModel(title: "Hello America, i am right here!", year: "2022", imdbID: "IDK", type: .movie, poster: "URL for a movie"),
+        MovieModel(title: "Hello America, i am right here!", year: "2022", imdbID: "IDK", type: .movie, poster: "URL for a movie")
+    ]
 }
 
 enum TypeEnum: String, Codable {
     case movie = "movie"
     case series = "series"
 }
+
+

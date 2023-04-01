@@ -10,7 +10,7 @@ import SwiftUI
 struct SearchListRowView: View {
     
     let movieSelected: MovieModel
-    let randomUrl: String = "https://media.istockphoto.com/id/525982128/cs/fotografie/agresivita-koček.jpg?s=1024x1024&w=is&k=20&c=y632ynYYyc3wS5FuPBgnyXeBNBC7JmjQNwz5Vl_PvI8="
+    let randomUrl: String
     
     // MARK: BODY
     var body: some View {
@@ -30,13 +30,13 @@ struct SearchListRowView: View {
                     case .failure(_):
                         Image(systemName: "questionmark.app.dashed")
                             .font(.largeTitle)
-                            .padding(.horizontal, 30)
                     default:
                         Image(systemName: "questionmark.app.dashed")
                             .font(.largeTitle)
-                            .padding(.horizontal, 30)
                     }
                 }
+                .frame(width: 100, height: 100)
+
                 VStack(alignment: .leading) {
                     Text(movieSelected.title ?? "No value")
                         .font(.system(.headline, design: .rounded, weight: .medium))
@@ -52,9 +52,9 @@ struct SearchListRowView: View {
     }
 }
 
-struct ListRowView_Previews: PreviewProvider {
+struct SearchListRowView_Previews: PreviewProvider {
     static var previews: some View {
-        SearchListRowView(movieSelected: MovieModel(title: "Hello America, i am right here!", year: "2022", imdbID: "IDK", type: .movie, poster: "URL for a movie"))
+        SearchListRowView(movieSelected: MovieModel.dummyData[0], randomUrl: "www.apple.com")
             .previewLayout(.fixed(width: 300, height: 300))
     }
 }

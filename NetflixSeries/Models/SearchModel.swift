@@ -19,6 +19,11 @@ struct SearchModel: Codable {
         case totalResults
         case response = "Response"
     }
+    
+    static let dummyData: [SearchModel] = [
+        SearchModel(search: nil, totalResults: nil, response: nil),
+        SearchModel(search: nil, totalResults: nil, response: nil)
+    ]
 }
 
 

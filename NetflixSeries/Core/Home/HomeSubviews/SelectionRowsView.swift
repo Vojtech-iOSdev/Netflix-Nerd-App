@@ -46,13 +46,4 @@ struct RowsForRecommendedHomeContent_Previews: PreviewProvider {
 }
 
 
-/*
- .onAppear {
-     vm.sinkToSelectionForLOTR()
-     vm.sinkToSelectionForSpiderman()
-     vm.sinkToSelectionForBatman()
-     vm.sinkToSelectionForParanormal()
- }
- 
- */
 

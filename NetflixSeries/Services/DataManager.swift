@@ -18,18 +18,18 @@ class DataManager {
     // more detail info on OMBD API website
     
     // FETCHED MOVIES
-    @Published var fetchedMovieModel: SearchModel = SearchModel(search: nil, totalResults: nil, response: nil)
+    @Published var fetchedMovieModel: SearchModel = SearchModel.dummyData[0]
     var cancelFetchData = Set<AnyCancellable>()
     
     // FETCHED SPECIFFIC MOVIE
-    @Published var movieDetails: DetailMovieModel = DetailMovieModel(title: nil, year: nil, rated: nil, released: nil, length: nil, genre: nil, director: nil, actors: nil, description: nil, poster: nil, rating: nil, type: nil, awards: nil)
+    @Published var movieDetails: DetailMovieModel = DetailMovieModel.dummyData[0]
     var cancelFetchMovieDetails = Set<AnyCancellable>()
     
     // FETCHED MOVIES FOR SHOWN HOMEVIEW SELECTION
-    @Published var fetchedLOTR: SearchModel = SearchModel(search: nil, totalResults: nil, response: nil)
-    @Published var fetchedSPIDERMAN: SearchModel = SearchModel(search: nil, totalResults: nil, response: nil)
-    @Published var fetchedBATMAN: SearchModel = SearchModel(search: nil, totalResults: nil, response: nil)
-    @Published var fetchedPARANORMAL: SearchModel = SearchModel(search: nil, totalResults: nil, response: nil)
+    @Published var fetchedLOTR: SearchModel = SearchModel.dummyData[0]
+    @Published var fetchedSPIDERMAN: SearchModel = SearchModel.dummyData[0]
+    @Published var fetchedBATMAN: SearchModel = SearchModel.dummyData[0]
+    @Published var fetchedPARANORMAL: SearchModel = SearchModel.dummyData[0]
     var cancelFetchAllSelections = Set<AnyCancellable>()
     
     enum randomSearchWords: String {
@@ -39,17 +39,16 @@ class DataManager {
         case paranormal = "paranormal"
     }
 
-
     private init() {
         fetchLOTR()
         fetchSpiderman()
         fetchBatman()
         fetchParanormal()
-        
     }
     
     func fetchData(searchedText: String) {
-        guard let url = URL(string: "https://www.omdbapi.com/?apikey=\(apiKey)&s=\(searchedText.lowercased())") else { return print("MY BAD: SPATNE URL") }
+        guard let url = URL(string: "https://www.omdbapi.com/?apikey=\(apiKey)&s=\(searchedText.lowercased())") else { return print(NetworkingManager.NetworkingError.invalidURL) }
+        
         
         NetworkingManager.download(url: url)
             .decode(type: SearchModel.self, decoder: JSONDecoder())
@@ -62,8 +61,8 @@ class DataManager {
     
     func fetchMovieDetails(movieID: String) {
         guard let url = URL(string: "https://www.omdbapi.com/?apikey=\(apiKey)&i=\(movieID)") else {
-            return print("ERROR: BAD URL")
-        }
+            return print(NetworkingManager.NetworkingError.invalidURL) }
+        
         
         NetworkingManager.download(url: url)
             .decode(type: DetailMovieModel.self, decoder: JSONDecoder())
@@ -76,7 +75,7 @@ class DataManager {
     }
     
     func fetchLOTR() {
-        guard let url = URL(string: "https://www.omdbapi.com/?apikey=\(apiKey)&s=\(randomSearchWords.lotr.rawValue)") else { return print("MY BAD: SPATNE URL") }
+        guard let url = URL(string: "https://www.omdbapi.com/?apikey=\(apiKey)&s=\(randomSearchWords.lotr.rawValue)") else { return print(NetworkingManager.NetworkingError.invalidURL) }
         
         NetworkingManager.download(url: url)
             .decode(type: SearchModel.self, decoder: JSONDecoder())
@@ -89,40 +88,37 @@ class DataManager {
     }
     
     func fetchSpiderman() {
-        guard let url = URL(string: "https://www.omdbapi.com/?apikey=\(apiKey)&s=\(randomSearchWords.spiderman.rawValue)") else { return print("MY BAD: SPATNE URL") }
+        guard let url = URL(string: "https://www.omdbapi.com/?apikey=\(apiKey)&s=\(randomSearchWords.spiderman.rawValue)") else { return print(NetworkingManager.NetworkingError.invalidURL) }
         
         NetworkingManager.download(url: url)
             .decode(type: SearchModel.self, decoder: JSONDecoder())
             .sink(receiveCompletion: NetworkingManager.handleCompletion,
                    receiveValue: { [weak self] (moviesDownloaded) in
                 self?.fetchedSPIDERMAN = moviesDownloaded
-                print("fetchedSPIDER")
             })
             .store(in: &cancelFetchAllSelections)
     }
     
     func fetchBatman() {
-        guard let url = URL(string: "https://www.omdbapi.com/?apikey=\(apiKey)&s=\(randomSearchWords.batman.rawValue)") else { return print("MY BAD: SPATNE URL") }
+        guard let url = URL(string: "https://www.omdbapi.com/?apikey=\(apiKey)&s=\(randomSearchWords.batman.rawValue)") else { return print(NetworkingManager.NetworkingError.invalidURL) }
         
         NetworkingManager.download(url: url)
             .decode(type: SearchModel.self, decoder: JSONDecoder())
             .sink(receiveCompletion: NetworkingManager.handleCompletion,
                    receiveValue: { [weak self] (moviesDownloaded) in
                 self?.fetchedBATMAN = moviesDownloaded
-                print("fetchedBATMAN")
             })
             .store(in: &cancelFetchAllSelections)
     }
 
     func fetchParanormal() {
-        guard let url = URL(string: "https://www.omdbapi.com/?apikey=\(apiKey)&s=\(randomSearchWords.paranormal.rawValue)") else { return print("MY BAD: SPATNE URL") }
+        guard let url = URL(string: "https://www.omdbapi.com/?apikey=\(apiKey)&s=\(randomSearchWords.paranormal.rawValue)") else { return print(NetworkingManager.NetworkingError.invalidURL) }
         
         NetworkingManager.download(url: url)
             .decode(type: SearchModel.self, decoder: JSONDecoder())
             .sink(receiveCompletion: NetworkingManager.handleCompletion,
                    receiveValue: { [weak self] (moviesDownloaded) in
                 self?.fetchedPARANORMAL = moviesDownloaded
-                print("fetchedPARA")
             })
             .store(in: &cancelFetchAllSelections)
     }

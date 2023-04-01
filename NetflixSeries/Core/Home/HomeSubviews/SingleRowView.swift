@@ -12,7 +12,6 @@ struct SingleRowView: View {
     @StateObject private var vm: SearchViewModel = SearchViewModel()
     let genre: String
     let selectionCatalog: [MovieModel]
-    let randomUrl: String = "https://media.istockphoto.com/id/525982128/cs/fotografie/agresivita-koček.jpg?s=1024x1024&w=is&k=20&c=y632ynYYyc3wS5FuPBgnyXeBNBC7JmjQNwz5Vl_PvI8="
     
     var body: some View {
         VStack(alignment: .leading, spacing: 1) {
@@ -28,7 +27,7 @@ struct SingleRowView: View {
                         ForEach(selectionCatalog) { selection in
                             NavigationLink(destination: MovieDetailView(movieSelected: selection)) {
                                 VStack(alignment: .leading, spacing: 12) {
-                                    AsyncImage(url: URL(string: selection.poster ?? randomUrl)) { returnedImage in
+                                    AsyncImage(url: URL(string: selection.poster ?? vm.randomUrl)) { returnedImage in
                                         switch returnedImage {
                                         case .empty:
                                             ProgressView()
@@ -38,16 +37,17 @@ struct SingleRowView: View {
                                                 .frame(width: 200,
                                                        height: genre == vm.genres[2] ? 280 :  120,
                                                        alignment: .leading)
-                                                .background(Color.red)
                                                 .scaledToFill()
                                                 .cornerRadius(10)
                                                 .shadow(color: Color.white.opacity(0.2), radius: 5, x: 0, y: 5)
                                         case .failure (_):
-                                            Image(systemName: "xmark")
+                                            Image(systemName: "questionmark.app.dashed")
                                         default:
-                                            Image(systemName: "xmark")
+                                            Image(systemName: "questionmark.app.dashed")
                                         }
                                     }
+                                    .frame(width: 200,
+                                           height: genre == vm.genres[2] ? 280 :  120)
                                     
                                     Text(selection.title ?? "NA")
                                         .foregroundColor(Color.white)

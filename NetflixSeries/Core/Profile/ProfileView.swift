@@ -10,11 +10,8 @@ import PhotosUI
 
 struct ProfileView: View {
     // MARK: PROPERTIES
-    @StateObject var vm: OnboardingViewModel = OnboardingViewModel()
-    
-    @State var alertTermsOfServices: Bool = false
-    @State var selectedItems: [PhotosPickerItem] = []
-    @State var data: Data?
+    @StateObject var onboardingVM: OnboardingViewModel = OnboardingViewModel()
+    @StateObject var vm: ProfileViewModel = ProfileViewModel()
     
     // MARK: BODY
     var body: some View {
@@ -52,7 +49,7 @@ extension ProfileView {
     // MARK: profilePicture
     private var profilePicture: some View {
         VStack {
-            if let data = data, let uiimage = UIImage(data: data) {
+            if let data = vm.data, let uiimage = UIImage(data: data) {
                 Image(uiImage: uiimage)
                     .resizable()
                     .scaledToFit()
@@ -65,11 +62,11 @@ extension ProfileView {
             }
             
             PhotosPicker(
-                selection: $selectedItems,
+                selection: $vm.selectedPhotos,
                 maxSelectionCount: 1,
                 matching: .images
             ) {
-                if selectedItems.count >= 1 {
+                if vm.selectedPhotos.count >= 1 {
                     Text("edit ".uppercased())
                         .font(.system(.headline, design: .rounded, weight: .medium))
                 } else {
@@ -84,15 +81,15 @@ extension ProfileView {
                     }
                 }
             }
-            .onChange(of: selectedItems) { newValue in
-                guard let item = selectedItems.first else {
+            .onChange(of: vm.selectedPhotos) { newValue in
+                guard let item = vm.selectedPhotos.first else {
                     return
                 }
                 item.loadTransferable(type: Data.self) { result in
                     switch result {
                     case .success(let data):
                         if let data = data {
-                            self.data = data
+                            self.vm.data = data
                         } else {
                             print("Data is nil")
                         }
@@ -108,27 +105,30 @@ extension ProfileView {
     private var personalInfoSection: some View {
         Section {
             HStack {
-                Text("Name: ")
-                TextField("name", text: $vm.name, prompt: Text(vm.currentUserName ?? "NA") .foregroundColor(Color.white))
-                    .onSubmit {
-                        vm.currentUserName = vm.name
+                Text("Name:   \(onboardingVM.currentUserName ?? "Your name is not set")")
+                Spacer()
+                Image(systemName: "pencil")
+                    .onTapGesture {
+                        vm.showSheetForEditName = true
+                    }
+                    .sheet(isPresented: $vm.showSheetForEditName) {
+                        EditNameSheet()
                     }
             }
             
             HStack {
-                Text("Age: ")
-                
-                TextField("age", value: $vm.age, formatter: NumberFormatter(), prompt: Text("\(vm.currentUserAge ?? 0)")
-                    .foregroundColor(Color.white))
-                .onSubmit {
-                    vm.currentUserAge = Int(vm.age)
-                }
-                
+                Text("Age:   \(onboardingVM.currentUserAge ?? 0)")
+                Spacer()
+                Image(systemName: "pencil")
+                    .onTapGesture {
+                        vm.showSheetForEditAge = true
+                    }
+                    .sheet(isPresented: $vm.showSheetForEditAge) {
+                        EditAgeSheet()
+                    }
             }
-            Text("Gender: \(vm.currentUserGender ?? "Your gender is not set")")
-            Text("Nationality: \(vm.currentUserNationality ?? "Your name is not set")")
-            
-            
+            Text("Gender: \(onboardingVM.currentUserGender ?? "Your gender is not set")")
+            Text("Nationality: \(onboardingVM.currentUserNationality ?? "Your nationality is not set")")  
         } header: {
             Text("Personal Info")
                 .foregroundColor(Color.white)
@@ -154,8 +154,9 @@ extension ProfileView {
             Text("Terms of service")
                 .foregroundColor(Color.red)
                 .onTapGesture {
-                    alertTermsOfServices = true
-                }.alert(isPresented: $alertTermsOfServices) {
+                    vm.alertTermsOfServices = true
+                }
+                .alert(isPresented: $vm.alertTermsOfServices) {
                     Alert(title: Text("Terms Of Services"), message: Text("Do whatever you want to test this app!!!"))
                 }
             
@@ -173,7 +174,7 @@ extension ProfileView {
     // MARK: signOutButton
     private var signOutButton: some View {
         Button {
-            vm.signOut()
+            onboardingVM.signOut()
         } label: {
             Label("Sign out".uppercased(), systemImage: "return")
                 .foregroundColor(Color.white)

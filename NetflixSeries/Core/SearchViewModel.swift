@@ -14,6 +14,7 @@ class SearchViewModel: ObservableObject {
     let dataService = DataManager.instance
     
     let genres: [String] = ["The lord of the rings:", "Spiderman:", "Netflix TOP10 in the US:", "Batman:", "Parnormal Activities:"]
+    let randomUrl: String = "https://media.istockphoto.com/id/525982128/cs/fotografie/agresivita-koček.jpg?s=1024x1024&w=is&k=20&c=y632ynYYyc3wS5FuPBgnyXeBNBC7JmjQNwz5Vl_PvI8="
     
     // DOWNLOADED MOVIES
     @Published var searchedText: String = ""
@@ -21,8 +22,7 @@ class SearchViewModel: ObservableObject {
     @Published var cancellables = Set<AnyCancellable>()
     
     // DOWNLOADED SPECIFIC MOVIE
-    @Published var selectedMovieDetails: DetailMovieModel = DetailMovieModel(title: nil, year: nil, rated: nil, released: nil, length: nil, genre: nil, director: nil, actors: nil, description: nil, poster: nil, rating: nil, type: nil, awards: nil)
-    
+    @Published var selectedMovieDetails: DetailMovieModel = DetailMovieModel.dummyData[0]
     // FETCHED MOVIES FOR SHOWN HOMEVIEW SELECTION
     @Published var selectionForLOTR: [MovieModel] = []
     @Published var selectionForSpiderman: [MovieModel] = []

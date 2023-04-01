@@ -206,17 +206,19 @@ extension OnboardingView {
                 .font(.system(.largeTitle, design: .rounded, weight: .bold))
             
             Picker(selection: $vm.gender, content: {
-                Text("female").tag("female")
-                Text("male").tag("male")
+                Text("Not selected").tag("Not Selected")
+                Text("Female").tag("Female")
+                Text("Male").tag("Male")
                 Text("Non-Binary").tag("Non-Binary")
                 
             }, label: {
                 Text("Select a gender")
             })
-            .pickerStyle(.automatic)
+            .pickerStyle(.wheel)
             .font(.title)
             .accentColor(Color.white)
             .foregroundColor(Color.white)
+            .padding(.vertical, 0)
             
             Spacer()
             Spacer()

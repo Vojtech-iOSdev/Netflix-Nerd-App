@@ -37,6 +37,11 @@ struct DetailMovieModel: Decodable {
         case type = "Type"
         case awards = "Awards"
     }
+    
+    static let dummyData: [DetailMovieModel] = [
+        DetailMovieModel(title: nil, year: nil, rated: nil, released: nil, length: nil, genre: nil, director: nil, actors: nil, description: nil, poster: nil, rating: nil, type: nil, awards: nil),
+        DetailMovieModel(title: nil, year: nil, rated: nil, released: nil, length: nil, genre: nil, director: nil, actors: nil, description: nil, poster: nil, rating: nil, type: nil, awards: nil)
+    ]
 }
 
 

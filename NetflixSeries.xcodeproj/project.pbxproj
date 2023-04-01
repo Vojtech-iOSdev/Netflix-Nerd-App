@@ -18,6 +18,9 @@
 		8140D0CC29A810850006DA92 /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8140D0CB29A810850006DA92 /* OnboardingView.swift */; };
 		817B354129CE03E6001B1438 /* SingleRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 817B354029CE03E6001B1438 /* SingleRowView.swift */; };
 		817B354329CE1A03001B1438 /* NetworkingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 817B354229CE1A03001B1438 /* NetworkingManager.swift */; };
+		81B8543129D74369009E254E /* ProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81B8543029D74369009E254E /* ProfileViewModel.swift */; };
+		81B8543429D80CA6009E254E /* EditNameSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81B8543329D80CA6009E254E /* EditNameSheet.swift */; };
+		81B8543629D81F0E009E254E /* EditAgeSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81B8543529D81F0E009E254E /* EditAgeSheet.swift */; };
 		81BC1FA829A964BE009CE2A0 /* RankingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81BC1FA729A964BE009CE2A0 /* RankingView.swift */; };
 		81BC1FAA29A964E6009CE2A0 /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81BC1FA929A964E6009CE2A0 /* ProfileView.swift */; };
 		81D2B9B229C245B100DA1338 /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81D2B9B129C245B100DA1338 /* DataManager.swift */; };
@@ -43,6 +46,9 @@
 		8140D0CB29A810850006DA92 /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
 		817B354029CE03E6001B1438 /* SingleRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SingleRowView.swift; sourceTree = "<group>"; };
 		817B354229CE1A03001B1438 /* NetworkingManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkingManager.swift; sourceTree = "<group>"; };
+		81B8543029D74369009E254E /* ProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewModel.swift; sourceTree = "<group>"; };
+		81B8543329D80CA6009E254E /* EditNameSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditNameSheet.swift; sourceTree = "<group>"; };
+		81B8543529D81F0E009E254E /* EditAgeSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditAgeSheet.swift; sourceTree = "<group>"; };
 		81BC1FA729A964BE009CE2A0 /* RankingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RankingView.swift; sourceTree = "<group>"; };
 		81BC1FA929A964E6009CE2A0 /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
 		81D2B9B129C245B100DA1338 /* DataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
@@ -69,16 +75,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		812F30FB29C8CBA600525BF7 /* HomeViewSubViews */ = {
+		812F30FB29C8CBA600525BF7 /* Home */ = {
 			isa = PBXGroup;
 			children = (
 				81E8336E29A56081002AC51F /* HomeView.swift */,
-				8116696D29CCE8E50081D823 /* SelectionRowsView.swift */,
-				817B354029CE03E6001B1438 /* SingleRowView.swift */,
-				812F30F729C8620300525BF7 /* SearchListRowView.swift */,
 				812F30F929C8CB5500525BF7 /* MovieDetailView.swift */,
+				81B8542C29D740FA009E254E /* HomeSubviews */,
 			);
-			path = HomeViewSubViews;
+			path = Home;
 			sourceTree = "<group>";
 		};
 		81403A6929D04AE900186DB2 /* MockData */ = {
@@ -90,13 +94,60 @@
 			path = MockData;
 			sourceTree = "<group>";
 		};
-		81D2B9B029C2457300DA1338 /* Utilities */ = {
+		81B8542C29D740FA009E254E /* HomeSubviews */ = {
+			isa = PBXGroup;
+			children = (
+				8116696D29CCE8E50081D823 /* SelectionRowsView.swift */,
+				817B354029CE03E6001B1438 /* SingleRowView.swift */,
+				812F30F729C8620300525BF7 /* SearchListRowView.swift */,
+			);
+			path = HomeSubviews;
+			sourceTree = "<group>";
+		};
+		81B8542D29D74135009E254E /* Ranking */ = {
+			isa = PBXGroup;
+			children = (
+				81BC1FA729A964BE009CE2A0 /* RankingView.swift */,
+				812F310029C8DEBB00525BF7 /* RankingViewModel.swift */,
+			);
+			path = Ranking;
+			sourceTree = "<group>";
+		};
+		81B8542E29D741C9009E254E /* Profile */ = {
+			isa = PBXGroup;
+			children = (
+				81BC1FA929A964E6009CE2A0 /* ProfileView.swift */,
+				81B8543029D74369009E254E /* ProfileViewModel.swift */,
+				81B8543229D80C23009E254E /* EditSheets */,
+			);
+			path = Profile;
+			sourceTree = "<group>";
+		};
+		81B8542F29D74207009E254E /* Onboarding */ = {
+			isa = PBXGroup;
+			children = (
+				8140D0CB29A810850006DA92 /* OnboardingView.swift */,
+				81E8337F29A56CC3002AC51F /* OnboardingViewModel.swift */,
+			);
+			path = Onboarding;
+			sourceTree = "<group>";
+		};
+		81B8543229D80C23009E254E /* EditSheets */ = {
+			isa = PBXGroup;
+			children = (
+				81B8543329D80CA6009E254E /* EditNameSheet.swift */,
+				81B8543529D81F0E009E254E /* EditAgeSheet.swift */,
+			);
+			path = EditSheets;
+			sourceTree = "<group>";
+		};
+		81D2B9B029C2457300DA1338 /* Services */ = {
 			isa = PBXGroup;
 			children = (
 				81D2B9B129C245B100DA1338 /* DataManager.swift */,
 				817B354229CE1A03001B1438 /* NetworkingManager.swift */,
 			);
-			path = Utilities;
+			path = Services;
 			sourceTree = "<group>";
 		};
 		81E8336029A56081002AC51F = {
@@ -120,11 +171,10 @@
 			children = (
 				81F5D5CC29CC9E8700290573 /* Info.plist */,
 				81E8336C29A56081002AC51F /* NetflixSeriesApp.swift */,
-				81D2B9B029C2457300DA1338 /* Utilities */,
-				81E8337A29A56091002AC51F /* Views */,
-				81E8337B29A5609D002AC51F /* ViewModels */,
-				81403A6929D04AE900186DB2 /* MockData */,
+				81E8337A29A56091002AC51F /* Core */,
 				81E8337C29A560A7002AC51F /* Models */,
+				81D2B9B029C2457300DA1338 /* Services */,
+				81403A6929D04AE900186DB2 /* MockData */,
 				81E8337029A56082002AC51F /* Assets.xcassets */,
 				81E8337229A56082002AC51F /* Preview Content */,
 			);
@@ -139,26 +189,17 @@
 			path = "Preview Content";
 			sourceTree = "<group>";
 		};
-		81E8337A29A56091002AC51F /* Views */ = {
+		81E8337A29A56091002AC51F /* Core */ = {
 			isa = PBXGroup;
 			children = (
 				8140D0C929A80F440006DA92 /* TabBarView.swift */,
-				812F30FB29C8CBA600525BF7 /* HomeViewSubViews */,
-				81BC1FA729A964BE009CE2A0 /* RankingView.swift */,
-				81BC1FA929A964E6009CE2A0 /* ProfileView.swift */,
-				8140D0CB29A810850006DA92 /* OnboardingView.swift */,
-			);
-			path = Views;
-			sourceTree = "<group>";
-		};
-		81E8337B29A5609D002AC51F /* ViewModels */ = {
-			isa = PBXGroup;
-			children = (
-				81E8337F29A56CC3002AC51F /* OnboardingViewModel.swift */,
 				81D2B9B529C265B800DA1338 /* SearchViewModel.swift */,
-				812F310029C8DEBB00525BF7 /* RankingViewModel.swift */,
+				812F30FB29C8CBA600525BF7 /* Home */,
+				81B8542D29D74135009E254E /* Ranking */,
+				81B8542F29D74207009E254E /* Onboarding */,
+				81B8542E29D741C9009E254E /* Profile */,
 			);
-			path = ViewModels;
+			path = Core;
 			sourceTree = "<group>";
 		};
 		81E8337C29A560A7002AC51F /* Models */ = {
@@ -241,12 +282,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				81B8543429D80CA6009E254E /* EditNameSheet.swift in Sources */,
 				81D2B9B429C24ACB00DA1338 /* SearchModel.swift in Sources */,
 				817B354129CE03E6001B1438 /* SingleRowView.swift in Sources */,
 				81E8337E29A5615D002AC51F /* SeriesModel.swift in Sources */,
 				81BC1FAA29A964E6009CE2A0 /* ProfileView.swift in Sources */,
 				812F30FD29C8D12800525BF7 /* MovieModel.swift in Sources */,
 				812F310129C8DEBB00525BF7 /* RankingViewModel.swift in Sources */,
+				81B8543629D81F0E009E254E /* EditAgeSheet.swift in Sources */,
+				81B8543129D74369009E254E /* ProfileViewModel.swift in Sources */,
 				81BC1FA829A964BE009CE2A0 /* RankingView.swift in Sources */,
 				812F30FF29C8D3EE00525BF7 /* DetailMovieModel.swift in Sources */,
 				81D2B9B229C245B100DA1338 /* DataManager.swift in Sources */,

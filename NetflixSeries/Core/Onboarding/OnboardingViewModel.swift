@@ -10,12 +10,7 @@ import SwiftUI
 import Combine
 
 class OnboardingViewModel: ObservableObject {
-    // MARK: PROPERTIES
-    
-    // PROFILE VIEW ACCOUNT OPTIONS
-    @Published var notificationsOn: Bool = true
-    @Published var kidAccountOn: Bool = false
-    
+
     // ONBOARDING VIEW STATE, THE ALERT AND TRANSITIONS
     @Published var onboardingState: Int = 0
     @Published private var text: String = ""
@@ -42,10 +37,8 @@ class OnboardingViewModel: ObservableObject {
     
     init() {
         CheckIfNameIsValid()
-        
     }
     
-    // MARK: METHODS
     func CheckIfNameIsValid() {
         $name
             .debounce(for: .seconds(0.5) , scheduler: DispatchQueue.main)
@@ -71,7 +64,6 @@ class OnboardingViewModel: ObservableObject {
                 }
             }else {
                 alertForName = true
-                
             }
         case 4:
             signIn()
