@@ -13,12 +13,12 @@ class SearchViewModel: ObservableObject {
     
     let dataService = DataManager.instance
     
-    let genres: [String] = ["The lord of the rings:", "Spiderman:", "Netflix TOP10 in the US:", "Batman:", "Parnormal Activities:"]
+    let genres: [String] = ["The lord of the rings:", "Spiderman:", "Netflix TOP10 in the US:", "Batman:", "Paranormal Activity:"]
     let randomUrl: String = "https://media.istockphoto.com/id/525982128/cs/fotografie/agresivita-koček.jpg?s=1024x1024&w=is&k=20&c=y632ynYYyc3wS5FuPBgnyXeBNBC7JmjQNwz5Vl_PvI8="
     
     // DOWNLOADED MOVIES
     @Published var searchedText: String = ""
-    @Published var MovieCatalog: [MovieModel] = []
+    @Published var movieCatalog: [MovieModel] = []
     @Published var cancellables = Set<AnyCancellable>()
     
     // DOWNLOADED SPECIFIC MOVIE
@@ -40,9 +40,9 @@ class SearchViewModel: ObservableObject {
             .receive(on: DispatchQueue.main)
             .sink(receiveValue: { [weak self] (fetchedMovieModel) in
                 if let unwrappedFetchedMovieModel = fetchedMovieModel.search {
-                    self?.MovieCatalog = unwrappedFetchedMovieModel
+                    self?.movieCatalog = unwrappedFetchedMovieModel
                 } else {
-                    print("MY ERROR: SPATNE PRIPSANE FETCHEDMOVIEMODEL PRO MOVIECATALOG")
+                    print("MY ERROR: can't .sink to movieCatalog")
                 }
                 
             })
@@ -62,7 +62,7 @@ class SearchViewModel: ObservableObject {
         if let movieID = movieID {
             self.dataService.fetchMovieDetails(movieID: movieID)
         } else {
-            print("ERROR: MOVIE ID IS NIL I THINK..")
+            print("MY ERROR: movie ID is nil, i guess..")
         }
     }
     
@@ -74,7 +74,7 @@ class SearchViewModel: ObservableObject {
                     self?.selectionForLOTR = LOTRSelection
                     self?.selectionForTOP10.append(contentsOf: LOTRSelection)
                 }else {
-                    print("MY ERROR: CANT SINK LOTR")
+                    print("MY ERROR: can't .sink LOTR")
                 }
             }
             .store(in: &cancellables)
@@ -88,7 +88,7 @@ class SearchViewModel: ObservableObject {
                     self?.selectionForSpiderman = spidermanSelection
                     self?.selectionForTOP10.append(contentsOf: spidermanSelection)
                 }else {
-                    print("MY ERROR: CANT SINK SPIDERMAN")
+                    print("MY ERROR: can't .sink Spiderman")
                 }
             }
             .store(in: &cancellables)
@@ -102,7 +102,7 @@ class SearchViewModel: ObservableObject {
                     self?.selectionForBatman = batmanSelection
                     self?.selectionForTOP10.append(contentsOf: batmanSelection)
                 }else {
-                    print("MY ERROR: CANT SINK BATMAN")
+                    print("MY ERROR: can't .sink Batman")
                 }
             }
             .store(in: &cancellables)
@@ -117,7 +117,7 @@ class SearchViewModel: ObservableObject {
                     self?.selectionForTOP10.append(contentsOf: paranormalSelection)
 
                 }else {
-                    print("MY ERROR: CANT SINK PARANORMAL")
+                    print("MY ERROR: can't .sink Paranormal")
                 }
             }
             .store(in: &cancellables)

@@ -46,7 +46,7 @@ struct RankingView_Previews: PreviewProvider {
 extension RankingView {
     
     private var customRow: some View {
-        ForEach(vm.MovieCatalog) { movie in
+        ForEach(vm.movieCatalog) { movie in
             Text(movie.title ?? "no value")
                 .foregroundColor(Color.white)
               

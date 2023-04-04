@@ -11,6 +11,7 @@ struct EditAgeSheet: View {
     
     @StateObject var onboardingVM: OnboardingViewModel = OnboardingViewModel()
     @StateObject var vm: ProfileViewModel = ProfileViewModel()
+    @Environment(\.dismiss) private var dismiss
     
     var body: some View {
         VStack {
@@ -75,7 +76,10 @@ private extension EditAgeSheet {
     var saveButton: some View {
         Button {
             onboardingVM.currentUserAge = Int(vm.editedAge)
-            vm.showSheetForEditAge = false
+//            vm.showSheetForEditAge = false
+//            vm.activeSheet = nil
+            dismiss()
+
         } label: {
             Text("SAVE")
                 .foregroundColor(Color.black)

@@ -128,6 +128,7 @@ extension OnboardingView {
             TextField("", text: $vm.name, prompt: Text("Type in your name...").foregroundColor(Color.black))
                 .font(.system(.title3, design: .rounded, weight: .semibold))
                 .foregroundColor(Color.black)
+                .tint(.black)
                 .padding(.horizontal, 40)
                 .frame(height: 40)
                 .background(Color.white.opacity(1))

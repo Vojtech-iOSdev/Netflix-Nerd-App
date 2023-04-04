@@ -13,11 +13,13 @@
 		812F30FD29C8D12800525BF7 /* MovieModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 812F30FC29C8D12800525BF7 /* MovieModel.swift */; };
 		812F30FF29C8D3EE00525BF7 /* DetailMovieModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 812F30FE29C8D3EE00525BF7 /* DetailMovieModel.swift */; };
 		812F310129C8DEBB00525BF7 /* RankingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 812F310029C8DEBB00525BF7 /* RankingViewModel.swift */; };
+		8138A1D629D89B010077EDDC /* EditGenderSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8138A1D529D89B010077EDDC /* EditGenderSheet.swift */; };
 		8140D0C829A61B5B0006DA92 /* SeriesDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8140D0C729A61B5B0006DA92 /* SeriesDetailView.swift */; };
 		8140D0CA29A80F440006DA92 /* TabBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8140D0C929A80F440006DA92 /* TabBarView.swift */; };
 		8140D0CC29A810850006DA92 /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8140D0CB29A810850006DA92 /* OnboardingView.swift */; };
 		817B354129CE03E6001B1438 /* SingleRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 817B354029CE03E6001B1438 /* SingleRowView.swift */; };
 		817B354329CE1A03001B1438 /* NetworkingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 817B354229CE1A03001B1438 /* NetworkingManager.swift */; };
+		8199A80E29DC53D30035D2F0 /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8199A80D29DC53D30035D2F0 /* LocationManager.swift */; };
 		81B8543129D74369009E254E /* ProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81B8543029D74369009E254E /* ProfileViewModel.swift */; };
 		81B8543429D80CA6009E254E /* EditNameSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81B8543329D80CA6009E254E /* EditNameSheet.swift */; };
 		81B8543629D81F0E009E254E /* EditAgeSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81B8543529D81F0E009E254E /* EditAgeSheet.swift */; };
@@ -41,11 +43,13 @@
 		812F30FC29C8D12800525BF7 /* MovieModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieModel.swift; sourceTree = "<group>"; };
 		812F30FE29C8D3EE00525BF7 /* DetailMovieModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailMovieModel.swift; sourceTree = "<group>"; };
 		812F310029C8DEBB00525BF7 /* RankingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RankingViewModel.swift; sourceTree = "<group>"; };
+		8138A1D529D89B010077EDDC /* EditGenderSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditGenderSheet.swift; sourceTree = "<group>"; };
 		8140D0C729A61B5B0006DA92 /* SeriesDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeriesDetailView.swift; sourceTree = "<group>"; };
 		8140D0C929A80F440006DA92 /* TabBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarView.swift; sourceTree = "<group>"; };
 		8140D0CB29A810850006DA92 /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
 		817B354029CE03E6001B1438 /* SingleRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SingleRowView.swift; sourceTree = "<group>"; };
 		817B354229CE1A03001B1438 /* NetworkingManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkingManager.swift; sourceTree = "<group>"; };
+		8199A80D29DC53D30035D2F0 /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
 		81B8543029D74369009E254E /* ProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewModel.swift; sourceTree = "<group>"; };
 		81B8543329D80CA6009E254E /* EditNameSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditNameSheet.swift; sourceTree = "<group>"; };
 		81B8543529D81F0E009E254E /* EditAgeSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditAgeSheet.swift; sourceTree = "<group>"; };
@@ -137,6 +141,7 @@
 			children = (
 				81B8543329D80CA6009E254E /* EditNameSheet.swift */,
 				81B8543529D81F0E009E254E /* EditAgeSheet.swift */,
+				8138A1D529D89B010077EDDC /* EditGenderSheet.swift */,
 			);
 			path = EditSheets;
 			sourceTree = "<group>";
@@ -146,6 +151,7 @@
 			children = (
 				81D2B9B129C245B100DA1338 /* DataManager.swift */,
 				817B354229CE1A03001B1438 /* NetworkingManager.swift */,
+				8199A80D29DC53D30035D2F0 /* LocationManager.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -284,6 +290,7 @@
 			files = (
 				81B8543429D80CA6009E254E /* EditNameSheet.swift in Sources */,
 				81D2B9B429C24ACB00DA1338 /* SearchModel.swift in Sources */,
+				8199A80E29DC53D30035D2F0 /* LocationManager.swift in Sources */,
 				817B354129CE03E6001B1438 /* SingleRowView.swift in Sources */,
 				81E8337E29A5615D002AC51F /* SeriesModel.swift in Sources */,
 				81BC1FAA29A964E6009CE2A0 /* ProfileView.swift in Sources */,
@@ -302,6 +309,7 @@
 				81E8336D29A56081002AC51F /* NetflixSeriesApp.swift in Sources */,
 				8140D0C829A61B5B0006DA92 /* SeriesDetailView.swift in Sources */,
 				8140D0CA29A80F440006DA92 /* TabBarView.swift in Sources */,
+				8138A1D629D89B010077EDDC /* EditGenderSheet.swift in Sources */,
 				8116696E29CCE8E50081D823 /* SelectionRowsView.swift in Sources */,
 				81E8338029A56CC3002AC51F /* OnboardingViewModel.swift in Sources */,
 				81D2B9B629C265B800DA1338 /* SearchViewModel.swift in Sources */,
@@ -439,6 +447,7 @@
 				INFOPLIST_FILE = NetflixSeries/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "Netflix Clone";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.entertainment";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "App Netflix Clone would like to use your location information to display in which country is your device currently used.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -473,6 +482,7 @@
 				INFOPLIST_FILE = NetflixSeries/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "Netflix Clone";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.entertainment";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "App Netflix Clone would like to use your location information to display in which country is your device currently used.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;

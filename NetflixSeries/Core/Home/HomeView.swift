@@ -59,7 +59,7 @@ extension HomeView {
             TextField("", text: $vm.searchedText, prompt: Text("Search more content...")
                 .foregroundColor(Color.white))
             .font(.system(.title3, design: .rounded, weight: .semibold))
-            .foregroundColor(Color.black)
+            .foregroundColor(Color.white)
             .padding(.horizontal, 30)
             .frame(height: 40)
             .background(Color.gray.opacity(0.3))
@@ -75,7 +75,7 @@ extension HomeView {
             if !vm.searchedText.isEmpty {
                 withAnimation(.easeInOut) {
                     List {
-                        ForEach(vm.MovieCatalog) { movie in
+                        ForEach(vm.movieCatalog) { movie in
                             SearchListRowView(movieSelected: movie, randomUrl: vm.randomUrl)
                             
                         }

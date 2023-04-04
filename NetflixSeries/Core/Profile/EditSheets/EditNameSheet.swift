@@ -11,6 +11,7 @@ struct EditNameSheet: View {
     
     @StateObject var onboardingVM: OnboardingViewModel = OnboardingViewModel()
     @StateObject var vm: ProfileViewModel = ProfileViewModel()
+    @Environment(\.dismiss) private var dismiss
     
    // MARK: BODY
     var body: some View {
@@ -58,6 +59,7 @@ private extension EditNameSheet {
         TextField("", text: $vm.editedName, prompt: Text("Type new name...").foregroundColor(Color.black))
             .font(.system(.title3, design: .rounded, weight: .semibold))
             .foregroundColor(Color.black)
+            .tint(.black)
             .padding(.horizontal, 40)
             .frame(height: 40)
             .background(Color.white.opacity(1))
@@ -84,7 +86,9 @@ private extension EditNameSheet {
         Button {
             if vm.editedName.count >= 2 && vm.editedName.count < 13 {
                 onboardingVM.currentUserName = vm.editedName
-                vm.showSheetForEditName = false
+//                vm.showSheetForEditName = false
+//                vm.activeSheet = nil
+                dismiss()
             }else {
                 onboardingVM.alertForName = true
             }

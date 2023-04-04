@@ -7,9 +7,11 @@
 
 import SwiftUI
 import PhotosUI
+import CoreLocationUI
 
 struct ProfileView: View {
-    // MARK: PROPERTIES
+
+    @StateObject var locationManager: LocationManager = LocationManager.shared
     @StateObject var onboardingVM: OnboardingViewModel = OnboardingViewModel()
     @StateObject var vm: ProfileViewModel = ProfileViewModel()
     
@@ -24,6 +26,16 @@ struct ProfileView: View {
                 profilePicture
                 Form {
                     personalInfoSection
+                        .sheet(item: $vm.activeSheet) { selectedSheet in
+                            switch selectedSheet {
+                            case .editNameSheet:
+                                EditNameSheet()
+                            case .editAgeSheet:
+                                EditAgeSheet()
+                            case .editGenderSheet:
+                                EditGenderSheet()
+                            }
+                        }
                     settingsSection
                     signOutButton
                 }
@@ -35,7 +47,6 @@ struct ProfileView: View {
     }
 }
 
-// MARK: PREVIEW
 struct ProfileView_Previews: PreviewProvider {
     static var previews: some View {
         ProfileView()
@@ -49,55 +60,39 @@ extension ProfileView {
     // MARK: profilePicture
     private var profilePicture: some View {
         VStack {
-            if let data = vm.data, let uiimage = UIImage(data: data) {
-                Image(uiImage: uiimage)
-                    .resizable()
-                    .scaledToFit()
-                    .clipShape(Circle())
-                    .frame(maxWidth: 250)
-                    .minimumScaleFactor(0.3)
-                    .tint(Color.gray)
-                    .font(.caption)
-                
-            }
-            
-            PhotosPicker(
-                selection: $vm.selectedPhotos,
-                maxSelectionCount: 1,
-                matching: .images
-            ) {
-                if vm.selectedPhotos.count >= 1 {
-                    Text("edit ".uppercased())
-                        .font(.system(.headline, design: .rounded, weight: .medium))
+            PhotosPicker(selection: $vm.selectedPhotos,
+                         maxSelectionCount: 1,
+                         matching: .images,
+                         photoLibrary: .shared()) {
+                if !vm.selectedPhotos.isEmpty {
+                    VStack {
+                        if let profilePhoto = vm.images.last {
+                            profilePhoto
+                                .resizable()
+                                .scaledToFill()
+                                .frame(width: 170, height: 170)
+                                .clipped()
+                                .cornerRadius(170)
+                        } else {
+                            ProgressView()
+                                .frame(width: 170, height: 170)
+                        }
+                        Text("edit ".uppercased())
+                            .font(.system(.headline, design: .rounded, weight: .medium))
+                    }
                 } else {
                     VStack {
                         Image(systemName: "person.circle")
                             .resizable()
                             .scaledToFit()
-                            .frame(width: 160)
-                            .foregroundColor(Color.white)
+                            .frame(width: 170)
+                            .foregroundColor(Color.gray.opacity(0.4))
                         Text("add picture ".uppercased())
-                            .font(.system(.headline, design: .rounded, weight: .medium))
+                            .font(.system(.subheadline, design: .rounded, weight: .medium))
                     }
                 }
             }
-            .onChange(of: vm.selectedPhotos) { newValue in
-                guard let item = vm.selectedPhotos.first else {
-                    return
-                }
-                item.loadTransferable(type: Data.self) { result in
-                    switch result {
-                    case .success(let data):
-                        if let data = data {
-                            self.vm.data = data
-                        } else {
-                            print("Data is nil")
-                        }
-                    case .failure(let failure):
-                        fatalError("\(failure)")
-                    }
-                }
-            }
+ 
         }
     }
     
@@ -108,11 +103,9 @@ extension ProfileView {
                 Text("Name:   \(onboardingVM.currentUserName ?? "Your name is not set")")
                 Spacer()
                 Image(systemName: "pencil")
+                    .foregroundColor(.red)
                     .onTapGesture {
-                        vm.showSheetForEditName = true
-                    }
-                    .sheet(isPresented: $vm.showSheetForEditName) {
-                        EditNameSheet()
+                        vm.activeSheet = .editNameSheet
                     }
             }
             
@@ -120,15 +113,41 @@ extension ProfileView {
                 Text("Age:   \(onboardingVM.currentUserAge ?? 0)")
                 Spacer()
                 Image(systemName: "pencil")
+                    .foregroundColor(.red)
                     .onTapGesture {
-                        vm.showSheetForEditAge = true
-                    }
-                    .sheet(isPresented: $vm.showSheetForEditAge) {
-                        EditAgeSheet()
+                        vm.activeSheet = .editAgeSheet
                     }
             }
-            Text("Gender: \(onboardingVM.currentUserGender ?? "Your gender is not set")")
-            Text("Nationality: \(onboardingVM.currentUserNationality ?? "Your nationality is not set")")  
+            
+            HStack {
+                Text("Gender:   \(onboardingVM.currentUserGender ?? "Your gender is not set")")
+                Spacer()
+                Image(systemName: "pencil")
+                    .foregroundColor(.red)
+                    .onTapGesture {
+                        vm.activeSheet = .editGenderSheet
+                    }
+            }
+            
+            HStack {
+                Text("Country: \(onboardingVM.currentUserNationality ?? "Your nationality is not set") \(locationManager.country)")
+                Spacer()
+                LocationButton {
+//                    locationManager.checkLocationsServiceIsEnabled()
+//                    locationManager.locationManager.requestWhenInUseAuthorization()
+                    Task {
+                        try await locationManager.getCountryFromCurrentLocation()
+                    }
+                }
+                .labelStyle(.iconOnly)
+                .symbolVariant(.none)
+                .font(.subheadline)
+                .tint(.red)
+                .cornerRadius(20)
+                
+                
+            }
+            
         } header: {
             Text("Personal Info")
                 .foregroundColor(Color.white)
@@ -177,7 +196,7 @@ extension ProfileView {
             onboardingVM.signOut()
         } label: {
             Label("Sign out".uppercased(), systemImage: "return")
-                .foregroundColor(Color.white)
+                .foregroundColor(Color.red)
                 .font(.system(.headline, design: .rounded, weight: .medium))
             
             

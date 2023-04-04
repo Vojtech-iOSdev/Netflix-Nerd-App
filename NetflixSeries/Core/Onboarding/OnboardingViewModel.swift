@@ -28,7 +28,7 @@ class OnboardingViewModel: ObservableObject {
     // ONBOARDING INPUTS
     @Published var name: String = ""
     @Published var nameIsValid: Bool = false
-    @Published var age: Double = 20
+    @Published var age: Double = 50
     @Published var gender: String = ""
     @Published var nationality: String = ""
     

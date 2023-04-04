@@ -10,30 +10,44 @@ import SwiftUI
 import PhotosUI
 import Combine
 
+@MainActor
 class ProfileViewModel: ObservableObject {
-    
     // ACCOUNT OPTIONS
-    @Published var selectedPhotos: [PhotosPickerItem] = []
-    @Published var data: Data?
+    @Published var images: [Image] = []
+    @Published var selectedPhotos: [PhotosPickerItem] = [] {
+        didSet {
+            Task {
+                if !selectedPhotos.isEmpty {
+                    try await loadTransferable(from: selectedPhotos)
+                }
+            }
+        }
+    }
     @Published var notificationsOn: Bool = true
     @Published var kidAccountOn: Bool = false
     @Published var alertTermsOfServices: Bool = false
     
-    
     // PROFILE EDITS INPUTS
     @Published var editedName: String = ""
     private var cancelEditedNameIsValid = Set<AnyCancellable>()
-    @Published var editedNameIsValid: Bool = false
-    @Published var editedAge: Double = 20
-//    @Published var gender: String = ""
+    @Published var editedAge: Double = 50
+    @Published var editedGender: String = ""
 //    @Published var nationality: String = ""
     
+    // CHECKING IF INPUTS ARE VALID
+    @Published var editedNameIsValid: Bool = false
+    @Published var editedGenderIsValid: Bool = false
+    
     // SHEETS
-    @Published var showSheetForEditName: Bool = false
-    @Published var showSheetForEditAge: Bool = false
-
-
-
+    @Published var activeSheet: ActiveSheet? = nil
+    enum ActiveSheet: Identifiable {
+        case editNameSheet
+        case editAgeSheet
+        case editGenderSheet
+        
+        var id: Int { hashValue }
+    }
+    
     init() {
         CheckIfEditedNameIsValid()
     }
@@ -54,13 +68,19 @@ class ProfileViewModel: ObservableObject {
             .store(in: &cancelEditedNameIsValid)
     }
     
-//    func checkIfAgeIsValid() {
-//        if editedAge >= 18 && editedAge < 100 {
-//
-//        } else {
-//
-//        }
-//    }
+    func loadTransferable(from selectedPhotos: [PhotosPickerItem]) async throws{
+        do {
+            for photo in selectedPhotos {
+                if let data = try await photo.loadTransferable(type: Data.self) {
+                    if let uiImage = UIImage(data: data) {
+                        self.images.append(Image(uiImage: uiImage))
+                    }
+                }
+            }
+        } catch {
+            print(error.localizedDescription)
+        }
+    }
     
 }
     
