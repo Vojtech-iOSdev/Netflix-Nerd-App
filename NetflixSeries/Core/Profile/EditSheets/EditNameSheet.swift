@@ -86,8 +86,6 @@ private extension EditNameSheet {
         Button {
             if vm.editedName.count >= 2 && vm.editedName.count < 13 {
                 onboardingVM.currentUserName = vm.editedName
-//                vm.showSheetForEditName = false
-//                vm.activeSheet = nil
                 dismiss()
             }else {
                 onboardingVM.alertForName = true

@@ -78,7 +78,7 @@ extension ProfileView {
                                 .frame(width: 170, height: 170)
                         }
                         Text("edit ".uppercased())
-                            .font(.system(.headline, design: .rounded, weight: .medium))
+                            .font(.system(.subheadline, design: .rounded, weight: .medium))
                     }
                 } else {
                     VStack {
@@ -130,11 +130,9 @@ extension ProfileView {
             }
             
             HStack {
-                Text("Country: \(onboardingVM.currentUserNationality ?? "Your nationality is not set") \(locationManager.country)")
+                Text("Country:   \(locationManager.country == nil ? onboardingVM.currentUserCountry ?? "Your country is not set" : locationManager.country ?? "")")
                 Spacer()
                 LocationButton {
-//                    locationManager.checkLocationsServiceIsEnabled()
-//                    locationManager.locationManager.requestWhenInUseAuthorization()
                     Task {
                         try await locationManager.getCountryFromCurrentLocation()
                     }
@@ -144,10 +142,7 @@ extension ProfileView {
                 .font(.subheadline)
                 .tint(.red)
                 .cornerRadius(20)
-                
-                
             }
-            
         } header: {
             Text("Personal Info")
                 .foregroundColor(Color.white)
@@ -193,14 +188,21 @@ extension ProfileView {
     // MARK: signOutButton
     private var signOutButton: some View {
         Button {
-            onboardingVM.signOut()
+            vm.showConfirmationDialogToSignOut = true
         } label: {
             Label("Sign out".uppercased(), systemImage: "return")
                 .foregroundColor(Color.red)
                 .font(.system(.headline, design: .rounded, weight: .medium))
-            
-            
         }
+        .confirmationDialog("Do you really wanna Sign out?", isPresented: $vm.showConfirmationDialogToSignOut, titleVisibility: .visible) {
+            Button("Sign Out", role: .destructive) {
+                locationManager.country = nil
+                onboardingVM.signOut()
+            }
+        } message: {
+            Text("If you sign out all your data will get lost!")
+        }
+
     }
     
 }

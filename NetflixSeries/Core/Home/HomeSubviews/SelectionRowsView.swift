@@ -19,6 +19,11 @@ struct SelectionRowsView: View {
                     SingleRowView(genre: vm.genres[0],selectionCatalog: vm.selectionForLOTR)
                         .onAppear {
                             vm.sinkToSelectionForLOTR()
+                            // get image from cache 
+                            // save sink func result to NSCache
+                            // and insert GET func from NSCache to selection catalog
+                            // so in Single row will just be cached content!!!
+                            // also i need to cancel all sink func after first call
                         }
                     SingleRowView(genre: vm.genres[1],selectionCatalog: vm.selectionForSpiderman)
                         .onAppear {
@@ -35,8 +40,11 @@ struct SelectionRowsView: View {
                         }
 
                 }
+                
             }
-        }.padding(.horizontal)    }
+        }
+        .padding(.horizontal)
+    }
 }
 
 struct RowsForRecommendedHomeContent_Previews: PreviewProvider {
@@ -44,6 +52,3 @@ struct RowsForRecommendedHomeContent_Previews: PreviewProvider {
         SelectionRowsView()
     }
 }
-
-
-

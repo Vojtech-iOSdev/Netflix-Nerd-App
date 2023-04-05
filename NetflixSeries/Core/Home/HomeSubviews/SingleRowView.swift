@@ -14,20 +14,22 @@ struct SingleRowView: View {
     let selectionCatalog: [MovieModel]
     
     var body: some View {
-        VStack(alignment: .leading, spacing: 1) {
+        LazyVStack(alignment: .leading, spacing: 1) {
             // SECTIONS
             Section(header: Text(genre)
                 .foregroundColor(Color.white)
                 .font(.system(.title2, design: .rounded, weight: .bold))
                 .padding(.leading, 0)
             ) {
-                // SERIES ELEMENTS
-                ScrollView(.horizontal, showsIndicators: true) {
-                    HStack(spacing: 0) {
+                // CONTENT ELEMENTS
+                ScrollView(.horizontal, showsIndicators: false) {
+                    LazyHStack(spacing: 0) {
                         ForEach(selectionCatalog) { selection in
                             NavigationLink(destination: MovieDetailView(movieSelected: selection)) {
                                 VStack(alignment: .leading, spacing: 12) {
-                                    AsyncImage(url: URL(string: selection.poster ?? vm.randomUrl)) { returnedImage in
+                                    AsyncImage(url: URL(string: selection.poster ?? vm.randomUrl)) { returnedImage
+                                        //get image from NSCache using func that returns string that i will put into AsyncImage
+                                        in
                                         switch returnedImage {
                                         case .empty:
                                             ProgressView()
@@ -71,8 +73,4 @@ struct SingleRowView_Previews: PreviewProvider {
     static var previews: some View {
         SingleRowView(genre: "", selectionCatalog: [MovieModel(title: nil, year: nil, imdbID: nil, type: nil, poster: nil)])
     }
-}
-
-extension SingleRowView {
-
 }

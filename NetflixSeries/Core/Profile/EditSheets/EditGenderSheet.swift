@@ -14,14 +14,14 @@ struct EditGenderSheet: View {
     @Environment(\.dismiss) private var dismiss
     
     var body: some View {
-        VStack {
+        VStack(spacing: 0) {
             whiteRectangle
             
             Spacer()
             
             title
             newGenderPicker
-            
+                            
             Spacer()
             
             saveButton
@@ -49,7 +49,7 @@ private extension EditGenderSheet {
         Text("Did you wanna reselect gender?")
             .foregroundColor(Color.white)
             .font(.system(.largeTitle, design: .rounded, weight: .bold))
-            .padding(.bottom, 40)
+            .padding(.bottom,10)
     }
     
     var newGenderPicker: some View {
@@ -63,10 +63,10 @@ private extension EditGenderSheet {
             Text("Select a gender")
         })
         .pickerStyle(.wheel)
-        .font(.title)
         .accentColor(Color.white)
         .foregroundColor(Color.white)
         .padding(.vertical, 0)
+        .padding(.horizontal)
     }
     
     var saveButton: some View {

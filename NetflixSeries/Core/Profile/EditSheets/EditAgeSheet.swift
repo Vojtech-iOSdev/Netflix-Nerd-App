@@ -70,6 +70,7 @@ private extension EditAgeSheet {
                     .font(.system(.headline, design: .rounded, weight: .bold))
             }
             .accentColor(Color.white)
+            .padding(.horizontal)
         }
     }
     

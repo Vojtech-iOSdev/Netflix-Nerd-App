@@ -20,6 +20,9 @@
 		817B354129CE03E6001B1438 /* SingleRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 817B354029CE03E6001B1438 /* SingleRowView.swift */; };
 		817B354329CE1A03001B1438 /* NetworkingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 817B354229CE1A03001B1438 /* NetworkingManager.swift */; };
 		8199A80E29DC53D30035D2F0 /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8199A80D29DC53D30035D2F0 /* LocationManager.swift */; };
+		8199A81329DCAD110035D2F0 /* NetflixLogo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8199A81229DCAD110035D2F0 /* NetflixLogo.swift */; };
+		8199A81529DCAFAB0035D2F0 /* OnboardingQuestion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8199A81429DCAFAB0035D2F0 /* OnboardingQuestion.swift */; };
+		8199A81729DD36610035D2F0 /* ListOfCountries.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8199A81629DD36610035D2F0 /* ListOfCountries.swift */; };
 		81B8543129D74369009E254E /* ProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81B8543029D74369009E254E /* ProfileViewModel.swift */; };
 		81B8543429D80CA6009E254E /* EditNameSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81B8543329D80CA6009E254E /* EditNameSheet.swift */; };
 		81B8543629D81F0E009E254E /* EditAgeSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81B8543529D81F0E009E254E /* EditAgeSheet.swift */; };
@@ -50,6 +53,9 @@
 		817B354029CE03E6001B1438 /* SingleRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SingleRowView.swift; sourceTree = "<group>"; };
 		817B354229CE1A03001B1438 /* NetworkingManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkingManager.swift; sourceTree = "<group>"; };
 		8199A80D29DC53D30035D2F0 /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
+		8199A81229DCAD110035D2F0 /* NetflixLogo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetflixLogo.swift; sourceTree = "<group>"; };
+		8199A81429DCAFAB0035D2F0 /* OnboardingQuestion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingQuestion.swift; sourceTree = "<group>"; };
+		8199A81629DD36610035D2F0 /* ListOfCountries.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListOfCountries.swift; sourceTree = "<group>"; };
 		81B8543029D74369009E254E /* ProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewModel.swift; sourceTree = "<group>"; };
 		81B8543329D80CA6009E254E /* EditNameSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditNameSheet.swift; sourceTree = "<group>"; };
 		81B8543529D81F0E009E254E /* EditAgeSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditAgeSheet.swift; sourceTree = "<group>"; };
@@ -83,7 +89,6 @@
 			isa = PBXGroup;
 			children = (
 				81E8336E29A56081002AC51F /* HomeView.swift */,
-				812F30F929C8CB5500525BF7 /* MovieDetailView.swift */,
 				81B8542C29D740FA009E254E /* HomeSubviews */,
 			);
 			path = Home;
@@ -98,11 +103,22 @@
 			path = MockData;
 			sourceTree = "<group>";
 		};
+		8199A81129DCACE20035D2F0 /* OnboardingSubViews */ = {
+			isa = PBXGroup;
+			children = (
+				8199A81229DCAD110035D2F0 /* NetflixLogo.swift */,
+				8199A81429DCAFAB0035D2F0 /* OnboardingQuestion.swift */,
+				8199A81629DD36610035D2F0 /* ListOfCountries.swift */,
+			);
+			path = OnboardingSubViews;
+			sourceTree = "<group>";
+		};
 		81B8542C29D740FA009E254E /* HomeSubviews */ = {
 			isa = PBXGroup;
 			children = (
 				8116696D29CCE8E50081D823 /* SelectionRowsView.swift */,
 				817B354029CE03E6001B1438 /* SingleRowView.swift */,
+				812F30F929C8CB5500525BF7 /* MovieDetailView.swift */,
 				812F30F729C8620300525BF7 /* SearchListRowView.swift */,
 			);
 			path = HomeSubviews;
@@ -132,6 +148,7 @@
 			children = (
 				8140D0CB29A810850006DA92 /* OnboardingView.swift */,
 				81E8337F29A56CC3002AC51F /* OnboardingViewModel.swift */,
+				8199A81129DCACE20035D2F0 /* OnboardingSubViews */,
 			);
 			path = Onboarding;
 			sourceTree = "<group>";
@@ -291,8 +308,11 @@
 				81B8543429D80CA6009E254E /* EditNameSheet.swift in Sources */,
 				81D2B9B429C24ACB00DA1338 /* SearchModel.swift in Sources */,
 				8199A80E29DC53D30035D2F0 /* LocationManager.swift in Sources */,
+				8199A81329DCAD110035D2F0 /* NetflixLogo.swift in Sources */,
 				817B354129CE03E6001B1438 /* SingleRowView.swift in Sources */,
+				8199A81729DD36610035D2F0 /* ListOfCountries.swift in Sources */,
 				81E8337E29A5615D002AC51F /* SeriesModel.swift in Sources */,
+				8199A81529DCAFAB0035D2F0 /* OnboardingQuestion.swift in Sources */,
 				81BC1FAA29A964E6009CE2A0 /* ProfileView.swift in Sources */,
 				812F30FD29C8D12800525BF7 /* MovieModel.swift in Sources */,
 				812F310129C8DEBB00525BF7 /* RankingViewModel.swift in Sources */,

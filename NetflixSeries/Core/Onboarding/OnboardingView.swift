@@ -6,12 +6,12 @@
 //
 
 import SwiftUI
+import CoreLocationUI
 
 struct OnboardingView: View {
     
-    // MARK: PROPERTIES
     @StateObject private var vm: OnboardingViewModel = OnboardingViewModel()
-    
+    @StateObject var locationManager: LocationManager = LocationManager.shared
     
     // MARK: BODY
     var body: some View {
@@ -23,7 +23,7 @@ struct OnboardingView: View {
             VStack {
                 switch vm.onboardingState {
                 case 0:
-                    WelcomeScreen
+                    welcomeScreen
                         .transition(vm.transition)
                 case 1:
                     nameScreen
@@ -35,21 +35,21 @@ struct OnboardingView: View {
                     genderScreen
                         .transition(vm.transition)
                 case 4:
-                    nationalityScreen
+                    countryScreen
                         .transition(vm.transition)
                 default:
-                    WelcomeScreen
+                    welcomeScreen
                         .transition(vm.transition)
                 }
-                Spacer()
                 BottomButton
+                Spacer()
+
             }
             
         }
     }
 }
 
-// MARK: PREVIEW
 struct OnboardingView_Previews: PreviewProvider {
     static var previews: some View {
         OnboardingView()
@@ -85,20 +85,14 @@ extension OnboardingView {
         }
     }
     
-    // MARK: WelcomeScreen
-    private var WelcomeScreen: some View {
+    // MARK: welcomeScreen
+    private var welcomeScreen: some View {
         VStack(spacing: 30) {
             Spacer()
             
-            Image("Netflix")
-                .resizable()
-                .scaledToFit()
-                .frame(height: 140)
+            NetflixLogo()
             
-            
-            Text("Welcome to Netflix")
-                .foregroundColor(Color.white)
-                .font(.system(.largeTitle, design: .rounded, weight: .bold))
+            OnboardingQuestion(questionString: "Welcome to Netflix")
             
             Text("We are by far the best streaming service in the world right now. We have a huge selection of movies and TV shows old and new, tons of high-quality original programs, and an easy-to-navigate interface.")
                 .foregroundColor(Color.white)
@@ -106,7 +100,6 @@ extension OnboardingView {
                 .multilineTextAlignment(.center)
             
             Spacer()
-            
         }.padding()
     }
     
@@ -115,15 +108,9 @@ extension OnboardingView {
         VStack(spacing: 30) {
             Spacer()
             
-            Image("Netflix")
-                .resizable()
-                .scaledToFit()
-                .frame(height: 170)
-                .padding(.bottom, 50)
+            NetflixLogo()
             
-            Text("What's your name?")
-                .foregroundColor(Color.white)
-                .font(.system(.largeTitle, design: .rounded, weight: .bold))
+            OnboardingQuestion(questionString: "What's your name?")
             
             TextField("", text: $vm.name, prompt: Text("Type in your name...").foregroundColor(Color.black))
                 .font(.system(.title3, design: .rounded, weight: .semibold))
@@ -133,6 +120,7 @@ extension OnboardingView {
                 .frame(height: 40)
                 .background(Color.white.opacity(1))
                 .cornerRadius(10)
+                .autocorrectionDisabled()
                 .padding(.horizontal)
                 .overlay(alignment: .trailing) {
                     ZStack {
@@ -148,7 +136,7 @@ extension OnboardingView {
                     .padding(.trailing, 30)
                     .font(.system(.title2, weight: .semibold))
                 }
-            Spacer()
+            //Spacer()
             Spacer()
             
         }.padding()
@@ -159,16 +147,9 @@ extension OnboardingView {
         VStack(spacing: 30) {
             Spacer()
             
-            Image("Netflix")
-                .resizable()
-                .scaledToFit()
-                .frame(height: 170)
-                .padding(.bottom, 50)
+            NetflixLogo()
             
-            Text("What's your age?")
-                .foregroundColor(Color.white)
-                .font(.system(.largeTitle, design: .rounded, weight: .bold))
-            
+            OnboardingQuestion(questionString: "What's your age?")
             
             Text("Your age is: \(String(format: "%.0f", vm.age))")
                 .foregroundColor(Color.white)
@@ -196,15 +177,10 @@ extension OnboardingView {
         VStack(spacing: 30) {
             Spacer()
             
-            Image("Netflix")
-                .resizable()
-                .scaledToFit()
-                .frame(height: 170)
-                .padding(.bottom, 50)
+            NetflixLogo()
+                .padding(.top, 60)
             
-            Text("What's your gender?")
-                .foregroundColor(Color.white)
-                .font(.system(.largeTitle, design: .rounded, weight: .bold))
+            OnboardingQuestion(questionString: "What's your gender?")
             
             Picker(selection: $vm.gender, content: {
                 Text("Not selected").tag("Not Selected")
@@ -227,57 +203,73 @@ extension OnboardingView {
         }.padding()
     }
     
-    // MARK: nationalityScreen
-    private var nationalityScreen: some View {
+    // MARK: countryScreen
+    private var countryScreen: some View {
         VStack(spacing: 30) {
             Spacer()
             
-            Image("Netflix")
-                .resizable()
-                .scaledToFit()
-                .frame(height: 170)
-                .padding(.bottom, 50)
+            NetflixLogo()
+                .padding(.top, 60)
+
+            OnboardingQuestion(questionString: "Your current location?")
             
-            Text("What's your nationality?")
-                .foregroundColor(Color.white)
-                .font(.system(.largeTitle, design: .rounded, weight: .bold))
-                .lineLimit(1)
-                .minimumScaleFactor(0.6)
+            Text("country:   \(locationManager.country == nil ? vm.currentUserCountry ?? "" : locationManager.country ?? "")")
+                .font(.system(.title3, design: .rounded, weight: .medium))
             
-            Picker(selection: $vm.nationality, content: {
-                ForEach(NSLocale.isoCountryCodes, id: \.self) { country in
-                    HStack {
-                        Text(Locale.current.localizedString(forRegionCode: country) ?? "")
-                    }
+            Spacer()
+            
+            Button {
+                Task {
+                    try await locationManager.getCountryFromCurrentLocation()
                 }
-                
-            }, label: {
-                Text("Select a nationality")
-            })
-            .pickerStyle(.menu)
-            .font(.title)
-            .accentColor(Color.white)
-            .foregroundColor(Color.white)
+            } label: {
+                LocationButton(.shareMyCurrentLocation) {
+                    
+                }
+                .labelStyle(.titleOnly)
+                .font(.headline)
+                .tint(.black)
+                .foregroundColor(.red)
+            }
             
+            Text("--------------------").bold().padding(.bottom, 10)
+            
+            Button {
+                vm.showListOfCountries = true
+            } label: {
+                Text("Manually select a country ")
+                    .font(.headline)
+                    .foregroundColor(.red)
+            }
+            .disabled(locationManager.country == nil ? false : true)
+            .fullScreenCover(isPresented: $vm.showListOfCountries) {
+                ListOfCountries()
+            }
+
+            
+            
+//            Picker(selection: $vm.country, content: {
+//                ForEach(NSLocale.isoCountryCodes, id: \.self) { countryCode in
+//                    HStack {
+//                        Text(vm.countryFlag(countryCode))
+//                        Text(Locale.current.localizedString(forRegionCode: countryCode) ?? "")
+//                        Spacer()
+//                        Text(countryCode)
+//                    }
+//
+//                }
+//
+//            }, label: {
+//                Text("Select a country")
+//            })
+//            .pickerStyle(.)
+//            .font(.title)
+//            .accentColor(Color.white)
+//            .foregroundColor(Color.white)
             
             
             Spacer()
-            Spacer()
-            
         }.padding()
     }
     
 }
-
-// MARK: FUNCTIONS
-extension OnboardingView {
-    
-    
-    func countryFlag(_ countryCode: String) -> String {
-        String(String.UnicodeScalarView(countryCode.unicodeScalars.compactMap {
-            UnicodeScalar(127397 + $0.value)
-        }))
-    }
-    
-}
-

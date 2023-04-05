@@ -15,14 +15,14 @@ struct HomeView: View {
     
     // MARK: BODY
     var body: some View {
-        NavigationView {
+        NavigationStack {
             ZStack {
                 // BACKGROUND
                 Color.black.edgesIgnoringSafeArea(.all)
                 
                 // FOREGROUND
                 VStack(spacing: 0) {
-                    NetflixLogoView
+                    NetflixLogoAndProfilePic
                     SearchField
                     if vm.searchedText.isEmpty {
                         SelectionRowsView()
@@ -45,13 +45,22 @@ struct ContentView_Previews: PreviewProvider {
 // MARK: COMPONENTS
 extension HomeView {
     
-    private var NetflixLogoView: some View {
-        Image("Netflix")
-            .resizable()
-            .scaledToFit()
-            .frame(height: 100)
-            .padding(0)
-            .background{ Color.green }
+    private var NetflixLogoAndProfilePic: some View {
+        HStack {
+            Image("Netflix")
+                .resizable()
+                .scaledToFit()
+                .frame(maxHeight: 120)
+                .padding(0)
+                .frame(maxWidth: .infinity)
+                //.background{ Color.green }
+                .overlay(alignment: .trailing) {
+                    Image(systemName: "person.circle")
+                        .font(.title)
+                        .padding()
+                    Spacer()
+                }
+        }
     }
     
     private var SearchField: some View {

@@ -17,20 +17,22 @@ class OnboardingViewModel: ObservableObject {
     @Published var alertForName: Bool = false
     let transition: AnyTransition = .asymmetric(insertion: .move(edge: .trailing),
                                                 removal: .move(edge: .leading))
+    @Published var showListOfCountries: Bool = false
+    @Published var showSaveButton: Bool = false
     
     // APP STORAGE
     @AppStorage("name") var currentUserName: String?
     @AppStorage("age") var currentUserAge: Int?
     @AppStorage("gender") var currentUserGender: String?
-    @AppStorage("nationality") var currentUserNationality: String?
+    @AppStorage("country") var currentUserCountry: String?
     @AppStorage("isSigned") var isSigned: Bool = false
         
     // ONBOARDING INPUTS
     @Published var name: String = ""
     @Published var nameIsValid: Bool = false
-    @Published var age: Double = 50
+    @Published var age: Double = 45
     @Published var gender: String = ""
-    @Published var nationality: String = ""
+    @Published var country: String = ""
     
     @Published var cancellables = Set<AnyCancellable>()
     
@@ -78,7 +80,7 @@ class OnboardingViewModel: ObservableObject {
         currentUserName = name
         currentUserAge = Int(age)
         currentUserGender = gender
-        currentUserNationality = nationality
+        //currentUserCountry = country
         withAnimation(.spring()) {
             isSigned = true
         }
@@ -88,10 +90,20 @@ class OnboardingViewModel: ObservableObject {
         currentUserName = nil
         currentUserAge = nil
         currentUserGender = nil
-        currentUserNationality = nil
+        currentUserCountry = nil
         withAnimation(.spring()) {
             isSigned = false
         }
+    }
+    
+    func countryFlag(_ countryCode: String) -> String {
+        String(String.UnicodeScalarView(countryCode.unicodeScalars.compactMap {
+            UnicodeScalar(127397 + $0.value)
+        }))
+    }
+    
+    func convertToCountryName(selectedCountryCode: String) -> String {
+        Locale.current.localizedString(forRegionCode: selectedCountryCode) ?? ""
     }
     
 }

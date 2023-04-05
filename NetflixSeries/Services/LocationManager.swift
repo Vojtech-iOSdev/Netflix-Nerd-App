@@ -5,6 +5,7 @@
 //  Created by Vojtěch Kalivoda on 04.04.2023.
 //
 
+import SwiftUI
 import MapKit
 import CoreLocation
 
@@ -12,15 +13,17 @@ final class LocationManager: NSObject, ObservableObject, CLLocationManagerDelega
     
     static let shared = LocationManager()
     
-    var lat: Double = 50.0755
-    var lon: Double = 14.4378
-    @Published var region = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: 50.0755, longitude: 14.4378), span: MKCoordinateSpan(latitudeDelta: 0.05, longitudeDelta: 0.05))
+//    var lat: Double = 50.0755
+//    var lon: Double = 14.4378
+//    @Published var region = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: 50.0755, longitude: 14.4378), span: MKCoordinateSpan(latitudeDelta: 0.05, longitudeDelta: 0.05))
     
     var locationManager: CLLocationManager = .init()
     var geocoderManager: CLGeocoder = .init()
     
     @Published var location: CLLocation = CLLocation(latitude: 50.0755, longitude: 14.4378)
-    @Published var country: String = "No Country"
+    @Published var country: String? = nil
+    @AppStorage("country") var currentUserCountry: String?
+
     
     override init() {
         super.init()
@@ -60,6 +63,7 @@ final class LocationManager: NSObject, ObservableObject, CLLocationManagerDelega
                 if let countryName = geocodingResult.first?.country {
                     self.country = countryName
                     print(countryName)
+                    currentUserCountry = countryName
                 }
 
             } catch {

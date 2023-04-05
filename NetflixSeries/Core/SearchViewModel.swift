@@ -71,6 +71,7 @@ class SearchViewModel: ObservableObject {
             .receive(on: DispatchQueue.main)
             .sink { [weak self] (fetchedMovieModel) in
                 if let LOTRSelection = fetchedMovieModel.search {
+                    // save image to cache
                     self?.selectionForLOTR = LOTRSelection
                     self?.selectionForTOP10.append(contentsOf: LOTRSelection)
                 }else {
@@ -122,5 +123,12 @@ class SearchViewModel: ObservableObject {
             }
             .store(in: &cancellables)
     }
+    
+//    func sinkToSelectionForTOP10() {
+//        $selectionForLOTR
+//            .combineLatest($selectionForBatman, $selectionForSpiderman, $selectionForParanormal)
+//            .merge(with: <#T##Publisher#>, <#T##c: Publisher##Publisher#>, <#T##d: Publisher##Publisher#>)
+//
+//    }
     
 }

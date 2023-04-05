@@ -12,6 +12,7 @@ import Combine
 
 @MainActor
 class ProfileViewModel: ObservableObject {
+    
     // ACCOUNT OPTIONS
     @Published var images: [Image] = []
     @Published var selectedPhotos: [PhotosPickerItem] = [] {
@@ -26,13 +27,14 @@ class ProfileViewModel: ObservableObject {
     @Published var notificationsOn: Bool = true
     @Published var kidAccountOn: Bool = false
     @Published var alertTermsOfServices: Bool = false
+    @Published var showConfirmationDialogToSignOut: Bool = false
+
     
     // PROFILE EDITS INPUTS
     @Published var editedName: String = ""
     private var cancelEditedNameIsValid = Set<AnyCancellable>()
     @Published var editedAge: Double = 50
     @Published var editedGender: String = ""
-//    @Published var nationality: String = ""
     
     // CHECKING IF INPUTS ARE VALID
     @Published var editedNameIsValid: Bool = false

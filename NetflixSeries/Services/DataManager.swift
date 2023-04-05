@@ -49,7 +49,6 @@ class DataManager {
     func fetchData(searchedText: String) {
         guard let url = URL(string: "https://www.omdbapi.com/?apikey=\(apiKey)&s=\(searchedText.lowercased())") else { return print(NetworkingManager.NetworkingError.invalidURL) }
         
-        
         NetworkingManager.download(url: url)
             .decode(type: SearchModel.self, decoder: JSONDecoder())
             .sink(receiveCompletion: NetworkingManager.handleCompletion, receiveValue: { [weak self] (moviesDownloaded) in
