@@ -1,5 +1,5 @@
 //
-//  SearchModel.swift
+//  ContentModel.swift
 //  NetflixSeries
 //
 //  Created by Vojtěch Kalivoda on 20.03.2023.
@@ -8,7 +8,7 @@
 import Foundation
 
 
-struct MovieModel: Codable, Identifiable {
+struct ContentModel: Codable, Identifiable {
     let title, year, imdbID: String?
     let type: TypeEnum?
     let poster: String?
@@ -24,9 +24,9 @@ struct MovieModel: Codable, Identifiable {
         case poster = "Poster"
     }
     
-    static let dummyData: [MovieModel] = [
-        MovieModel(title: "Hello America, i am right here!", year: "2022", imdbID: "IDK", type: .movie, poster: "URL for a movie"),
-        MovieModel(title: "Hello America, i am right here!", year: "2022", imdbID: "IDK", type: .movie, poster: "URL for a movie")
+    static let dummyData: [ContentModel] = [
+        ContentModel(title: "Hello America, i am right here!", year: "2022", imdbID: "IDK", type: .movie, poster: "URL for a movie"),
+        ContentModel(title: "Hello America, i am right here!", year: "2022", imdbID: "IDK", type: .movie, poster: "URL for a movie")
     ]
 }
 

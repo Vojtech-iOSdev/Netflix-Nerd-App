@@ -1,5 +1,5 @@
 //
-//  DetailMovieModel.swift
+//  ContentDetailsModel.swift
 //  NetflixSeries
 //
 //  Created by Vojtěch Kalivoda on 20.03.2023.
@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct DetailMovieModel: Decodable {
+struct ContentDetailsModel: Decodable {
     let title: String?
     let year: String?
     let rated: String?
@@ -38,9 +38,9 @@ struct DetailMovieModel: Decodable {
         case awards = "Awards"
     }
     
-    static let dummyData: [DetailMovieModel] = [
-        DetailMovieModel(title: nil, year: nil, rated: nil, released: nil, length: nil, genre: nil, director: nil, actors: nil, description: nil, poster: nil, rating: nil, type: nil, awards: nil),
-        DetailMovieModel(title: nil, year: nil, rated: nil, released: nil, length: nil, genre: nil, director: nil, actors: nil, description: nil, poster: nil, rating: nil, type: nil, awards: nil)
+    static let dummyData: [ContentDetailsModel] = [
+        ContentDetailsModel(title: nil, year: nil, rated: nil, released: nil, length: nil, genre: nil, director: nil, actors: nil, description: nil, poster: nil, rating: nil, type: nil, awards: nil),
+        ContentDetailsModel(title: nil, year: nil, rated: nil, released: nil, length: nil, genre: nil, director: nil, actors: nil, description: nil, poster: nil, rating: nil, type: nil, awards: nil)
     ]
 }
 

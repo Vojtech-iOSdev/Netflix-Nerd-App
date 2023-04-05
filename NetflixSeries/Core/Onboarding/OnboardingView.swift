@@ -41,7 +41,7 @@ struct OnboardingView: View {
                     welcomeScreen
                         .transition(vm.transition)
                 }
-                BottomButton
+                bottomButton
                 Spacer()
 
             }
@@ -60,8 +60,8 @@ struct OnboardingView_Previews: PreviewProvider {
 extension OnboardingView {
     
     
-    // MARK: BottomButton
-    private var BottomButton: some View {
+    // MARK: bottomButton
+    private var bottomButton: some View {
         Button {
             vm.showNextOnboardingScreen()
         } label: {
@@ -245,31 +245,10 @@ extension OnboardingView {
             .fullScreenCover(isPresented: $vm.showListOfCountries) {
                 ListOfCountries()
             }
-
-            
-            
-//            Picker(selection: $vm.country, content: {
-//                ForEach(NSLocale.isoCountryCodes, id: \.self) { countryCode in
-//                    HStack {
-//                        Text(vm.countryFlag(countryCode))
-//                        Text(Locale.current.localizedString(forRegionCode: countryCode) ?? "")
-//                        Spacer()
-//                        Text(countryCode)
-//                    }
-//
-//                }
-//
-//            }, label: {
-//                Text("Select a country")
-//            })
-//            .pickerStyle(.)
-//            .font(.title)
-//            .accentColor(Color.white)
-//            .foregroundColor(Color.white)
-            
             
             Spacer()
-        }.padding()
+            
+        }
+        .padding()
     }
-    
 }

@@ -11,7 +11,7 @@ struct SingleRowView: View {
     
     @StateObject private var vm: SearchViewModel = SearchViewModel()
     let genre: String
-    let selectionCatalog: [MovieModel]
+    let contentCatalog: [ContentModel]
     
     var body: some View {
         LazyVStack(alignment: .leading, spacing: 1) {
@@ -24,10 +24,10 @@ struct SingleRowView: View {
                 // CONTENT ELEMENTS
                 ScrollView(.horizontal, showsIndicators: false) {
                     LazyHStack(spacing: 0) {
-                        ForEach(selectionCatalog) { selection in
-                            NavigationLink(destination: MovieDetailView(movieSelected: selection)) {
+                        ForEach(contentCatalog) { content in
+                            NavigationLink(destination: ContentDetailView(contentSelected: content)) {
                                 VStack(alignment: .leading, spacing: 12) {
-                                    AsyncImage(url: URL(string: selection.poster ?? vm.randomUrl)) { returnedImage in
+                                    AsyncImage(url: URL(string: content.poster ?? vm.randomUrl)) { returnedImage in
                                         switch returnedImage {
                                         case .empty:
                                             ProgressView()
@@ -49,7 +49,7 @@ struct SingleRowView: View {
                                     .frame(width: 200,
                                            height: genre == vm.genres[2] ? 280 :  120)
                                     
-                                    Text(selection.title ?? "NA")
+                                    Text(content.title ?? "NA")
                                         .foregroundColor(Color.white)
                                         .font(.system(.headline, design: .rounded, weight: .medium))
                                         .padding(.leading, 12)
@@ -69,6 +69,6 @@ struct SingleRowView: View {
 
 struct SingleRowView_Previews: PreviewProvider {
     static var previews: some View {
-        SingleRowView(genre: "", selectionCatalog: [MovieModel(title: nil, year: nil, imdbID: nil, type: nil, poster: nil)])
+        SingleRowView(genre: "", contentCatalog: [ContentModel(title: nil, year: nil, imdbID: nil, type: nil, poster: nil)])
     }
 }

@@ -18,22 +18,22 @@ class SearchViewModel: ObservableObject {
     
     // FETCHED CONTENT
     @Published var searchedText: String = ""
-    @Published var movieCatalog: [MovieModel] = []
+    @Published var contentCatalog: [ContentModel] = []
     @Published var cancellables = Set<AnyCancellable>()
     
     // FETCHED SPECIFIC CONTENT DETAILS
-    @Published var selectedContentDetails: DetailMovieModel = DetailMovieModel.dummyData[0]
+    @Published var selectedContentDetails: ContentDetailsModel = ContentDetailsModel.dummyData[0]
     
     // FETCHED CONTENT FOR SHOWN HOMEVIEW SELECTION
-    @Published var selectionForLOTR: [MovieModel] = []
-    @Published var selectionForSpiderman: [MovieModel] = []
-    @Published var selectionForTOP10: [MovieModel] = []
-    @Published var selectionForBatman: [MovieModel] = []
-    @Published var selectionForParanormal: [MovieModel] = []
+    @Published var contentForLOTR: [ContentModel] = []
+    @Published var contentForSpiderman: [ContentModel] = []
+    @Published var contentForTOP10: [ContentModel] = []
+    @Published var contentForBatman: [ContentModel] = []
+    @Published var contentForParanormal: [ContentModel] = []
     
     enum contentType: String {
-        case movie
-        case series
+        case movie = "movie"
+        case series = "series"
     }
     
     
@@ -41,22 +41,22 @@ class SearchViewModel: ObservableObject {
         
     }
     
-    func sinkToMovieCatalog() {
-        dataService.$fetchedMovieModel
+    func sinkToContentCatalog() {
+        dataService.$fetchedSearchModel
             .receive(on: DispatchQueue.main)
-            .sink(receiveValue: { [weak self] (fetchedMovieModel) in
-                if let unwrappedFetchedMovieModel = fetchedMovieModel.search {
-                    self?.movieCatalog = unwrappedFetchedMovieModel
+            .sink(receiveValue: { [weak self] (fetchedSearchModel) in
+                if let result = fetchedSearchModel.search {
+                    self?.contentCatalog = result
                 } else {
-                    print("MY ERROR: can't .sink to movieCatalog")
+                    print("MY ERROR: can't .sink to contentCatalog")
                 }
                 
             })
             .store(in: &cancellables)
     }
     
-    func sinkToSelectedMovieDetails() {
-        dataService.$movieDetails
+    func sinkToSelectedContentDetails() {
+        dataService.$contentDetails
             .receive(on: DispatchQueue.main)
             .sink { [weak self] (contentDetails) in
                 self?.selectedContentDetails = contentDetails
@@ -64,20 +64,20 @@ class SearchViewModel: ObservableObject {
             .store(in: &cancellables)
     }
 
-    func getMovieID(movieID: String?) {
-        if let movieID = movieID {
-            self.dataService.fetchMovieDetails(movieID: movieID)
+    func getContentID(contentID: String?) {
+        if let contentID = contentID {
+            self.dataService.fetchContentDetails(contentID: contentID)
         } else {
-            print("MY ERROR: movie ID is nil, i guess..")
+            print("MY ERROR: content ID is nil, i guess..")
         }
     }
     
-    func sinkToSelectionForLOTR() {
+    func sinkToContentForLOTR() {
         dataService.$fetchedLOTR
             .receive(on: DispatchQueue.main)
             .sink { [weak self] (fetchedMovieModel) in
-                if let LOTRSelection = fetchedMovieModel.search {
-                    self?.selectionForLOTR = LOTRSelection
+                if let content = fetchedMovieModel.search {
+                    self?.contentForLOTR = content
                 }else {
                     print("MY ERROR: can't .sink LOTR")
                 }
@@ -85,12 +85,12 @@ class SearchViewModel: ObservableObject {
             .store(in: &cancellables)
     }
     
-    func sinkToSelectionForSpiderman() {
+    func sinkToContentForSpiderman() {
         dataService.$fetchedSPIDERMAN
             .receive(on: DispatchQueue.main)
             .sink { [weak self] (fetchedMovieModel) in
-                if let spidermanSelection = fetchedMovieModel.search {
-                    self?.selectionForSpiderman = spidermanSelection
+                if let content = fetchedMovieModel.search {
+                    self?.contentForSpiderman = content
                 }else {
                     print("MY ERROR: can't .sink Spiderman")
                 }
@@ -98,12 +98,12 @@ class SearchViewModel: ObservableObject {
             .store(in: &cancellables)
     }
     
-    func sinkToSelectionForBatman() {
+    func sinkToContentForBatman() {
         dataService.$fetchedBATMAN
             .receive(on: DispatchQueue.main)
             .sink { [weak self] (fetchedMovieModel) in
-                if let batmanSelection = fetchedMovieModel.search {
-                    self?.selectionForBatman = batmanSelection
+                if let content = fetchedMovieModel.search {
+                    self?.contentForBatman = content
                 }else {
                     print("MY ERROR: can't .sink Batman")
                 }
@@ -111,12 +111,12 @@ class SearchViewModel: ObservableObject {
             .store(in: &cancellables)
     }
 
-    func sinkToSelectionForParanormal() {
+    func sinkToContentForParanormal() {
         dataService.$fetchedPARANORMAL
             .receive(on: DispatchQueue.main)
             .sink { [weak self] (fetchedMovieModel) in
-                if let paranormalSelection = fetchedMovieModel.search {
-                    self?.selectionForParanormal = paranormalSelection
+                if let content = fetchedMovieModel.search {
+                    self?.contentForParanormal = content
                 }else {
                     print("MY ERROR: can't .sink Paranormal")
                 }
@@ -124,15 +124,15 @@ class SearchViewModel: ObservableObject {
             .store(in: &cancellables)
     }
     
-    func sinkToSelectionForTOP10() {
-        $selectionForLOTR
-            .combineLatest($selectionForSpiderman, $selectionForBatman, $selectionForParanormal)
+    func sinkToContentForTOP10() {
+        $contentForLOTR
+            .combineLatest($contentForSpiderman, $contentForBatman, $contentForParanormal)
             .receive(on: DispatchQueue.main)
             .map({ (pub1, pub2, pub3, pub4) in
                 return pub1 + pub2 + pub3 + pub4
             })
-            .sink { [ weak self ] (mergedSelections) in
-                self?.selectionForTOP10 = mergedSelections.shuffled()
+            .sink { [ weak self ] (mergedContents) in
+                self?.contentForTOP10 = mergedContents.shuffled()
             }
             .store(in: &cancellables)
     }

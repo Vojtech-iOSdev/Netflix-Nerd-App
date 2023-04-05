@@ -1,5 +1,5 @@
 //
-//  MovieDetailView.swift
+//  ContentDetailView.swift
 //  NetflixSeries
 //
 //  Created by Vojtěch Kalivoda on 20.03.2023.
@@ -7,11 +7,11 @@
 
 import SwiftUI
 
-struct MovieDetailView: View {
+struct ContentDetailView: View {
     @StateObject private var vm: SearchViewModel = SearchViewModel()
     @StateObject private var vmRanking: RankingViewModel = RankingViewModel()
     
-    let movieSelected: MovieModel
+    let contentSelected: ContentModel
     
     let columns: [GridItem] = [
         GridItem(.flexible(minimum: 110), spacing: 10, alignment: .center),
@@ -46,13 +46,13 @@ struct MovieDetailView: View {
             }
         }
         .task {
-            vm.getMovieID(movieID: movieSelected.id)
-            vm.sinkToSelectedMovieDetails()
-            vm.sinkToSelectionForParanormal()
-            vm.sinkToSelectionForSpiderman()
-            vm.sinkToSelectionForTOP10()
-            vm.sinkToSelectionForLOTR()
-            vm.sinkToSelectionForBatman()
+            vm.getContentID(contentID: contentSelected.id)
+            vm.sinkToSelectedContentDetails()
+            vm.sinkToContentForParanormal()
+            vm.sinkToContentForSpiderman()
+            vm.sinkToContentForTOP10()
+            vm.sinkToContentForLOTR()
+            vm.sinkToContentForBatman()
         }
         
     }
@@ -60,12 +60,12 @@ struct MovieDetailView: View {
 
 struct MovieDetailView_Previews: PreviewProvider {
     static var previews: some View {
-        MovieDetailView(movieSelected: MovieModel(title: "Hello America, i am right here!", year: "2022", imdbID: "IDK", type: .movie, poster: "URL for a movie"))
+        ContentDetailView(contentSelected: ContentModel(title: "Hello America, i am right here!", year: "2022", imdbID: "IDK", type: .movie, poster: "URL for a movie"))
     }
 }
 
 // MARK: COMPONENTS
-extension MovieDetailView {
+extension ContentDetailView {
     
     private var imageOfSeries: some View {
         AsyncImage(url: URL(string: vm.selectedContentDetails.poster ?? vm.randomUrl)) { returnedImage in
@@ -144,9 +144,9 @@ extension MovieDetailView {
             LazyVGrid(columns: columns,
                       alignment: .center,
                       spacing: 10) {
-                ForEach(vm.selectionForTOP10) { selection in
-                    NavigationLink(destination: MovieDetailView(movieSelected: selection)) {
-                        AsyncImage(url: URL(string: selection.poster ?? vm.randomUrl)) { returnedImage in
+                ForEach(vm.contentForTOP10) { content in
+                    NavigationLink(destination: ContentDetailView(contentSelected: content)) {
+                        AsyncImage(url: URL(string: content.poster ?? vm.randomUrl)) { returnedImage in
                             switch returnedImage {
                             case .empty:
                                 ProgressView()

@@ -25,7 +25,7 @@ struct HomeView: View {
                     NetflixLogoAndProfilePic
                     SearchField
                     if vm.searchedText.isEmpty {
-                        SelectionRowsView()
+                        HomeContentRowsView()
                     }
                 }
                 
@@ -77,15 +77,15 @@ extension HomeView {
             .padding(.horizontal, 6)
             .autocorrectionDisabled(true)
             .onChange(of: vm.searchedText) { newValue in
-                vm.dataService.fetchData(searchedText: vm.searchedText)
-                vm.sinkToMovieCatalog()
+                vm.dataService.fetchSearchContent(searchedText: vm.searchedText)
+                vm.sinkToContentCatalog()
             }
             
             if !vm.searchedText.isEmpty {
                 withAnimation(.easeInOut) {
                     List {
-                        ForEach(vm.movieCatalog) { movie in
-                            SearchListRowView(movieSelected: movie, randomUrl: vm.randomUrl)
+                        ForEach(vm.contentCatalog) { movie in
+                            SearchListRowView(contentSearched: movie, randomUrl: vm.randomUrl)
                             
                         }
                         .listRowBackground(Color.gray.opacity(0.3))

@@ -9,16 +9,16 @@ import SwiftUI
 
 struct SearchListRowView: View {
     
-    let movieSelected: MovieModel
+    let contentSearched: ContentModel
     let randomUrl: String
     
     // MARK: BODY
     var body: some View {
         NavigationLink {
-            MovieDetailView(movieSelected: movieSelected)
+            ContentDetailView(contentSelected: contentSearched)
         } label: {
             HStack {
-                AsyncImage(url: URL(string: movieSelected.poster ?? randomUrl)) { returnedImage in
+                AsyncImage(url: URL(string: contentSearched.poster ?? randomUrl)) { returnedImage in
                     switch returnedImage {
                     case .empty:
                         ProgressView()
@@ -38,11 +38,11 @@ struct SearchListRowView: View {
                 .frame(width: 100, height: 100)
 
                 VStack(alignment: .leading) {
-                    Text(movieSelected.title ?? "No value")
+                    Text(contentSearched.title ?? "No value")
                         .font(.system(.headline, design: .rounded, weight: .medium))
-                    Text(movieSelected.year ?? "No value")
+                    Text(contentSearched.year ?? "No value")
                         .font(.system(.subheadline, design: .rounded, weight: .light))
-                    Text(movieSelected.type?.rawValue ?? "No value")
+                    Text(contentSearched.type?.rawValue ?? "No value")
                         .font(.system(.subheadline, design: .rounded, weight: .light))
                     
                 }
@@ -54,7 +54,7 @@ struct SearchListRowView: View {
 
 struct SearchListRowView_Previews: PreviewProvider {
     static var previews: some View {
-        SearchListRowView(movieSelected: MovieModel.dummyData[0], randomUrl: "www.apple.com")
+        SearchListRowView(contentSearched: ContentModel.dummyData[0], randomUrl: "www.apple.com")
             .previewLayout(.fixed(width: 300, height: 300))
     }
 }

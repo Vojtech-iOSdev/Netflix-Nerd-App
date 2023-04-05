@@ -182,7 +182,6 @@ extension ProfileView {
         .foregroundColor(Color.white)
         .font(.system(.headline, design: .rounded, weight: .medium))
         
-        
     }
     
     // MARK: signOutButton
@@ -204,5 +203,4 @@ extension ProfileView {
         }
 
     }
-    
 }

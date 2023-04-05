@@ -18,12 +18,12 @@ class DataManager {
     // more detail info on OMBD API website
     
     // FETCHED MOVIES
-    @Published var fetchedMovieModel: SearchModel = SearchModel.dummyData[0]
-    var cancelFetchData = Set<AnyCancellable>()
+    @Published var fetchedSearchModel: SearchModel = SearchModel.dummyData[0]
+    var cancelFetchSearchContent = Set<AnyCancellable>()
     
     // FETCHED SPECIFFIC MOVIE
-    @Published var movieDetails: DetailMovieModel = DetailMovieModel.dummyData[0]
-    var cancelFetchMovieDetails = Set<AnyCancellable>()
+    @Published var contentDetails: ContentDetailsModel = ContentDetailsModel.dummyData[0]
+    var cancelFetchContentDetails = Set<AnyCancellable>()
     
     // FETCHED MOVIES FOR SHOWN HOMEVIEW SELECTION
     @Published var fetchedLOTR: SearchModel = SearchModel.dummyData[0]
@@ -47,29 +47,29 @@ class DataManager {
         fetchParanormal()
     }
     
-    func fetchData(searchedText: String) {
+    func fetchSearchContent(searchedText: String) {
         guard let url = URL(string: "https://www.omdbapi.com/?apikey=\(apiKey)&s=\(searchedText.lowercased())") else { return print(NetworkingManager.NetworkingError.invalidURL) }
         
         NetworkingManager.download(url: url)
             .decode(type: SearchModel.self, decoder: JSONDecoder())
-            .sink(receiveCompletion: NetworkingManager.handleCompletion, receiveValue: { [weak self] (moviesDownloaded) in
-                self?.fetchedMovieModel = moviesDownloaded
+            .sink(receiveCompletion: NetworkingManager.handleCompletion, receiveValue: { [weak self] (contentDownloaded) in
+                self?.fetchedSearchModel = contentDownloaded
             })
-            .store(in: &cancelFetchData)
+            .store(in: &cancelFetchSearchContent)
     }
     
     
-    func fetchMovieDetails(movieID: String) {
-        guard let url = URL(string: "https://www.omdbapi.com/?apikey=\(apiKey)&i=\(movieID)") else {
+    func fetchContentDetails(contentID: String) {
+        guard let url = URL(string: "https://www.omdbapi.com/?apikey=\(apiKey)&i=\(contentID)") else {
             return print(NetworkingManager.NetworkingError.invalidURL) }
         
         
         NetworkingManager.download(url: url)
-            .decode(type: DetailMovieModel.self, decoder: JSONDecoder())
-            .sink(receiveCompletion: NetworkingManager.handleCompletion, receiveValue: { [weak self] (detailMovieModel) in
-                self?.movieDetails = detailMovieModel
+            .decode(type: ContentDetailsModel.self, decoder: JSONDecoder())
+            .sink(receiveCompletion: NetworkingManager.handleCompletion, receiveValue: { [weak self] (ContentDetaisModel) in
+                self?.contentDetails = ContentDetaisModel
             })
-            .store(in: &cancelFetchMovieDetails)
+            .store(in: &cancelFetchContentDetails)
         
         
     }
@@ -80,8 +80,8 @@ class DataManager {
         NetworkingManager.download(url: url)
             .decode(type: SearchModel.self, decoder: JSONDecoder())
             .sink(receiveCompletion: NetworkingManager.handleCompletion,
-                   receiveValue: { [weak self] (moviesDownloaded) in
-                self?.fetchedLOTR = moviesDownloaded
+                   receiveValue: { [weak self] (contentDownloaded) in
+                self?.fetchedLOTR = contentDownloaded
             })
             .store(in: &cancelFetchAllSelections)
     }
@@ -92,8 +92,8 @@ class DataManager {
         NetworkingManager.download(url: url)
             .decode(type: SearchModel.self, decoder: JSONDecoder())
             .sink(receiveCompletion: NetworkingManager.handleCompletion,
-                   receiveValue: { [weak self] (moviesDownloaded) in
-                self?.fetchedSPIDERMAN = moviesDownloaded
+                   receiveValue: { [weak self] (contentDownloaded) in
+                self?.fetchedSPIDERMAN = contentDownloaded
             })
             .store(in: &cancelFetchAllSelections)
     }
@@ -104,8 +104,8 @@ class DataManager {
         NetworkingManager.download(url: url)
             .decode(type: SearchModel.self, decoder: JSONDecoder())
             .sink(receiveCompletion: NetworkingManager.handleCompletion,
-                   receiveValue: { [weak self] (moviesDownloaded) in
-                self?.fetchedBATMAN = moviesDownloaded
+                   receiveValue: { [weak self] (contentDownloaded) in
+                self?.fetchedBATMAN = contentDownloaded
             })
             .store(in: &cancelFetchAllSelections)
     }
@@ -116,8 +116,8 @@ class DataManager {
         NetworkingManager.download(url: url)
             .decode(type: SearchModel.self, decoder: JSONDecoder())
             .sink(receiveCompletion: NetworkingManager.handleCompletion,
-                   receiveValue: { [weak self] (moviesDownloaded) in
-                self?.fetchedPARANORMAL = moviesDownloaded
+                   receiveValue: { [weak self] (contentDownloaded) in
+                self?.fetchedPARANORMAL = contentDownloaded
             })
             .store(in: &cancelFetchAllSelections)
     }

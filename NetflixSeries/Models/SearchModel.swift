@@ -1,5 +1,5 @@
 //
-//  MovieModel.swift
+//  SearchModel.swift
 //  NetflixSeries
 //
 //  Created by Vojtěch Kalivoda on 15.03.2023.
@@ -10,7 +10,7 @@ import Foundation
 
 
 struct SearchModel: Codable {
-    let search: [MovieModel]?
+    let search: [ContentModel]?
     let totalResults, response: String?
 
     enum CodingKeys: String, CodingKey {

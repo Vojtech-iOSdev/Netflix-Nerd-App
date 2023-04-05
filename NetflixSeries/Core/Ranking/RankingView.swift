@@ -22,7 +22,7 @@ struct RankingView: View {
                     Section {
                         customRow
                     } header: {
-                        Text("My Favourite Series:")
+                        Text("My Favourites are:")
                             .foregroundColor(Color.white)
                     }
                     .headerProminence(.increased)
@@ -46,8 +46,8 @@ struct RankingView_Previews: PreviewProvider {
 extension RankingView {
     
     private var customRow: some View {
-        ForEach(vm.movieCatalog) { movie in
-            Text(movie.title ?? "no value")
+        ForEach(vm.contentCatalog) { content in
+            Text(content.title ?? "no value")
                 .foregroundColor(Color.white)
               
         }
