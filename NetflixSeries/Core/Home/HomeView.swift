@@ -56,8 +56,8 @@ extension HomeView {
                 //.background{ Color.green }
                 .overlay(alignment: .trailing) {
                     Image(systemName: "person.circle")
-                        .font(.title)
-                        .padding()
+                        .font(.largeTitle)
+                        .padding(20)
                     Spacer()
                 }
         }

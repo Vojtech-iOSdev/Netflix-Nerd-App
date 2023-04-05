@@ -38,6 +38,7 @@ class DataManager {
         case batman = "batman"
         case paranormal = "paranormal"
     }
+    
 
     private init() {
         fetchLOTR()
@@ -81,7 +82,6 @@ class DataManager {
             .sink(receiveCompletion: NetworkingManager.handleCompletion,
                    receiveValue: { [weak self] (moviesDownloaded) in
                 self?.fetchedLOTR = moviesDownloaded
-                print("fetchedLOTR")
             })
             .store(in: &cancelFetchAllSelections)
     }

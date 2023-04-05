@@ -27,9 +27,7 @@ struct SingleRowView: View {
                         ForEach(selectionCatalog) { selection in
                             NavigationLink(destination: MovieDetailView(movieSelected: selection)) {
                                 VStack(alignment: .leading, spacing: 12) {
-                                    AsyncImage(url: URL(string: selection.poster ?? vm.randomUrl)) { returnedImage
-                                        //get image from NSCache using func that returns string that i will put into AsyncImage
-                                        in
+                                    AsyncImage(url: URL(string: selection.poster ?? vm.randomUrl)) { returnedImage in
                                         switch returnedImage {
                                         case .empty:
                                             ProgressView()

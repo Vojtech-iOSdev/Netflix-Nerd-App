@@ -7,7 +7,7 @@
 
 import Foundation
 
-// MARK: - SearchModel
+
 struct MovieModel: Codable, Identifiable {
     let title, year, imdbID: String?
     let type: TypeEnum?

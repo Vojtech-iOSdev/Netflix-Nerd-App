@@ -8,7 +8,6 @@
 import SwiftUI
 
 struct MovieDetailView: View {
-    // MARK: PROPERTIES
     @StateObject private var vm: SearchViewModel = SearchViewModel()
     @StateObject private var vmRanking: RankingViewModel = RankingViewModel()
     
@@ -22,7 +21,6 @@ struct MovieDetailView: View {
     
     // MARK: BODY
     var body: some View {
-        
         ZStack {
             // BACKGROUND
             Color.black.edgesIgnoringSafeArea(.all)
@@ -47,20 +45,19 @@ struct MovieDetailView: View {
                 }
             }
         }
-        .onAppear {
+        .task {
             vm.getMovieID(movieID: movieSelected.id)
             vm.sinkToSelectedMovieDetails()
             vm.sinkToSelectionForParanormal()
             vm.sinkToSelectionForSpiderman()
+            vm.sinkToSelectionForTOP10()
             vm.sinkToSelectionForLOTR()
             vm.sinkToSelectionForBatman()
         }
         
-        
     }
 }
 
-// MARK: PREVIEW
 struct MovieDetailView_Previews: PreviewProvider {
     static var previews: some View {
         MovieDetailView(movieSelected: MovieModel(title: "Hello America, i am right here!", year: "2022", imdbID: "IDK", type: .movie, poster: "URL for a movie"))
@@ -71,7 +68,7 @@ struct MovieDetailView_Previews: PreviewProvider {
 extension MovieDetailView {
     
     private var imageOfSeries: some View {
-        AsyncImage(url: URL(string: vm.selectedMovieDetails.poster ?? vm.randomUrl)) { returnedImage in
+        AsyncImage(url: URL(string: vm.selectedContentDetails.poster ?? vm.randomUrl)) { returnedImage in
                 switch returnedImage {
                 case .empty:
                     ProgressView()
@@ -91,7 +88,7 @@ extension MovieDetailView {
     }
     
     private var title: some View {
-        Text(vm.selectedMovieDetails.title ?? "no title")
+        Text(vm.selectedContentDetails.title ?? "no title")
             .foregroundColor(Color.white)
             .font(.system(.largeTitle, design: .rounded, weight: .semibold))
         
@@ -100,11 +97,11 @@ extension MovieDetailView {
     private var releaseDate_Rating_IsFavourite: some View {
         HStack {
             VStack(alignment: .leading) {
-                Text("Release:    \(vm.selectedMovieDetails.released ?? "NA")")
+                Text("Release:    \(vm.selectedContentDetails.released ?? "NA")")
                     .foregroundColor(Color.white)
                     .font(.system(.subheadline , design: .rounded, weight: .medium))
                 
-                Text("Rating:        \(vm.selectedMovieDetails.rating ?? "NA") /10")
+                Text("Rating:        \(vm.selectedContentDetails.rating ?? "NA") /10")
                     .foregroundColor(Color.white)
                     .font(.system(.subheadline, design: .rounded, weight: .medium))
             }
@@ -122,7 +119,7 @@ extension MovieDetailView {
     
     private var description: some View {
         VStack {
-            Text(vm.selectedMovieDetails.description ?? "NA")
+            Text(vm.selectedContentDetails.description ?? "NA")
                 .foregroundColor(Color.white)
                 .font(.system(.caption, design: .rounded, weight: .regular))
                 .multilineTextAlignment(.leading)
@@ -136,7 +133,7 @@ extension MovieDetailView {
                 .foregroundColor(Color.white)
                 .font(.system(.subheadline , design: .rounded, weight: .medium))
             
-            Text(vm.selectedMovieDetails.actors ?? "NA")
+            Text(vm.selectedContentDetails.actors ?? "NA")
                 .foregroundColor(Color.white)
                 .font(.system(.caption, design: .rounded, weight: .light))
         }
@@ -147,7 +144,7 @@ extension MovieDetailView {
             LazyVGrid(columns: columns,
                       alignment: .center,
                       spacing: 10) {
-                ForEach(vm.selectionForTOP10.shuffled()) { selection in
+                ForEach(vm.selectionForTOP10) { selection in
                     NavigationLink(destination: MovieDetailView(movieSelected: selection)) {
                         AsyncImage(url: URL(string: selection.poster ?? vm.randomUrl)) { returnedImage in
                             switch returnedImage {

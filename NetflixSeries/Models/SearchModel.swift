@@ -9,7 +9,6 @@
 import Foundation
 
 
-// MARK: - MovieModel
 struct SearchModel: Codable {
     let search: [MovieModel]?
     let totalResults, response: String?

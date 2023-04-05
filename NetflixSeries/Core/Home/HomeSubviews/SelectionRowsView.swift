@@ -15,32 +15,20 @@ struct SelectionRowsView: View {
         VStack {
             // COLUMNS
             ScrollView(.vertical, showsIndicators: true) {
-                LazyVStack(alignment: .leading, spacing: 20) {
+                VStack(alignment: .leading, spacing: 20) {
                     SingleRowView(genre: vm.genres[0],selectionCatalog: vm.selectionForLOTR)
-                        .onAppear {
-                            vm.sinkToSelectionForLOTR()
-                            // get image from cache 
-                            // save sink func result to NSCache
-                            // and insert GET func from NSCache to selection catalog
-                            // so in Single row will just be cached content!!!
-                            // also i need to cancel all sink func after first call
-                        }
                     SingleRowView(genre: vm.genres[1],selectionCatalog: vm.selectionForSpiderman)
-                        .onAppear {
-                            vm.sinkToSelectionForSpiderman()
-                        }
-                    SingleRowView(genre: vm.genres[2],selectionCatalog: vm.selectionForTOP10.shuffled())
+                    SingleRowView(genre: vm.genres[2],selectionCatalog: vm.selectionForTOP10)
                     SingleRowView(genre: vm.genres[3],selectionCatalog: vm.selectionForBatman)
-                        .onAppear {
-                            vm.sinkToSelectionForBatman()
-                        }
                     SingleRowView(genre: vm.genres[4],selectionCatalog: vm.selectionForParanormal)
-                        .onAppear {
-                            vm.sinkToSelectionForParanormal()
-                        }
-
                 }
-                
+                .task {
+                    vm.sinkToSelectionForLOTR()
+                    vm.sinkToSelectionForSpiderman()
+                    vm.sinkToSelectionForTOP10()
+                    vm.sinkToSelectionForBatman()
+                    vm.sinkToSelectionForParanormal()
+                }
             }
         }
         .padding(.horizontal)

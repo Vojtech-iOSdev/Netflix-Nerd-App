@@ -28,10 +28,13 @@ final class LocationManager: NSObject, ObservableObject, CLLocationManagerDelega
     override init() {
         super.init()
         locationManager.delegate = self
-        checkLocationsServiceIsEnabled()
+        Task {
+            await checkLocationsServiceIsEnabled()
+        }
         
     }
     
+    @MainActor
     func checkLocationsServiceIsEnabled() {
         if CLLocationManager.locationServicesEnabled() {
                 // check if location services are enabled!!!
