@@ -13,7 +13,6 @@ struct ContentModel: Codable, Identifiable {
     let type: TypeEnum?
     let poster: String?
     
-    // JUST TO CONFORM TO IDENTIFIABLE :)
     var id: String? { imdbID }
 
     enum CodingKeys: String, CodingKey {

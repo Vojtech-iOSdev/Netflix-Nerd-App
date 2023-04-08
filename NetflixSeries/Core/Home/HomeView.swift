@@ -77,14 +77,13 @@ extension HomeView {
             .padding(.horizontal, 6)
             .autocorrectionDisabled(true)
             .onChange(of: vm.searchedText) { newValue in
-                vm.dataService.fetchSearchContent(searchedText: vm.searchedText)
-                vm.sinkToContentCatalog()
+                vm.sinkTosearchResults()
             }
             
             if !vm.searchedText.isEmpty {
                 withAnimation(.easeInOut) {
                     List {
-                        ForEach(vm.contentCatalog) { movie in
+                        ForEach(vm.searchResults) { movie in
                             SearchListRowView(contentSearched: movie, randomUrl: vm.randomUrl)
                             
                         }

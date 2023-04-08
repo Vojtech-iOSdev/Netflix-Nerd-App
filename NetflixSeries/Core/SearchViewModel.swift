@@ -11,15 +11,15 @@ import Combine
 
 class SearchViewModel: ObservableObject {
     
-    let dataService = DataManager.instance
+    let dataManager = DataManager.instance
     
     let genres: [String] = ["The lord of the rings:", "Spiderman:", "Netflix TOP10 in the US:", "Batman:", "Paranormal Activity:"]
     let randomUrl: String = "https://media.istockphoto.com/id/525982128/cs/fotografie/agresivita-koček.jpg?s=1024x1024&w=is&k=20&c=y632ynYYyc3wS5FuPBgnyXeBNBC7JmjQNwz5Vl_PvI8="
     
     // FETCHED CONTENT
     @Published var searchedText: String = ""
-    @Published var contentCatalog: [ContentModel] = []
-    @Published var cancellables = Set<AnyCancellable>()
+    @Published var searchResults: [ContentModel] = []
+    var cancellables = Set<AnyCancellable>()
     
     // FETCHED SPECIFIC CONTENT DETAILS
     @Published var selectedContentDetails: ContentDetailsModel = ContentDetailsModel.dummyData[0]
@@ -30,25 +30,25 @@ class SearchViewModel: ObservableObject {
     @Published var contentForTOP10: [ContentModel] = []
     @Published var contentForBatman: [ContentModel] = []
     @Published var contentForParanormal: [ContentModel] = []
+    var cancelContentForHomeView = Set<AnyCancellable>()
     
     enum contentType: String {
         case movie = "movie"
         case series = "series"
     }
     
+    init() { }
     
-    init() {
+    func sinkTosearchResults() {
+        dataManager.fetchSearchContent(searchedText: searchedText)
         
-    }
-    
-    func sinkToContentCatalog() {
-        dataService.$fetchedSearchModel
+        dataManager.$fetchedSearchModel
             .receive(on: DispatchQueue.main)
             .sink(receiveValue: { [weak self] (fetchedSearchModel) in
                 if let result = fetchedSearchModel.search {
-                    self?.contentCatalog = result
+                    self?.searchResults = result
                 } else {
-                    print("MY ERROR: can't .sink to contentCatalog")
+                    print("MY ERROR: can't .sink to searchResults")
                 }
                 
             })
@@ -56,7 +56,7 @@ class SearchViewModel: ObservableObject {
     }
     
     func sinkToSelectedContentDetails() {
-        dataService.$contentDetails
+        dataManager.$contentDetails
             .receive(on: DispatchQueue.main)
             .sink { [weak self] (contentDetails) in
                 self?.selectedContentDetails = contentDetails
@@ -66,14 +66,16 @@ class SearchViewModel: ObservableObject {
 
     func getContentID(contentID: String?) {
         if let contentID = contentID {
-            self.dataService.fetchContentDetails(contentID: contentID)
+            self.dataManager.fetchContentDetails(contentID: contentID)
         } else {
             print("MY ERROR: content ID is nil, i guess..")
         }
     }
     
     func sinkToContentForLOTR() {
-        dataService.$fetchedLOTR
+        dataManager.fetchLOTR()
+        
+        dataManager.$fetchedLOTR
             .receive(on: DispatchQueue.main)
             .sink { [weak self] (fetchedMovieModel) in
                 if let content = fetchedMovieModel.search {
@@ -86,7 +88,9 @@ class SearchViewModel: ObservableObject {
     }
     
     func sinkToContentForSpiderman() {
-        dataService.$fetchedSPIDERMAN
+        dataManager.fetchSpiderman()
+        
+        dataManager.$fetchedSPIDERMAN
             .receive(on: DispatchQueue.main)
             .sink { [weak self] (fetchedMovieModel) in
                 if let content = fetchedMovieModel.search {
@@ -99,7 +103,9 @@ class SearchViewModel: ObservableObject {
     }
     
     func sinkToContentForBatman() {
-        dataService.$fetchedBATMAN
+        dataManager.fetchBatman()
+        
+        dataManager.$fetchedBATMAN
             .receive(on: DispatchQueue.main)
             .sink { [weak self] (fetchedMovieModel) in
                 if let content = fetchedMovieModel.search {
@@ -112,7 +118,9 @@ class SearchViewModel: ObservableObject {
     }
 
     func sinkToContentForParanormal() {
-        dataService.$fetchedPARANORMAL
+        dataManager.fetchParanormal()
+        
+        dataManager.$fetchedPARANORMAL
             .receive(on: DispatchQueue.main)
             .sink { [weak self] (fetchedMovieModel) in
                 if let content = fetchedMovieModel.search {
@@ -136,7 +144,4 @@ class SearchViewModel: ObservableObject {
             }
             .store(in: &cancellables)
     }
-    
-    
-    
 }

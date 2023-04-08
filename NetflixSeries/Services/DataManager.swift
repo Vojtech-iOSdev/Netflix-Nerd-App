@@ -39,13 +39,7 @@ class DataManager {
         case paranormal = "paranormal"
     }
     
-
-    private init() {
-        fetchLOTR()
-        fetchSpiderman()
-        fetchBatman()
-        fetchParanormal()
-    }
+    private init() { }
     
     func fetchSearchContent(searchedText: String) {
         guard let url = URL(string: "https://www.omdbapi.com/?apikey=\(apiKey)&s=\(searchedText.lowercased())") else { return print(NetworkingManager.NetworkingError.invalidURL) }

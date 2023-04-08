@@ -46,7 +46,7 @@ struct RankingView_Previews: PreviewProvider {
 extension RankingView {
     
     private var customRow: some View {
-        ForEach(vm.contentCatalog) { content in
+        ForEach(vm.searchResults) { content in
             Text(content.title ?? "no value")
                 .foregroundColor(Color.white)
               

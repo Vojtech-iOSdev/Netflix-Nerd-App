@@ -85,6 +85,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		811A021C29DF150A0017F077 /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				817B354229CE1A03001B1438 /* NetworkingManager.swift */,
+			);
+			path = Utilities;
+			sourceTree = "<group>";
+		};
 		812F30FB29C8CBA600525BF7 /* Home */ = {
 			isa = PBXGroup;
 			children = (
@@ -167,7 +175,6 @@
 			isa = PBXGroup;
 			children = (
 				81D2B9B129C245B100DA1338 /* DataManager.swift */,
-				817B354229CE1A03001B1438 /* NetworkingManager.swift */,
 				8199A80D29DC53D30035D2F0 /* LocationManager.swift */,
 			);
 			path = Services;
@@ -197,6 +204,7 @@
 				81E8337A29A56091002AC51F /* Core */,
 				81E8337C29A560A7002AC51F /* Models */,
 				81D2B9B029C2457300DA1338 /* Services */,
+				811A021C29DF150A0017F077 /* Utilities */,
 				81403A6929D04AE900186DB2 /* MockData */,
 				81E8337029A56082002AC51F /* Assets.xcassets */,
 				81E8337229A56082002AC51F /* Preview Content */,

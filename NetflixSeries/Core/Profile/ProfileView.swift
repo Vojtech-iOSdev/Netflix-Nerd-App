@@ -100,7 +100,7 @@ extension ProfileView {
     private var personalInfoSection: some View {
         Section {
             HStack {
-                Text("Name:   \(onboardingVM.currentUserName ?? "Your name is not set")")
+                Text("Name:          \(onboardingVM.currentUserName ?? "Your name is not set")")
                 Spacer()
                 Image(systemName: "pencil")
                     .foregroundColor(.red)
@@ -110,7 +110,7 @@ extension ProfileView {
             }
             
             HStack {
-                Text("Age:   \(onboardingVM.currentUserAge ?? 0)")
+                Text("Age:              \(onboardingVM.currentUserAge ?? 0)")
                 Spacer()
                 Image(systemName: "pencil")
                     .foregroundColor(.red)
@@ -120,7 +120,7 @@ extension ProfileView {
             }
             
             HStack {
-                Text("Gender:   \(onboardingVM.currentUserGender ?? "Your gender is not set")")
+                Text("Gender:       \(onboardingVM.currentUserGender ?? "Your gender is not set")")
                 Spacer()
                 Image(systemName: "pencil")
                     .foregroundColor(.red)
@@ -130,7 +130,7 @@ extension ProfileView {
             }
             
             HStack {
-                Text("Country:   \(locationManager.country == nil ? onboardingVM.currentUserCountry ?? "Your country is not set" : locationManager.country ?? "")")
+                Text("Country:      \(locationManager.country == nil ? onboardingVM.currentUserCountry ?? "Your country is not set" : locationManager.country ?? "")")
                 Spacer()
                 LocationButton {
                     Task {

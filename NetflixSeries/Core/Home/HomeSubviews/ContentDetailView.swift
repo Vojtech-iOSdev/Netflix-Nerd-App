@@ -48,6 +48,7 @@ struct ContentDetailView: View {
         .task {
             vm.getContentID(contentID: contentSelected.id)
             vm.sinkToSelectedContentDetails()
+            
             vm.sinkToContentForParanormal()
             vm.sinkToContentForSpiderman()
             vm.sinkToContentForTOP10()
@@ -110,11 +111,15 @@ extension ContentDetailView {
             Image(systemName: vmRanking.isFavourite == true ? "heart.fill" : "heart")
                 .foregroundColor(vmRanking.isFavourite == true ? Color.red : Color.white)
                 .tint(Color.white)
-            //                                .onTapGesture {
-            //                                     selectedSeries.isFavourite.toggle()
-            //                                }
-        }.padding(.trailing, 20)
-        
+                .font(.title)
+                .onTapGesture {
+                    // Check if we have it in FAVOURITES(based by title) with .onAppear for DetailView -> if yes RED, if no WHITE
+                    // .onTapGesture for action:
+                    // if WE dont have it in Favourites -> SAVE to Favourites... RED
+                    // if WE have it in favourites -> REMOVE from Favourites... WHITE
+                }
+        }
+        .padding(.trailing, 20)
     }
     
     private var description: some View {
