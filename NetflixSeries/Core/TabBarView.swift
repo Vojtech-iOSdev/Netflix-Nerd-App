@@ -8,19 +8,16 @@
 import SwiftUI
 
 struct TabBarView: View {
-    // MARK: PROPERTIES
-    @StateObject var vm: OnboardingViewModel = OnboardingViewModel()
-    
-    @State var selectedTab: Int = 0
-    
+
+    @StateObject var onboardingVM: OnboardingViewModel = OnboardingViewModel()
+    @StateObject var vm: SearchViewModel = .init()
+        
     let transition: AnyTransition = .asymmetric(insertion: .move(edge: .trailing), removal: .move(edge: .leading))
     
-   
-    // MARK: BODY
     var body: some View {
         
-        if vm.isSigned {
-            TabView(selection: $selectedTab) {
+        if onboardingVM.isSigned {
+            TabView(selection: $vm.selectedTab) {
                 Group {
                     HomeView()
                         .tabItem {
@@ -54,12 +51,8 @@ struct TabBarView: View {
     }
 }
 
-
-// MARK: PREVIEW
 struct TabBarView_Previews: PreviewProvider {
     static var previews: some View {
         TabBarView()
     }
 }
-
-

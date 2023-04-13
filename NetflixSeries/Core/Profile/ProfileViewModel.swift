@@ -13,6 +13,12 @@ import Combine
 @MainActor
 class ProfileViewModel: ObservableObject {
     
+    private let fileManager = LocalFileManager.shared
+    
+    // PROFILE PICTURE
+    let imageName: String = "profile_picture"
+    @Published var profilePicture: UIImage? = nil
+    
     // ACCOUNT OPTIONS
     @Published var images: [Image] = []
     @Published var selectedPhotos: [PhotosPickerItem] = [] {
@@ -54,6 +60,14 @@ class ProfileViewModel: ObservableObject {
         CheckIfEditedNameIsValid()
     }
     
+    func getProfilePicture() {
+        profilePicture = fileManager.getImage(imageName: imageName)
+    }
+
+    func deleteProfilePicture() {
+        fileManager.deleteImage(imageName: imageName)
+    }
+    
     func CheckIfEditedNameIsValid() {
         $editedName
             .debounce(for: .seconds(0.5) , scheduler: DispatchQueue.main)
@@ -76,6 +90,9 @@ class ProfileViewModel: ObservableObject {
                 if let data = try await photo.loadTransferable(type: Data.self) {
                     if let uiImage = UIImage(data: data) {
                         self.images.append(Image(uiImage: uiImage))
+                        fileManager.deleteImage(imageName: imageName)
+                        fileManager.saveImage(image: uiImage, imageName: imageName)
+                        getProfilePicture()
                     }
                 }
             }

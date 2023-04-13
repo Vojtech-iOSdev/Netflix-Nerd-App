@@ -28,15 +28,15 @@ final class LocationManager: NSObject, ObservableObject, CLLocationManagerDelega
     override init() {
         super.init()
         locationManager.delegate = self
-        checkLocationsServiceIsEnabled()
+//        checkLocationsServiceIsEnabled()
        
     }
     
-    func checkLocationsServiceIsEnabled() {
-        if CLLocationManager.locationServicesEnabled() {
-                // check if location services are enabled!!!
-        } else { return }
-    }
+//    func checkLocationsServiceIsEnabled() {
+//        if CLLocationManager.locationServicesEnabled() {
+//                // check if location services are enabled!!!
+//        } else { return }
+//    }
     
     func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
         switch manager.authorizationStatus {
@@ -78,7 +78,7 @@ final class LocationManager: NSObject, ObservableObject, CLLocationManagerDelega
     }
     
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
-        // handle location error
+        print("Error: Location Manager failed with error")
     }
     
     enum LocationError: LocalizedError {

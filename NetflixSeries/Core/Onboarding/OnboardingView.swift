@@ -105,11 +105,10 @@ extension OnboardingView {
     
     // MARK: nameScreen
     private var nameScreen: some View {
-        VStack(spacing: 30) {
+        VStack(spacing: 60) {
+            
             Spacer()
-            
             NetflixLogo()
-            
             OnboardingQuestion(questionString: "What's your name?")
             
             TextField("", text: $vm.name, prompt: Text("Type in your name...").foregroundColor(Color.black))
@@ -121,7 +120,8 @@ extension OnboardingView {
                 .background(Color.white.opacity(1))
                 .cornerRadius(10)
                 .autocorrectionDisabled()
-                .padding(.horizontal)
+                .padding(.horizontal, 15)
+                .padding(.vertical, 40)
                 .overlay(alignment: .trailing) {
                     ZStack {
                         if !vm.name.isEmpty {
@@ -138,13 +138,13 @@ extension OnboardingView {
                 }
             //Spacer()
             Spacer()
-            
-        }.padding()
+        }
+        .padding()
     }
     
     // MARK: ageScreen
     private var ageScreen: some View {
-        VStack(spacing: 30) {
+        VStack(spacing: 60) {
             Spacer()
             
             NetflixLogo()
@@ -165,11 +165,13 @@ extension OnboardingView {
                 Text("100")
                     .foregroundColor(Color.white)
                     .font(.system(.headline, design: .rounded, weight: .bold))
-            }.accentColor(Color.white)
+            }
+            .accentColor(Color.white)
              
+            //Spacer()
             Spacer()
-            Spacer()
-        }.padding()
+        }
+        .padding()
     }
     
     // MARK: genderScreen
@@ -200,7 +202,8 @@ extension OnboardingView {
             Spacer()
             Spacer()
             
-        }.padding()
+        }
+        .padding()
     }
     
     // MARK: countryScreen
@@ -232,13 +235,16 @@ extension OnboardingView {
                 .foregroundColor(.red)
             }
             
-            Text("--------------------").bold().padding(.bottom, 10)
+            Rectangle()
+                .frame(width: 160, height: 2)
+                .foregroundColor(Color.white)
+                .padding(.bottom, 10)
             
             Button {
                 vm.showListOfCountries = true
             } label: {
                 Text("Manually select a country ")
-                    .font(.headline)
+                    .font(.system(.headline, design: .rounded, weight: .medium))
                     .foregroundColor(.red)
             }
             .disabled(locationManager.country == nil ? false : true)

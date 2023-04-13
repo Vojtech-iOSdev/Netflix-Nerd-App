@@ -42,6 +42,9 @@ struct ProfileView: View {
                 .foregroundColor(Color.black)
                 .scrollContentBackground(.hidden)
             }
+            .onAppear {
+                vm.getProfilePicture()
+            }
         }
         
     }
@@ -64,15 +67,17 @@ extension ProfileView {
                          maxSelectionCount: 1,
                          matching: .images,
                          photoLibrary: .shared()) {
-                if !vm.selectedPhotos.isEmpty {
+                
+                if vm.profilePicture != nil {
                     VStack {
-                        if let profilePhoto = vm.images.last {
-                            profilePhoto
+                        if let profilePicture = vm.profilePicture {
+                            Image(uiImage: profilePicture) 
                                 .resizable()
                                 .scaledToFill()
                                 .frame(width: 170, height: 170)
                                 .clipped()
-                                .cornerRadius(170)
+                                .cornerRadius(85)
+                                .shadow(color: .white, radius: 4, x: 0, y: 0)
                         } else {
                             ProgressView()
                                 .frame(width: 170, height: 170)
@@ -196,6 +201,8 @@ extension ProfileView {
         .confirmationDialog("Do you really wanna Sign out?", isPresented: $vm.showConfirmationDialogToSignOut, titleVisibility: .visible) {
             Button("Sign Out", role: .destructive) {
                 locationManager.country = nil
+                vm.deleteProfilePicture()
+                vm.profilePicture = nil
                 onboardingVM.signOut()
             }
         } message: {

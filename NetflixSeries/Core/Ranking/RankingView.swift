@@ -6,10 +6,14 @@
 //
 
 import SwiftUI
+import CoreData
 
 struct RankingView: View {
-    // MARK: PROPERTIES
+
     @StateObject private var vm: SearchViewModel = SearchViewModel()
+    
+    @FetchRequest(entity: ContentDetailsEntity.entity(), sortDescriptors: [NSSortDescriptor(keyPath: \ContentDetailsEntity.title, ascending: true)]) var fetchResults: FetchedResults<ContentDetailsEntity>
+
     
     // MARK: BODY
     var body: some View {
@@ -18,23 +22,37 @@ struct RankingView: View {
             Color.black.edgesIgnoringSafeArea(.all)
             
             // FOREGROUND
-                List {
-                    Section {
-                        customRow
-                    } header: {
-                        Text("My Favourites are:")
-                            .foregroundColor(Color.white)
+            VStack {
+                if fetchResults.isEmpty {
+                    
+                    VStack {
+                        Image(systemName: "trophy")
+                            .font(.largeTitle)
+                        Text("Select your favourite content and we will display it right here for ya!")
+                            .font(.system(.title, design: .rounded, weight: .light))
+                            .padding(20)
                     }
-                    .headerProminence(.increased)
+                    
+                } else {
+                    List {
+                        Section {
+                            customRow
+                        } header: {
+                            Text("My Favourites are:")
+                        }
+                        .headerProminence(.increased)
+                    }
+                    .scrollContentBackground(.hidden)
+                    .listStyle(.insetGrouped)
+                    .padding(.horizontal)
                 }
-                .scrollContentBackground(.hidden)
-                .listStyle(.insetGrouped)
-                .padding(.horizontal)
             }
+            .foregroundColor(Color.white)
+        
+        }
              
     }
 }
-// MARK: PREVIEW
 struct RankingView_Previews: PreviewProvider {
     static var previews: some View {
         RankingView()
@@ -46,7 +64,7 @@ struct RankingView_Previews: PreviewProvider {
 extension RankingView {
     
     private var customRow: some View {
-        ForEach(vm.searchResults) { content in
+        ForEach(fetchResults) { content in
             Text(content.title ?? "no value")
                 .foregroundColor(Color.white)
               

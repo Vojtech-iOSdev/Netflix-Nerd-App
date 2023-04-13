@@ -12,7 +12,7 @@ import Combine
 class OnboardingViewModel: ObservableObject {
 
     // ONBOARDING VIEW STATE, THE ALERT AND TRANSITIONS
-    @Published var onboardingState: Int = 0
+    @Published var onboardingState: Int = 4
     @Published private var text: String = ""
     @Published var alertForName: Bool = false
     let transition: AnyTransition = .asymmetric(insertion: .move(edge: .trailing),
@@ -38,10 +38,10 @@ class OnboardingViewModel: ObservableObject {
     
     
     init() {
-        CheckIfNameIsValid()
+        checkIfNameIsValid()
     }
     
-    func CheckIfNameIsValid() {
+    func checkIfNameIsValid() {
         $name
             .debounce(for: .seconds(0.5) , scheduler: DispatchQueue.main)
             .map { (name) -> Bool in

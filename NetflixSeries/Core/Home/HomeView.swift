@@ -28,7 +28,9 @@ struct HomeView: View {
                         HomeContentRowsView()
                     }
                 }
-                
+                .onAppear {
+                    vm.getProfilePicture()
+                }
             }
         }
         
@@ -53,12 +55,26 @@ extension HomeView {
                 .frame(maxHeight: 120)
                 .padding(0)
                 .frame(maxWidth: .infinity)
-                //.background{ Color.green }
                 .overlay(alignment: .trailing) {
-                    Image(systemName: "person.circle")
-                        .font(.largeTitle)
-                        .padding(20)
-                    Spacer()
+                    if vm.profilePicture == nil {
+                        Image(systemName: "person.circle")
+                            .resizable()
+                            .scaledToFill()
+                            .frame(width: 60, height: 60)
+                            .foregroundColor(Color.gray.opacity(0.4))
+                    } else {
+                        Image(uiImage: vm.profilePicture!)
+                            .resizable()
+                            .scaledToFill()
+                            .frame(width: 60, height: 60)
+                            .clipped()
+                            .cornerRadius(30)
+                            .shadow(color: .white, radius: 4, x: 0, y: 0)
+                    }
+                }
+                .padding(20)
+                .onTapGesture {
+                    vm.selectedTab = 2
                 }
         }
     }
