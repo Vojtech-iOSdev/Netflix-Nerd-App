@@ -12,7 +12,7 @@ struct RankingView: View {
 
     @StateObject private var vm: SearchViewModel = SearchViewModel()
     
-    @FetchRequest(entity: ContentDetailsEntity.entity(), sortDescriptors: [NSSortDescriptor(keyPath: \ContentDetailsEntity.title, ascending: true)]) var fetchResults: FetchedResults<ContentDetailsEntity>
+//    @FetchRequest(entity: ContentDetailsEntity.entity(), sortDescriptors: [NSSortDescriptor(keyPath: \ContentDetailsEntity.title, ascending: true)]) var fetchResults: FetchedResults<ContentDetailsEntity>
 
     
     // MARK: BODY
@@ -23,8 +23,7 @@ struct RankingView: View {
             
             // FOREGROUND
             VStack {
-                if fetchResults.isEmpty {
-                    
+                if vm.savedContent.isEmpty {
                     VStack {
                         Image(systemName: "trophy")
                             .font(.largeTitle)
@@ -35,7 +34,6 @@ struct RankingView: View {
                             .kerning(4)
                             .lineSpacing(10)
                     }
-                    
                 } else {
                     List {
                         Section {
@@ -51,7 +49,9 @@ struct RankingView: View {
                 }
             }
             .foregroundColor(Color.white)
-        
+            .onAppear {
+                vm.fetchFromCoreData()
+            }
         }
              
     }
@@ -67,12 +67,14 @@ struct RankingView_Previews: PreviewProvider {
 extension RankingView {
     
     private var customRow: some View {
-        ForEach(fetchResults) { content in
-            Text(content.title ?? "no value")
+        ForEach(vm.savedContent) { content in
+            Text(content.title ?? "no valuee")
                 .foregroundColor(Color.white)
-              
         }
+        .onDelete(perform: vm.deleteFromCoreData)
+        .onMove(perform: vm.reorderCoreData)
         .listRowBackground(Color.gray.opacity(0.3))
+        
         
     }
     

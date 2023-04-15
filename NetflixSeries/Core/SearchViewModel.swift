@@ -13,10 +13,10 @@ import CoreData
 class SearchViewModel: ObservableObject {
     
     let dataManager = DataManager.instance
-    let coreDataManager = CoreDataManager.shared
     private let fileManager = LocalFileManager.shared
+    let coreDataManager = CoreDataManager.shared
     
-    // TAB BAR
+    // TAB BAR NAVIGATION
     @Published var selectedTab: Tab = .homeView
     enum Tab {
         case homeView
@@ -38,8 +38,7 @@ class SearchViewModel: ObservableObject {
     
     // FETCHED SPECIFIC CONTENT DETAILS
     @Published var selectedContentDetails: ContentDetailsModel = ContentDetailsModel.dummyData[0]
-    @Published var rankingsSelectedContent: [ContentDetailsModel] = []
-    private var cancelSubscription: AnyCancellable?
+    @Published var savedContent: [ContentDetailsEntity] = []
     
     // FETCHED CONTENT FOR SHOWN HOMEVIEW SELECTION
     @Published var contentForLOTR: [ContentModel] = []
@@ -57,7 +56,7 @@ class SearchViewModel: ObservableObject {
     init() { }
     
     
-    // MARK: METHODS
+// MARK: METHODS
     func getProfilePicture() {
         profilePicture = fileManager.getImage(imageName: "profile_picture")
     }
@@ -95,28 +94,27 @@ class SearchViewModel: ObservableObject {
         }
     }
     
-    func sinkToRankingsSelectedContent() {
-        cancelSubscription = $selectedContentDetails
-            .receive(on: DispatchQueue.main)
-            .sink { [weak self] (singleContentDetails) in
-                self?.rankingsSelectedContent.append(singleContentDetails)
-                self?.cancelSubscription?.cancel()
-            }
-    }
-    
 }
 
 // MARK: CORE DATA
 extension SearchViewModel {
     
-    func saveToCoreData(context: NSManagedObjectContext) {
-        sinkToRankingsSelectedContent()
-
-        coreDataManager.saveData(context: context, content: rankingsSelectedContent)
-        
-        rankingsSelectedContent.removeAll()
+    func addToCoreData() {
+        coreDataManager.addToFavourites(content: selectedContentDetails)
     }
     
+    func fetchFromCoreData() {
+        savedContent = coreDataManager.fetchCoreData()
+    }
+    
+    func deleteFromCoreData(indexSet: IndexSet) {
+        coreDataManager.deleteFromFavourites(indexSet: indexSet, savedContent: savedContent)
+        fetchFromCoreData()
+    }
+    
+    func reorderCoreData(indexSet: IndexSet, destination: Int) {
+        coreDataManager.moveItemInFavourites(from: indexSet, to: destination)
+    }
 }
 
 

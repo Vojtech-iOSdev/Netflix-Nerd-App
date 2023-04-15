@@ -13,7 +13,7 @@ struct ContentDetailView: View {
     @StateObject private var vm: SearchViewModel = SearchViewModel()
     @StateObject private var vmRanking: RankingViewModel = RankingViewModel()
     
-    @Environment(\.managedObjectContext) var context
+//    @Environment(\.managedObjectContext) var context
     
     let contentSelected: ContentModel
     
@@ -112,19 +112,26 @@ extension ContentDetailView {
             }
             Spacer()
             
-            Image(systemName: vmRanking.isFavourite == true ? "heart.fill" : "heart")
-                .foregroundColor(vmRanking.isFavourite == true ? Color.red : Color.white)
-                .tint(Color.white)
-                .font(.title)
-                .onTapGesture {
-                    
-                    vm.saveToCoreData(context: context)
-                    
-                    // Check if we have it in FAVOURITES(based by title) with .onAppear for DetailView -> if yes RED, if no WHITE
-                    // .onTapGesture for action:
-                    // if WE dont have it in Favourites -> SAVE to Favourites... RED
-                    // if WE have it in favourites -> REMOVE from Favourites... WHITE
-                }
+            
+            Button {
+                vm.addToCoreData()
+                
+//                vm.saveToCoreData(context: context)
+                
+                // Check if we have it in FAVOURITES(based by title) with .onAppear for DetailView -> if yes RED, if no WHITE
+                // .onTapGesture for action:
+                // if WE dont have it in Favourites -> SAVE to Favourites... RED
+                // if WE have it in favourites -> REMOVE from Favourites... WHITE
+
+            } label: {
+                Image(systemName: vmRanking.isFavourite == true ? "heart.fill" : "heart")
+                    .foregroundColor(vmRanking.isFavourite == true ? Color.red : Color.white)
+                    .tint(Color.white)
+                    .font(.title)
+            }
+
+            
+                
         }
         .padding(.trailing, 20)
     }
