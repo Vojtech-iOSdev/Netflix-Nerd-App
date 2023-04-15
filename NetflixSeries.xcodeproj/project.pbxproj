@@ -23,6 +23,8 @@
 		8179996B29E3CD4E00B74EED /* LocalFileManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8179996A29E3CD4E00B74EED /* LocalFileManager.swift */; };
 		817B354129CE03E6001B1438 /* SingleRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 817B354029CE03E6001B1438 /* SingleRowView.swift */; };
 		817B354329CE1A03001B1438 /* NetworkingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 817B354229CE1A03001B1438 /* NetworkingManager.swift */; };
+		81803CC429E834CE0089728F /* TabBarEnvironment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81803CC329E834CE0089728F /* TabBarEnvironment.swift */; };
+		81803CC629E88BEF0089728F /* ConfettiView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81803CC529E88BEF0089728F /* ConfettiView.swift */; };
 		8199A80E29DC53D30035D2F0 /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8199A80D29DC53D30035D2F0 /* LocationManager.swift */; };
 		8199A81329DCAD110035D2F0 /* NetflixLogo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8199A81229DCAD110035D2F0 /* NetflixLogo.swift */; };
 		8199A81529DCAFAB0035D2F0 /* OnboardingQuestion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8199A81429DCAFAB0035D2F0 /* OnboardingQuestion.swift */; };
@@ -60,6 +62,8 @@
 		8179996A29E3CD4E00B74EED /* LocalFileManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalFileManager.swift; sourceTree = "<group>"; };
 		817B354029CE03E6001B1438 /* SingleRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SingleRowView.swift; sourceTree = "<group>"; };
 		817B354229CE1A03001B1438 /* NetworkingManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkingManager.swift; sourceTree = "<group>"; };
+		81803CC329E834CE0089728F /* TabBarEnvironment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarEnvironment.swift; sourceTree = "<group>"; };
+		81803CC529E88BEF0089728F /* ConfettiView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfettiView.swift; sourceTree = "<group>"; };
 		8199A80D29DC53D30035D2F0 /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
 		8199A81229DCAD110035D2F0 /* NetflixLogo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetflixLogo.swift; sourceTree = "<group>"; };
 		8199A81429DCAFAB0035D2F0 /* OnboardingQuestion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingQuestion.swift; sourceTree = "<group>"; };
@@ -96,10 +100,10 @@
 		811A021C29DF150A0017F077 /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
+				81803CC329E834CE0089728F /* TabBarEnvironment.swift */,
 				817B354229CE1A03001B1438 /* NetworkingManager.swift */,
 				813BF46729E15A12009B5288 /* Persistence.swift */,
 				813BF46929E15A67009B5288 /* ContentDataModel.xcdatamodeld */,
-				8179996A29E3CD4E00B74EED /* LocalFileManager.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -128,6 +132,7 @@
 				8199A81229DCAD110035D2F0 /* NetflixLogo.swift */,
 				8199A81429DCAFAB0035D2F0 /* OnboardingQuestion.swift */,
 				8199A81629DD36610035D2F0 /* ListOfCountries.swift */,
+				81803CC529E88BEF0089728F /* ConfettiView.swift */,
 			);
 			path = OnboardingSubViews;
 			sourceTree = "<group>";
@@ -188,6 +193,7 @@
 				81D2B9B129C245B100DA1338 /* DataManager.swift */,
 				8199A80D29DC53D30035D2F0 /* LocationManager.swift */,
 				813BF46C29E15C1C009B5288 /* CoreDataManager.swift */,
+				8179996A29E3CD4E00B74EED /* LocalFileManager.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -333,11 +339,13 @@
 				8199A81729DD36610035D2F0 /* ListOfCountries.swift in Sources */,
 				81E8337E29A5615D002AC51F /* SeriesModel.swift in Sources */,
 				8199A81529DCAFAB0035D2F0 /* OnboardingQuestion.swift in Sources */,
+				81803CC629E88BEF0089728F /* ConfettiView.swift in Sources */,
 				81BC1FAA29A964E6009CE2A0 /* ProfileView.swift in Sources */,
 				812F30FD29C8D12800525BF7 /* ContentModel.swift in Sources */,
 				812F310129C8DEBB00525BF7 /* RankingViewModel.swift in Sources */,
 				813BF46D29E15C1C009B5288 /* CoreDataManager.swift in Sources */,
 				81B8543629D81F0E009E254E /* EditAgeSheet.swift in Sources */,
+				81803CC429E834CE0089728F /* TabBarEnvironment.swift in Sources */,
 				81B8543129D74369009E254E /* ProfileViewModel.swift in Sources */,
 				81BC1FA829A964BE009CE2A0 /* RankingView.swift in Sources */,
 				812F30FF29C8D3EE00525BF7 /* ContentDetailsModel.swift in Sources */,

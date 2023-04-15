@@ -14,6 +14,7 @@ struct ListOfCountries: View {
     
     var body: some View {
         ZStack(alignment: .bottom) {
+            // LIST OF COUNTRIES
             List {
                 Picker(selection: $vm.country) {
                     ForEach(NSLocale.isoCountryCodes, id: \.self) { countryCode in
@@ -38,13 +39,13 @@ struct ListOfCountries: View {
                 }
             }
             
+            // SAVE BUTTON
             if vm.showSaveButton {
                 Button {
                     dismiss()
-                    
                 } label: {
                     Text("SAVE")
-                        .foregroundColor(Color.black)
+                        .foregroundColor(Color.red)
                         .font(.system(.title, design: .rounded, weight: .medium))
                         .frame(width: 310, height: 50)
                         .background(Color.white)

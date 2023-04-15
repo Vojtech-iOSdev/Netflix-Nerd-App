@@ -35,7 +35,6 @@ class ProfileViewModel: ObservableObject {
     @Published var alertTermsOfServices: Bool = false
     @Published var showConfirmationDialogToSignOut: Bool = false
 
-    
     // PROFILE EDITS INPUTS
     @Published var editedName: String = ""
     private var cancelEditedNameIsValid = Set<AnyCancellable>()

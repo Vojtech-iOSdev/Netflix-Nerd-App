@@ -12,7 +12,7 @@ struct NetflixLogo: View {
         Image("Netflix")
             .resizable()
             .scaledToFit()
-            .frame(height: 160)
+            .frame(height: 70)
     }
 }
 

@@ -31,6 +31,9 @@ struct RankingView: View {
                         Text("Select your favourite content and we will display it right here for ya!")
                             .font(.system(.title, design: .rounded, weight: .light))
                             .padding(20)
+                            .multilineTextAlignment(.center)
+                            .kerning(4)
+                            .lineSpacing(10)
                     }
                     
                 } else {
@@ -70,6 +73,7 @@ extension RankingView {
               
         }
         .listRowBackground(Color.gray.opacity(0.3))
+        
     }
     
     

@@ -77,7 +77,7 @@ extension ProfileView {
                                 .frame(width: 170, height: 170)
                                 .clipped()
                                 .cornerRadius(85)
-                                .shadow(color: .white, radius: 4, x: 0, y: 0)
+                                .shadow(color: .white, radius: 6, x: 0, y: 0)
                         } else {
                             ProgressView()
                                 .frame(width: 170, height: 170)
@@ -105,10 +105,11 @@ extension ProfileView {
     private var personalInfoSection: some View {
         Section {
             HStack {
-                Text("Name:          \(onboardingVM.currentUserName ?? "Your name is not set")")
+                Text("Name:          \(onboardingVM.currentUserName ?? onboardingVM.nameInput)")
                 Spacer()
                 Image(systemName: "pencil")
                     .foregroundColor(.red)
+                    .font(.title2)
                     .onTapGesture {
                         vm.activeSheet = .editNameSheet
                     }
@@ -119,6 +120,7 @@ extension ProfileView {
                 Spacer()
                 Image(systemName: "pencil")
                     .foregroundColor(.red)
+                    .font(.title2)
                     .onTapGesture {
                         vm.activeSheet = .editAgeSheet
                     }
@@ -129,6 +131,7 @@ extension ProfileView {
                 Spacer()
                 Image(systemName: "pencil")
                     .foregroundColor(.red)
+                    .font(.title2)
                     .onTapGesture {
                         vm.activeSheet = .editGenderSheet
                     }

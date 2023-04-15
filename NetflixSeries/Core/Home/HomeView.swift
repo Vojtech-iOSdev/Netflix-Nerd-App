@@ -11,6 +11,7 @@ struct HomeView: View {
     
     // MARK: PROPERTIES
     @StateObject private var vm: SearchViewModel = SearchViewModel()
+    @Environment(\.currentTab) var tab
     
     
     // MARK: BODY
@@ -21,7 +22,7 @@ struct HomeView: View {
                 Color.black.edgesIgnoringSafeArea(.all)
                 
                 // FOREGROUND
-                VStack(spacing: 0) {
+                VStack(spacing: 10) {
                     NetflixLogoAndProfilePic
                     SearchField
                     if vm.searchedText.isEmpty {
@@ -52,7 +53,7 @@ extension HomeView {
             Image("Netflix")
                 .resizable()
                 .scaledToFit()
-                .frame(maxHeight: 120)
+                .frame(maxHeight: 55)
                 .padding(0)
                 .frame(maxWidth: .infinity)
                 .overlay(alignment: .trailing) {
@@ -74,24 +75,31 @@ extension HomeView {
                 }
                 .padding(20)
                 .onTapGesture {
-                    vm.selectedTab = 2
+                    tab.wrappedValue = .profileView
                 }
         }
     }
     
     private var SearchField: some View {
         VStack(spacing: 0) {
-            TextField("", text: $vm.searchedText, prompt: Text("Search more content...")
-                .foregroundColor(Color.white))
+            TextField("", text: $vm.searchedText,
+                      prompt: Text("Search more content...")
+                                .foregroundColor(Color.white))
             .font(.system(.title3, design: .rounded, weight: .semibold))
             .foregroundColor(Color.white)
-            .padding(.horizontal, 30)
-            .frame(height: 40)
+            .padding(.horizontal, 40)
+            .frame(height: 45)
             .background(Color.gray.opacity(0.3))
             .cornerRadius(10)
-            .padding(.bottom)
+            //.padding(.bottom, 25)
             .padding(.horizontal, 6)
             .autocorrectionDisabled(true)
+            .textInputAutocapitalization(.never)
+            .overlay(alignment: .leading, content: {
+                Image(systemName: "magnifyingglass")
+                    .padding()
+                    //.padding(.bottom, 22)
+            })
             .onChange(of: vm.searchedText) { newValue in
                 vm.sinkTosearchResults()
             }
@@ -109,12 +117,7 @@ extension HomeView {
                     .scrollContentBackground(.hidden)
                 }
             }
-            
         }
     }
     
-    
 }
-
-
-

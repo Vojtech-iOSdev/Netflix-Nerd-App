@@ -17,7 +17,12 @@ class SearchViewModel: ObservableObject {
     private let fileManager = LocalFileManager.shared
     
     // TAB BAR
-    @Published var selectedTab: Int = 0
+    @Published var selectedTab: Tab = .homeView
+    enum Tab {
+        case homeView
+        case rankingView
+        case profileView
+    }
     
     // RANDOM STUFF
     let genres: [String] = ["The lord of the rings:", "Spiderman:", "Netflix TOP10 in the US:", "Batman:", "Paranormal Activity:"]
@@ -99,6 +104,11 @@ class SearchViewModel: ObservableObject {
             }
     }
     
+}
+
+// MARK: CORE DATA
+extension SearchViewModel {
+    
     func saveToCoreData(context: NSManagedObjectContext) {
         sinkToRankingsSelectedContent()
 
@@ -106,7 +116,9 @@ class SearchViewModel: ObservableObject {
         
         rankingsSelectedContent.removeAll()
     }
+    
 }
+
 
 // MARK: HOMEVIEW CONTENT
 extension SearchViewModel {

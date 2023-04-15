@@ -77,8 +77,6 @@ private extension EditAgeSheet {
     var saveButton: some View {
         Button {
             onboardingVM.currentUserAge = Int(vm.editedAge)
-//            vm.showSheetForEditAge = false
-//            vm.activeSheet = nil
             dismiss()
 
         } label: {
@@ -89,10 +87,6 @@ private extension EditAgeSheet {
                 .background(Color.white)
                 .cornerRadius(20)
                 .padding(.bottom)
-//                .opacity(!vm.editedNameIsValid ? 0.5 : 1)
-//                .alert(isPresented: $onboardingVM.alertForName) {
-//                    Alert(title: Text("Wrong name"), message: Text("Your name must be min of 2 characters long and max of 12 short! 🙁"))
-//                }
         }
     }
     

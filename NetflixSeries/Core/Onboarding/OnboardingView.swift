@@ -37,13 +37,17 @@ struct OnboardingView: View {
                 case 4:
                     countryScreen
                         .transition(vm.transition)
+                case 5:
+                    loadingScreen
+                        .transition(vm.transition)
                 default:
                     welcomeScreen
                         .transition(vm.transition)
                 }
-                bottomButton
-                Spacer()
-
+                
+                if vm.onboardingState != 5 {
+                    bottomButton
+                }
             }
             
         }
@@ -68,7 +72,7 @@ extension OnboardingView {
             Text(vm.onboardingState == 0 ? "SIGN UP" :
                     vm.onboardingState == 4 ? "FINISH" :
                     "CONTINUE")
-            .foregroundColor(Color.black)
+            .foregroundColor(Color.red)
             .font(.system(.title, design: .rounded, weight: .medium))
             .frame(width: 310, height: 50)
             .background(Color.white)
@@ -87,31 +91,38 @@ extension OnboardingView {
     
     // MARK: welcomeScreen
     private var welcomeScreen: some View {
-        VStack(spacing: 30) {
+        VStack(spacing: 50) {
             Spacer()
             
             NetflixLogo()
+                .padding()
             
             OnboardingQuestion(questionString: "Welcome to Netflix")
             
-            Text("We are by far the best streaming service in the world right now. We have a huge selection of movies and TV shows old and new, tons of high-quality original programs, and an easy-to-navigate interface.")
+            Text("We are by far the best streaming service in the world. With a huge selection of movies and TV shows old and new, tons of high-quality original programs, and an easy-to-navigate interface.")
                 .foregroundColor(Color.white)
                 .font(.system(.title3, design: .rounded, weight: .semibold))
                 .multilineTextAlignment(.center)
+                .kerning(2)
+                .lineSpacing(3)
             
             Spacer()
-        }.padding()
+        }
+        .padding()
     }
     
     // MARK: nameScreen
     private var nameScreen: some View {
-        VStack(spacing: 60) {
-            
+        VStack(spacing: 40) {
             Spacer()
+            
             NetflixLogo()
+                .padding()
+                .padding(.vertical, 50)
+            
             OnboardingQuestion(questionString: "What's your name?")
             
-            TextField("", text: $vm.name, prompt: Text("Type in your name...").foregroundColor(Color.black))
+            TextField("", text: $vm.nameInput, prompt: Text("Type in your name...").foregroundColor(Color.black))
                 .font(.system(.title3, design: .rounded, weight: .semibold))
                 .foregroundColor(Color.black)
                 .tint(.black)
@@ -121,10 +132,11 @@ extension OnboardingView {
                 .cornerRadius(10)
                 .autocorrectionDisabled()
                 .padding(.horizontal, 15)
-                .padding(.vertical, 40)
+                .padding(.vertical, 60)
+                .submitLabel(.done)
                 .overlay(alignment: .trailing) {
                     ZStack {
-                        if !vm.name.isEmpty {
+                        if !vm.nameInput.isEmpty {
                             Image(systemName: "xmark")
                                 .foregroundColor(Color.red)
                                 .opacity(vm.nameIsValid ? 0 : 1)
@@ -136,7 +148,7 @@ extension OnboardingView {
                     .padding(.trailing, 30)
                     .font(.system(.title2, weight: .semibold))
                 }
-            //Spacer()
+
             Spacer()
         }
         .padding()
@@ -148,6 +160,7 @@ extension OnboardingView {
             Spacer()
             
             NetflixLogo()
+                .padding()
             
             OnboardingQuestion(questionString: "What's your age?")
             
@@ -168,7 +181,6 @@ extension OnboardingView {
             }
             .accentColor(Color.white)
              
-            //Spacer()
             Spacer()
         }
         .padding()
@@ -176,11 +188,11 @@ extension OnboardingView {
     
     // MARK: genderScreen
     private var genderScreen: some View {
-        VStack(spacing: 30) {
+        VStack(spacing: 20) {
             Spacer()
             
             NetflixLogo()
-                .padding(.top, 60)
+                .padding(.vertical, 40)
             
             OnboardingQuestion(questionString: "What's your gender?")
             
@@ -200,7 +212,6 @@ extension OnboardingView {
             .padding(.vertical, 0)
             
             Spacer()
-            Spacer()
             
         }
         .padding()
@@ -212,15 +223,14 @@ extension OnboardingView {
             Spacer()
             
             NetflixLogo()
-                .padding(.top, 60)
+                .padding(.vertical, 50)
 
             OnboardingQuestion(questionString: "Your current location?")
             
             Text("country:   \(locationManager.country == nil ? vm.currentUserCountry ?? "" : locationManager.country ?? "")")
                 .font(.system(.title3, design: .rounded, weight: .medium))
-            
-            Spacer()
-            
+                .padding(.bottom, 30)
+                        
             Button {
                 Task {
                     try await locationManager.getCountryFromCurrentLocation()
@@ -256,5 +266,40 @@ extension OnboardingView {
             
         }
         .padding()
+    }
+    
+    // MARK: loadingScreen
+    private var loadingScreen: some View {
+        ZStack {
+            VStack(spacing: 20) {
+                Spacer()
+                Text(vm.showConfettiAnimation ? "Profile Successfully Created!" : "Creating your Profile")
+                    .font(vm.showConfettiAnimation ? .title : .headline)
+                    .foregroundColor(Color.white)
+                ProgressView(value: vm.amount, total: 100)
+                    .progressViewStyle(LinearProgressViewStyle(tint: .red))
+                    .frame(width: 300)
+                Spacer()
+            }
+            .onAppear {
+                vm.runCounter(counter: $vm.amount, start: 0, end: 100, speed: 0.03)
+                
+                DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+                    vm.doConfettiAnimation()
+                }
+                
+                DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
+                    withAnimation(.spring()) {
+                        vm.isSigned = true
+                    }
+                }
+            }
+            
+            ConfettiView()
+                .scaleEffect(vm.showConfettiAnimation ? 1 : 0, anchor: .top)
+                .opacity(vm.showConfettiAnimation && !vm.finishConfettiAnimation ? 1 : 0)
+                .offset(y: vm.showConfettiAnimation ? 0 : UIScreen.main.bounds.height / 2)
+                .ignoresSafeArea()
+        }
     }
 }

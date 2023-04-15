@@ -24,21 +24,25 @@ struct TabBarView: View {
                             Image(systemName: "house.fill")
                             Text("home")
                         }
-                        .tag(0)
+                        .tag(SearchViewModel.Tab.homeView)
+                        .environment((\.currentTab), $vm.selectedTab)
                     
                     RankingView()
                         .tabItem {
                             Image(systemName: "trophy.fill")
                             Text("ranking")
                         }
-                        .tag(1)
+                        .tag(SearchViewModel.Tab.rankingView)
+                        .environment((\.currentTab), $vm.selectedTab)
                     
                     ProfileView()
                         .tabItem {
                             Image(systemName: "person.fill")
                             Text("profile")
                         }
-                        .tag(2)
+                        .tag(SearchViewModel.Tab.profileView)
+                        .environment((\.currentTab), $vm.selectedTab)
+
                 }
                 .toolbarBackground(Color.black, for: .tabBar)
             }
