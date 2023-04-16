@@ -9,7 +9,7 @@ import SwiftUI
 
 struct SeriesDetailView: View {
     // MARK: PROPERTIES
-    @StateObject var vmRanking: RankingViewModel = RankingViewModel()
+    @StateObject var vm: SearchViewModel = .init()
     
     let columns: [GridItem] = [
         GridItem(.flexible(), spacing: 10, alignment: .center),
@@ -90,8 +90,8 @@ extension SeriesDetailView {
             }
             Spacer()
             
-            Image(systemName: vmRanking.isFavourite == true ? "heart.fill" : "heart")
-                .foregroundColor(vmRanking.isFavourite == true ? Color.red : Color.white)
+            Image(systemName: vm.isFavourite == true ? "heart.fill" : "heart")
+                .foregroundColor(vm.isFavourite == true ? Color.red : Color.white)
                 .tint(Color.white)
 //                                .onTapGesture {
 //                                     selectedSeries.isFavourite.toggle()

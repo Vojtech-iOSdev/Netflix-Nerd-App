@@ -10,7 +10,6 @@ import Foundation
 
 class RankingViewModel: ObservableObject {
     
-    @Published var isFavourite: Bool = false
 
     init() {
         

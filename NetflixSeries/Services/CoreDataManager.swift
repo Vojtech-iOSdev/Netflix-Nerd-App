@@ -11,9 +11,7 @@ import CoreData
 class CoreDataManager {
     
     static let shared: CoreDataManager = .init()
-    
     let container: NSPersistentContainer
-    
     
     private init() {
         container = NSPersistentContainer(name: "ContentDataModel")
@@ -49,16 +47,10 @@ class CoreDataManager {
         let newlyAddedContent = ContentDetailsEntity(context: container.viewContext)
         newlyAddedContent.title = content.title
         newlyAddedContent.poster = content.poster
+        newlyAddedContent.year = content.year
+        newlyAddedContent.type = content.type
         newlyAddedContent.description2 = content.description
         newlyAddedContent.order = (fetchedResults.last?.order ?? 0) + 1
-        
-        saveData()
-    }
-    
-    func deleteFromFavourites(indexSet: IndexSet, savedContent: [ContentDetailsEntity]) {
-        guard let index = indexSet.first else { return }
-        let savedEntity = savedContent[index]
-        container.viewContext.delete(savedEntity)
         
         saveData()
     }
@@ -95,33 +87,34 @@ class CoreDataManager {
         saveData()
     }
     
+    func deleteFromFavourites(indexSet: IndexSet, savedContent: [ContentDetailsEntity]) {
+        guard let index = indexSet.first else { return }
+        let savedEntity = savedContent[index]
+        
+        
+        container.viewContext.delete(savedEntity)
+        
+        saveData()
+    }
+    
+    func deleteFromFavouritesByTitle(selectedContentDetails: ContentDetailsModel) {
+        let fetchedData = fetchCoreData()
+
+        for data in fetchedData {
+            if data.title == selectedContentDetails.title {
+                container.viewContext.delete(data)
+                
+                saveData()
+            }
+        }
+    }
+    
     private func saveData() {
         do {
             try container.viewContext.save()
-            //fetchCoreData()
         } catch {
             print("Error saving to CoreData \(error)")
         }
     }
-    
-//    static let shared: CoreDataManager = .init()
-//
-//    func saveData(context: NSManagedObjectContext, content: [ContentDetailsModel]) {
-//
-//        content.forEach { item in
-//            let entity = ContentDetailsEntity(context: context)
-//            entity.title = item.title
-//            entity.poster = item.poster
-//            entity.description2 = item.description
-//
-//            do {
-//                try context.save()
-//                print("success")
-//            } catch {
-//                print(error.localizedDescription)
-//            }
-//
-//        }
-//    }
     
 }

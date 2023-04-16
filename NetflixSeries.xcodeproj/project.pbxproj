@@ -25,6 +25,7 @@
 		817B354329CE1A03001B1438 /* NetworkingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 817B354229CE1A03001B1438 /* NetworkingManager.swift */; };
 		81803CC429E834CE0089728F /* TabBarEnvironment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81803CC329E834CE0089728F /* TabBarEnvironment.swift */; };
 		81803CC629E88BEF0089728F /* ConfettiView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81803CC529E88BEF0089728F /* ConfettiView.swift */; };
+		8192F94E29EBED4900019033 /* BadgesManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8192F94D29EBED4900019033 /* BadgesManager.swift */; };
 		8199A80E29DC53D30035D2F0 /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8199A80D29DC53D30035D2F0 /* LocationManager.swift */; };
 		8199A81329DCAD110035D2F0 /* NetflixLogo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8199A81229DCAD110035D2F0 /* NetflixLogo.swift */; };
 		8199A81529DCAFAB0035D2F0 /* OnboardingQuestion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8199A81429DCAFAB0035D2F0 /* OnboardingQuestion.swift */; };
@@ -64,6 +65,7 @@
 		817B354229CE1A03001B1438 /* NetworkingManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkingManager.swift; sourceTree = "<group>"; };
 		81803CC329E834CE0089728F /* TabBarEnvironment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarEnvironment.swift; sourceTree = "<group>"; };
 		81803CC529E88BEF0089728F /* ConfettiView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfettiView.swift; sourceTree = "<group>"; };
+		8192F94D29EBED4900019033 /* BadgesManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BadgesManager.swift; sourceTree = "<group>"; };
 		8199A80D29DC53D30035D2F0 /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
 		8199A81229DCAD110035D2F0 /* NetflixLogo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetflixLogo.swift; sourceTree = "<group>"; };
 		8199A81429DCAFAB0035D2F0 /* OnboardingQuestion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingQuestion.swift; sourceTree = "<group>"; };
@@ -104,6 +106,7 @@
 				817B354229CE1A03001B1438 /* NetworkingManager.swift */,
 				813BF46729E15A12009B5288 /* Persistence.swift */,
 				813BF46929E15A67009B5288 /* ContentDataModel.xcdatamodeld */,
+				8192F94D29EBED4900019033 /* BadgesManager.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -355,6 +358,7 @@
 				812F30F829C8620300525BF7 /* SearchListRowView.swift in Sources */,
 				8140D0CC29A810850006DA92 /* OnboardingView.swift in Sources */,
 				817B354329CE1A03001B1438 /* NetworkingManager.swift in Sources */,
+				8192F94E29EBED4900019033 /* BadgesManager.swift in Sources */,
 				81E8336D29A56081002AC51F /* NetflixSeriesApp.swift in Sources */,
 				8179996B29E3CD4E00B74EED /* LocalFileManager.swift in Sources */,
 				8140D0C829A61B5B0006DA92 /* SeriesDetailView.swift in Sources */,

@@ -17,12 +17,12 @@ class SearchViewModel: ObservableObject {
     let coreDataManager = CoreDataManager.shared
     
     // TAB BAR NAVIGATION
-    @Published var selectedTab: Tab = .homeView
     enum Tab {
         case homeView
         case rankingView
         case profileView
     }
+    @Published var selectedTab: Tab = .homeView
     
     // RANDOM STUFF
     let genres: [String] = ["The lord of the rings:", "Spiderman:", "Netflix TOP10 in the US:", "Batman:", "Paranormal Activity:"]
@@ -36,9 +36,10 @@ class SearchViewModel: ObservableObject {
     @Published var searchResults: [ContentModel] = []
     var cancellables = Set<AnyCancellable>()
     
-    // FETCHED SPECIFIC CONTENT DETAILS
+    // COREDATA + CONTENT DETAILS
     @Published var selectedContentDetails: ContentDetailsModel = ContentDetailsModel.dummyData[0]
     @Published var savedContent: [ContentDetailsEntity] = []
+    @Published var isFavourite: Bool = false
     
     // FETCHED CONTENT FOR SHOWN HOMEVIEW SELECTION
     @Published var contentForLOTR: [ContentModel] = []
@@ -100,7 +101,13 @@ class SearchViewModel: ObservableObject {
 extension SearchViewModel {
     
     func addToCoreData() {
-        coreDataManager.addToFavourites(content: selectedContentDetails)
+        if !isFavourite {
+            coreDataManager.addToFavourites(content: selectedContentDetails)
+            checkFavarobility()
+        } else {
+            isFavourite = false
+            coreDataManager.deleteFromFavouritesByTitle(selectedContentDetails: selectedContentDetails)
+        }
     }
     
     func fetchFromCoreData() {
@@ -114,7 +121,19 @@ extension SearchViewModel {
     
     func reorderCoreData(indexSet: IndexSet, destination: Int) {
         coreDataManager.moveItemInFavourites(from: indexSet, to: destination)
+        fetchFromCoreData()
     }
+    
+    func checkFavarobility() {
+        fetchFromCoreData()
+
+        savedContent.forEach { content in
+            if content.title == selectedContentDetails.title {
+                isFavourite = true
+            }
+        }
+    }
+    
 }
 
 

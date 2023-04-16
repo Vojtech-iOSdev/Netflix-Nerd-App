@@ -91,15 +91,14 @@ extension HomeView {
             .frame(height: 45)
             .background(Color.gray.opacity(0.3))
             .cornerRadius(10)
-            //.padding(.bottom, 25)
             .padding(.horizontal, 6)
             .autocorrectionDisabled(true)
             .textInputAutocapitalization(.never)
             .overlay(alignment: .leading, content: {
                 Image(systemName: "magnifyingglass")
                     .padding()
-                    //.padding(.bottom, 22)
             })
+            .padding(.bottom, 15)
             .onChange(of: vm.searchedText) { newValue in
                 vm.sinkTosearchResults()
             }

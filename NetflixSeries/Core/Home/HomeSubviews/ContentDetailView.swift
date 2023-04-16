@@ -12,9 +12,7 @@ struct ContentDetailView: View {
     
     @StateObject private var vm: SearchViewModel = SearchViewModel()
     @StateObject private var vmRanking: RankingViewModel = RankingViewModel()
-    
-//    @Environment(\.managedObjectContext) var context
-    
+        
     let contentSelected: ContentModel
     
     let columns: [GridItem] = [
@@ -49,9 +47,14 @@ struct ContentDetailView: View {
                 }
             }
         }
+        .onChange(of: vm.selectedContentDetails, perform: { newValue in
+            vm.checkFavarobility()
+        })
         .task {
             vm.getContentID(contentID: contentSelected.id)
             vm.sinkToSelectedContentDetails()
+            
+            vm.checkFavarobility()
             
             vm.sinkToContentForParanormal()
             vm.sinkToContentForSpiderman()
@@ -112,26 +115,14 @@ extension ContentDetailView {
             }
             Spacer()
             
-            
             Button {
                 vm.addToCoreData()
-                
-//                vm.saveToCoreData(context: context)
-                
-                // Check if we have it in FAVOURITES(based by title) with .onAppear for DetailView -> if yes RED, if no WHITE
-                // .onTapGesture for action:
-                // if WE dont have it in Favourites -> SAVE to Favourites... RED
-                // if WE have it in favourites -> REMOVE from Favourites... WHITE
-
             } label: {
-                Image(systemName: vmRanking.isFavourite == true ? "heart.fill" : "heart")
-                    .foregroundColor(vmRanking.isFavourite == true ? Color.red : Color.white)
+                Image(systemName: vm.isFavourite == true ? "heart.fill" : "heart")
+                    .foregroundColor(vm.isFavourite == true ? Color.red : Color.white)
                     .tint(Color.white)
                     .font(.title)
             }
-
-            
-                
         }
         .padding(.trailing, 20)
     }

@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct ContentDetailsModel: Decodable {
+struct ContentDetailsModel: Decodable, Equatable {
     let title: String?
     let year: String?
     let rated: String?
