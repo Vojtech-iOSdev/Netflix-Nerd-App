@@ -97,8 +97,8 @@ extension ProfileView {
                     }
                 }
             }
- 
         }
+        .padding()
     }
     
     // MARK: personalInfoSection
